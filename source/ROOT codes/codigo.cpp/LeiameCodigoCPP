@@ -1,0 +1,2 @@
+O codigo .cpp após compilado le o arquivo 5500_eventos.csv e cria duas TTrees do ROOT
+Uma t0 para as waveforms e outra t1 para cargas, picos e dtime dos dois pulsos
