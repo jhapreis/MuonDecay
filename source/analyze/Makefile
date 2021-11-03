@@ -17,7 +17,6 @@ analyze.o: analyze.cpp analyze.h
 readWaveform.o: analyze.o
 	$(CPP) $(CPPFLAGS) -o readWaveform.o readWaveform.cpp analyze.o $(ROOTFLAGS)
 	cp readWaveform.o $(LIBSFOLDER)
-# rm readWaveform.o
 
 libstaticanalyze.a: analyze.o
 	ar rcs libstaticanalyze.a analyze.o

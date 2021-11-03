@@ -49,8 +49,6 @@ int Analyze_DataFile(std::string path_to_data_file_folder, std::string file_name
      *  - implementar largura de pulso (verificar proximidade com as bordas)
     */
 
-    printf("\n\n\nRUNNING readWaveform.cpp\n");
-
     // Measure elapsed time
     TStopwatch time_elapsed;
 
