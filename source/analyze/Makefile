@@ -4,8 +4,9 @@ CFLAGS = -g3 -Wall
 CPPFLAGS = -g -Wall
 ROOTFLAGS = `root-config --cflags --libs`
 LIBSFOLDER = ~/GitHub/MuonDecay/source/libs
+DATAFOLDER = ~/GitHub/MuonDecay/source/data
 PARENTFOLDER = ~/GitHub/MuonDecay/source/analyze
-
+CLEARFLAGS   = *.o *.so *.a *.pcm *.d *.stackdump *.exe *.root
 
 
 all: run
@@ -22,7 +23,8 @@ libstaticanalyze.a: analyze.o
 	ar rcs libstaticanalyze.a analyze.o
 
 run: readWaveform.o
-	$(LIBSFOLDER)/readWaveform.o
+	rm *.o
+	$(LIBSFOLDER)/readWaveform.o 
 
 clear:
-	rm *.o *.so *.a *.pcm *.d *.stackdump *.exe *.root
+	rm $(CLEARFLAGS)

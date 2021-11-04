@@ -2,7 +2,7 @@
 #define ANALYZE_H
 
 #include <string>
-
+#include <TF1.h>
 
 
 /**
@@ -26,6 +26,22 @@ void root_file(char* root_file, std::string path_to_data_file_folder, std::strin
  * 
  */
 int Analyze_DataFile(std::string path_to_data_file_folder, std::string file_name_with_extension);
+
+
+
+/**
+ * @brief 
+ * 
+ * @param path_to_root_file
+ * 
+ * @returns int; success or failure
+ * 
+ */
+int ExponentialFit(const char* path_to_root_file);
+
+
+
+double f_Aexpx_C(double x, double* par);
 
 
 
