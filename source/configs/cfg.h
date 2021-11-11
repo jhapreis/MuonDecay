@@ -12,8 +12,8 @@
 #define MaxTimeStampScope 10 // Value in micro-seconds
 
 #define NumberBins_HistogramTimeDifference 100
-#define LeftLimit_HistogramTimeDifference 0.1
-#define RightLimit_HistogramTimeDifference 9.6
+#define LeftLimit_HistogramTimeDifference 0
+#define RightLimit_HistogramTimeDifference 10
 
 
 #endif //CFG_H

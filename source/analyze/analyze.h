@@ -45,4 +45,35 @@ double f_Aexpx_C(double x, double* par);
 
 
 
+
+class ExpFitClass{
+
+    public:
+
+        double A_ExpX_C( double* t, double* parameters ){
+
+            double x   = t[0];
+            double A   = parameters[0]; // N_0/tau
+            double tau = parameters[1]; // tau
+            double C   = parameters[2]; // constant
+
+            double _ = A*exp(-1*x/tau) + C;
+
+            return _;
+        }
+
+        double N0_tau_expx_C( double* t, double* parameters ){
+
+            double x   = t[0];
+            double tau = parameters[0]; // tau
+            double C   = parameters[1]; // constant
+
+            double _ = 55.12/tau*exp(-1*x/tau) + C;
+
+            return _;
+        }
+};
+
+
+
 #endif //ANALYZE_H

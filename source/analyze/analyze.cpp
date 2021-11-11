@@ -56,6 +56,8 @@ int Analyze_DataFile(std::string path_to_data_file_folder, std::string file_name
      * Ainda é necessário:
      *  - implementar integração do pulso
      *  - implementar largura de pulso (verificar proximidade com as bordas)
+     *  - incluir método que salva os eventos problemáticos:
+     *      -- exemplo: salvar caso peak_x_1 = 0 ou peak_x_2 = 0
     */
 
 
@@ -80,17 +82,29 @@ int Analyze_DataFile(std::string path_to_data_file_folder, std::string file_name
     float y_peak_1   = 0, y_peak_2   = 0; // y coordinates from the peaks of the pulse
     float integral_1 = 0, integral_2 = 0; // integral values for the pulse
     float waveform[NumberADChannels];     // array to store the waveform data
+    float time_difference = 0;
+    float time_difference_min = RightLimit_HistogramTimeDifference;
+    float time_difference_max = LeftLimit_HistogramTimeDifference;
 
-    TTree* t_peaks     = new TTree("tree_peaks"    , "peaks");
-    TTree* t_integrals = new TTree("tree_integrals", "integrals");
 
-    t_peaks->Branch("x_peak_1", &x_peak_1, "x_peak_1/I");
-    t_peaks->Branch("x_peak_2", &x_peak_2, "x_peak_2/I");
-    t_peaks->Branch("y_peak_1", &y_peak_1, "y_peak_1/F");
-    t_peaks->Branch("y_peak_2", &y_peak_2, "y_peak_2/F");
 
-    t_integrals->Branch("integral_1", &integral_1, "integral_1/F");
-    t_integrals->Branch("integral_2", &integral_2, "integral_2/F");
+    TTree* tree_peaks       = new TTree("tree_peaks"    , "peaks");
+    TTree* tree_integrals   = new TTree("tree_integrals", "integrals");
+    TTree* tree_differences = new TTree("tree_time_differences", "delta_t");
+
+
+
+    tree_peaks->Branch("x_peak_1", &x_peak_1, "x_peak_1/I");
+    tree_peaks->Branch("x_peak_2", &x_peak_2, "x_peak_2/I");
+    tree_peaks->Branch("y_peak_1", &y_peak_1, "y_peak_1/F");
+    tree_peaks->Branch("y_peak_2", &y_peak_2, "y_peak_2/F");
+
+    tree_integrals->Branch("integral_1", &integral_1, "integral_1/F");
+    tree_integrals->Branch("integral_2", &integral_2, "integral_2/F");
+
+    TBranch* delta_t_values_branch = tree_differences->Branch("delta_t", &time_difference, "time_difference/F");
+    TBranch* delta_t_min_branch = tree_differences->Branch("min", &time_difference_min, "min/F");
+    TBranch* delta_t_max_branch = tree_differences->Branch("max", &time_difference_max, "max/F");
 
 
 
@@ -139,11 +153,37 @@ int Analyze_DataFile(std::string path_to_data_file_folder, std::string file_name
                 }
             }
 
-            t_peaks->Fill(); // At every line, fill the correspondent values on the TTree
+            tree_peaks->Fill(); // At every line, fill the correspondent values on the TTree
         }
 
         row_number += 1;
     }
+
+
+
+    int number_peaks_entries = tree_peaks->GetEntries(); // Number of entries on the peaks
+
+    for(int i=0; i<number_peaks_entries; i++){
+
+        tree_peaks->GetEntry(i);
+
+        if(x_peak_1 > 0 && x_peak_2 > 0){ // check for peak-not-found error
+
+            time_difference = float(x_peak_2 - x_peak_1)*MaxTimeStampScope/NumberADChannels;
+            delta_t_values_branch->Fill();
+
+            if(time_difference < time_difference_min){
+                time_difference_min = time_difference;
+            }
+            else if(time_difference > time_difference_max){
+                time_difference_max = time_difference;
+            }
+        }
+    }
+    delta_t_min_branch->Fill();
+    delta_t_max_branch->Fill();
+
+
 
     root_file->Write();
     root_file->Close();
@@ -157,59 +197,67 @@ int Analyze_DataFile(std::string path_to_data_file_folder, std::string file_name
 //
 int ExponentialFit(const char* path_to_root_file){
 
+    float time_difference     = 0;
+    float time_difference_min = 0;
+    float time_difference_max = 0;
+
+
+
     /* TFile with data */
     TFile* input  = new TFile(path_to_root_file, "UPDATE");
 
 
 
     /* TTrees within the .root file */
-    TTree* tree_peaks     = (TTree*) input->Get("tree_peaks"); // TTree for peaks
     // TTree* tree_integrals = (TTree*) input->Get("tree_integrals"); // TTree for integrals
+    TTree* tree_time_differences = (TTree*) input->Get("tree_time_differences");
+    tree_time_differences->SetBranchAddress("delta_t", &time_difference);
+    tree_time_differences->SetBranchAddress("min", &time_difference_min);
+    tree_time_differences->SetBranchAddress("max", &time_difference_max);
 
 
 
-    /* Variables to unpack the values on the TTrees */
-    int   x_peak_1   = 0, x_peak_2   = 0; // x coordinates from the peaks of the pulse
-    float y_peak_1   = 0, y_peak_2   = 0; // y coordinates from the peaks of the pulse
+    /* Number of entries on the peaks */
+    int number_peaks_entries = tree_time_differences->GetBranch("delta_t")->GetEntries();
+    printf("number_peaks_entries = %d\n", number_peaks_entries);
+
+
+
+    /* Integrals values */
     // float integral_1 = 0, integral_2 = 0; // integral values for the pulse
-
-    tree_peaks->SetBranchAddress("x_peak_1", &x_peak_1);
-    tree_peaks->SetBranchAddress("x_peak_2", &x_peak_2);
-    tree_peaks->SetBranchAddress("y_peak_1", &y_peak_1);
-    tree_peaks->SetBranchAddress("y_peak_2", &y_peak_2);
     // tree_integrals->SetBranchAddress("integral_1", &integral_1);
     // tree_integrals->SetBranchAddress("integral_2", &integral_2);
-    
-    int number_peaks_entries    = tree_peaks->GetEntries(); // Number of entries on the peaks
     // int numer_integrals_entries = tree_integrals->GetEntries(); // Number of entries on the integrals
-    
-    
 
+
+    
     /* Canvas */
     TCanvas* c = new TCanvas();
 
+
+
     /* Histogram for the time differences (delta_t) */
+   
+    time_difference_max = tree_time_differences->GetBranch("max")->GetEntry(1);
+    time_difference_min = tree_time_differences->GetBranch("min")->GetEntry(1);
+    printf("%f %f\n", time_difference_min, time_difference_max);
+
     TH1F* hist_time_difference = new TH1F(
-        "hist_time_difference", "Time difference from #mu to e", NumberBins_HistogramTimeDifference, LeftLimit_HistogramTimeDifference, RightLimit_HistogramTimeDifference
+        "hist_time_difference", 
+        "Time difference from #mu to e", 
+        NumberBins_HistogramTimeDifference, 
+        0.15,
+        9.6
         );
     hist_time_difference->GetXaxis()->SetTitle("Time difference #Deltat (#mus)");
     hist_time_difference->GetYaxis()->SetTitle("Counting rate dN/dt");
-    
+
 
 
     /* Unpack all values into the variables and calculate time differences */
-    float time_difference = 0;
-
     for(int i=0; i<number_peaks_entries; i++){
-
-        tree_peaks->GetEntry(i);
-        // tree_integrals->GetEntry(i);
-
-        /* time difference, in micro-seconds */
-        time_difference = float(x_peak_2 - x_peak_1)*MaxTimeStampScope/NumberADChannels;
+        tree_time_differences->GetBranch("delta_t")->GetEntry(i);
         hist_time_difference->Fill(time_difference);
-
-        // graphic->SetPoint(i, hist_time_difference->GetXaxis()->GetBinCenter(i), hist_time_difference->GetBin(i));
     }
 
 
@@ -219,25 +267,24 @@ int ExponentialFit(const char* path_to_root_file){
     TGraph* fit_curve = new TGraph();
     fit_curve->SetMarkerStyle(12);
 
+
+
     /* Fit function */
-    TF1* f = new TF1("f_Aexpx_C", "[0]*exp(-x/[1]) + [2]", LeftLimit_HistogramTimeDifference, RightLimit_HistogramTimeDifference);
-    f->SetParNames("N_0/tau", "tau", "constant");
-    f->SetParameters(220, 2.2, 10);
+    ExpFitClass* FitFunction = new ExpFitClass();
+    TF1* f = new TF1("A_expX_C", FitFunction, &ExpFitClass::A_ExpX_C, 0, 10, 3);
+    f->SetParNames("A", "tau", "constant");
+    f->SetParameters(200, 2, 3);
     f->SetLineColor(kRed);
     f->SetLineStyle(2);
 
 
 
+    /* Remember that bin_0 = underflow and bin_n+1 = overflow */
     for(int i=1; i<NumberBins_HistogramTimeDifference; i++){
-        /* Remember that bin_0 = underflow and bin_n+1 = overflow */
-
         bins_centers = hist_time_difference->GetXaxis()->GetBinCenter(i);
         bins_values  = hist_time_difference->GetBinContent(i);
-
-        // printf("%f %d ", bins_centers, bins_values);
         fit_curve->SetPoint(i, bins_centers, bins_values);
     }
-
     fit_curve->Fit(f);
 
 
@@ -306,6 +353,3 @@ void root_file(char* root_file, std::string path_to_data_file_folder, std::strin
 //
 //
 //
-double f_Aexpx_C(double x, double* par){
-    return par[0]*exp(-x/par[1])+par[2];
-}
