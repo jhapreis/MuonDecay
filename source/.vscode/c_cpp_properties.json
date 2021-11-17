@@ -4,7 +4,7 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "~/root-6.24.06-install/include"
+                "~/root/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
