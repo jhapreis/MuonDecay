@@ -6,7 +6,8 @@
 	],
 	"settings": {
 		"files.associations": {
-			"muDecayTek.C": "cpp"
+			"muDecayTek.C": "cpp",
+			"tekvisa.h": "c"
 		}
 	}
 }

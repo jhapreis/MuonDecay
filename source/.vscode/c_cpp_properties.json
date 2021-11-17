@@ -4,7 +4,12 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
+<<<<<<< HEAD
                 "~/root/include"
+=======
+                "~/root_v6/root-6.24.06/buildroot/include",
+                "${workspaceFolder}/acquisition/includes"
+>>>>>>> 02f969ef83e9a4c6715a72501fcc52495288365f
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
