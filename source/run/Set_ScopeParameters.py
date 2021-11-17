@@ -3,13 +3,13 @@
 #==================================================
 
 import pyvisa
-
+from time import time
 
 
 import sys
 from pathlib import Path
 
-_ = Path().resolve().parent.parent.parent # Add source folder to sys.path
+_ = Path().resolve().parent.parent # Add source folder to sys.path
 sys.path.insert(0, str(_))
 
 
@@ -68,6 +68,20 @@ def Scope_Parameters(oscilloscope):
                 
     oscilloscope.write(f'TRIGGER:MAIN:EDGE:SLOPE {cfg_scope.slope}') 
     # print(f'Slope: {cfg_scope.slope}')
+
+
+
+def Query_Curve(oscilloscope):
+    
+    start  = time()
+    
+    curve  = oscilloscope.query_ascii_values("curve?")
+        
+    finish = time()
+    
+    print(f"\n   Time elapsed: {round(finish - start, 2)} seconds.\n")
+    
+    return(curve)
 
 
 
