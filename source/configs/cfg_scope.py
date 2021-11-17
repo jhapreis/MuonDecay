@@ -1,7 +1,7 @@
 '''
 Oscilloscope ID from the TEKTRONIX TDS1002B
 '''
-ScopeID = 'USB0::0x0699::0x0363::C061073::INSTR'
+SCOPEID = 'USB0::0x0699::0x0363::04WRL8::INSTR'
 
 '''
 Parameters for the acquisition
