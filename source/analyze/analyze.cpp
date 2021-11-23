@@ -81,7 +81,7 @@ int Analyze_DataFile(std::string path_to_data_file_folder, std::string file_name
     int   x_peak_1   = 0, x_peak_2   = 0; // x coordinates from the peaks of the pulse
     float y_peak_1   = 0, y_peak_2   = 0; // y coordinates from the peaks of the pulse
     float integral_1 = 0, integral_2 = 0; // integral values for the pulse
-    float waveform[NumberADChannels];     // array to store the waveform data
+    float waveform[Scope_NumberADChannels];     // array to store the waveform data
     float time_difference = 0;
     float time_difference_min = RightLimit_HistogramTimeDifference;
     float time_difference_max = LeftLimit_HistogramTimeDifference;
@@ -130,7 +130,7 @@ int Analyze_DataFile(std::string path_to_data_file_folder, std::string file_name
             integral_1 = 0; integral_2 = 0;
 
             /* search on the entire waveform, starting from the event_name */
-            for(int i=0; i<NumberADChannels; i++){ 
+            for(int i=0; i<Scope_NumberADChannels; i++){ 
                 
                 token = strtok(NULL, ","); // this is the value, as a char* or NULL
 
@@ -169,7 +169,7 @@ int Analyze_DataFile(std::string path_to_data_file_folder, std::string file_name
 
         if(x_peak_1 > 0 && x_peak_2 > 0){ // check for peak-not-found error
 
-            time_difference = float(x_peak_2 - x_peak_1)*MaxTimeStampScope/NumberADChannels;
+            time_difference = float(x_peak_2 - x_peak_1)*MaxTimeStampScope/Scope_NumberADChannels;
             delta_t_values_branch->Fill();
 
             if(time_difference < time_difference_min){

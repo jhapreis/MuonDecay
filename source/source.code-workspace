@@ -7,7 +7,17 @@
 	"settings": {
 		"files.associations": {
 			"muDecayTek.C": "cpp",
-			"tekvisa.h": "c"
+			"tekvisa.h": "c",
+			"tuple": "cpp",
+			"optional": "cpp",
+			"istream": "cpp",
+			"ostream": "cpp",
+			"ratio": "cpp",
+			"system_error": "cpp",
+			"array": "cpp",
+			"functional": "cpp",
+			"type_traits": "cpp",
+			"utility": "cpp"
 		}
 	}
 }

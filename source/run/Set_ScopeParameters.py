@@ -71,7 +71,7 @@ def Scope_Parameters(oscilloscope):
 
 
 
-def Query_Curve(oscilloscope):
+def Query_Curve_ASCII(oscilloscope):
     
     start  = time()
     
@@ -81,9 +81,57 @@ def Query_Curve(oscilloscope):
     
     print(f"\n   Time elapsed: {round(finish - start, 2)} seconds.\n")
     
-    return(curve)
+    return curve
 
+
+def Query_Curve_BINARY(oscilloscope):
+    
+    start  = time()
+    
+    curve  = oscilloscope.query_binary_values("curve?")
+        
+    finish = time()
+    
+    print(f"\n   Time elapsed: {round(finish - start, 2)} seconds.\n")
+    
+    return curve
+
+
+def QueryPrint(datatype, oscilloscope):
+    
+    try:
+    
+        start  = time()
+        
+        curve  = oscilloscope.query_binary_values("curve?", datatype=datatype)
+        
+        finish = time()
+        
+        print(f"\n   lenght = {len(curve)}\n   Time elapsed: {round(finish - start, 2)} seconds.\n")
+        
+        return curve 
+
+    except:
+        
+        return 0
+
+
+def TestDatatypes(datatypes, oscilloscope):
+    
+    for i in datatypes:
+        print(f"   {i}", end="")
+        _ = QueryPrint(i, oscilloscope)
+    print("\n")
+        
 
 
 rm    = pyvisa.ResourceManager()
 scope = rm.open_resource(cfg_scope.SCOPEID)
+
+datatypes = ['x', 'c', 'b', 'B', '?', 'h', 'H', 'i', 'I', 'l', 'L', 'q', 'Q', 'n', 'N', 'e', 'f', 'd', 's', 'p', 'P']
+
+good_datatypes = ['c', 'b', 'B', '?', 's']
+
+"""
+    https://docs.python.org/3/library/struct.html#format-characters
+"""
