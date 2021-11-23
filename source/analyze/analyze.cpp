@@ -78,10 +78,10 @@ int Analyze_DataFile(std::string path_to_data_file_folder, std::string file_name
 
 
     // TTrees, to store the results
-    int   x_peak_1   = 0, x_peak_2   = 0; // x coordinates from the peaks of the pulse
-    float y_peak_1   = 0, y_peak_2   = 0; // y coordinates from the peaks of the pulse
-    float integral_1 = 0, integral_2 = 0; // integral values for the pulse
-    float waveform[Scope_NumberADChannels];     // array to store the waveform data
+    int   x_peak_1   = 0, x_peak_2   = 0;   // x coordinates from the peaks of the pulse
+    float y_peak_1   = 0, y_peak_2   = 0;   // y coordinates from the peaks of the pulse
+    float integral_1 = 0, integral_2 = 0;   // integral values for the pulse
+    float waveform[Scope_NumberADChannels]; // array to store the waveform data
     float time_difference = 0;
     float time_difference_min = RightLimit_HistogramTimeDifference;
     float time_difference_max = LeftLimit_HistogramTimeDifference;
