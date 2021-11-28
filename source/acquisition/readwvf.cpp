@@ -4,16 +4,24 @@
 #include <string.h>
 #include <ctype.h>
 
+#include <string>
+#include <iostream>
+
 #include <visa.h>
+
+#include <TFile.h>
+#include <TTree.h>
+#include <TCanvas.h>
+#include <TGraph.h>
 
 #include "../configs/cfg.h"
 #include "acquisition.h"
 
 
 
-//==================================================
+//====================================================================================================
 
-int* Get_CurveData(ViChar* buffer){
+int Get_CurveData(ViChar* buffer, int* Array_WaveformAsInt){
     /**
      * @brief This function unzips the query result in two steps:
      * 1) It unzips the buffer on unsigned char variables and
@@ -33,16 +41,11 @@ int* Get_CurveData(ViChar* buffer){
 
     int numberDigitsLenght = 0, numberPointsCurve = 0, index = 0;
 
-    if( buffer[index] != '#' ){ // error on format
-        return NULL;
-    }
-
+    if( buffer[index] != '#' ) return -1; // error on format
 
 
     index++; // index = 1
-
     numberDigitsLenght = buffer[index] - '0'; // char to int
-
 
 
     index++; // index = 2
@@ -50,50 +53,139 @@ int* Get_CurveData(ViChar* buffer){
     char pointsCurveInfo[numberDigitsLenght+1];
 
     for(int i=0; i<numberDigitsLenght; i++){
+
         pointsCurveInfo[i] = buffer[index];
         index++; // increase index until fisrt data value
     }
-
-    sscanf(pointsCurveInfo, "%d", &numberPointsCurve);
-
-    // printf("Number of points in curve: %d\n", numberPointsCurve);
+    sscanf(pointsCurveInfo, "%d", &numberPointsCurve); // convert the value from char-array to int
 
 
 
-    if(numberPointsCurve != Scope_NumberADChannels){ // compare with NumberADCChannels
+    /**
+     * @brief UNPACKS INTO CHAR-ARRAY
+     * Unpacks the values from the buffer to the char-array.
+     * If the number of points doesn't match, returns -1. 
+     */
+    if(numberPointsCurve != Scope_NumberADChannels){
+        
         printf("Error on numberPointsCurve: %d != %d\n", numberPointsCurve, Scope_NumberADChannels);
-        return NULL;
+        return -1;
     }
-
-
     for(int i=0; i<numberPointsCurve; i++){ // unzips curve data into waveform as unsigned char
 
         waveformAsChar[i] = buffer[index];
-
         index++;
     }    
-    // printf("%s\n", waveformAsChar);
 
 
 
-    int* waveformAsInt = (int*) calloc(numberPointsCurve, sizeof(int)); // allocates memory to waveform curve
+    /**
+     * @brief SAVE DATA AS INT 
+     * Now that the char-array contains the data, we are going to pass that to
+     * the int-array that was previously passed as parameter. 
+     */
+    if(Array_WaveformAsInt == NULL) return -1;
 
     for(int i=0; i<numberPointsCurve; i++){
 
-        waveformAsInt[i] = waveformAsChar[i];
-
-        // printf("%d ", waveformAsInt[i]);
+        Array_WaveformAsInt[i] = waveformAsChar[i];
     }
-    // printf("\n");
 
 
-
-    return waveformAsInt;
+    return 0;
 }
 
 
 
-//==================================================
+//====================================================================================================
+
+int GraphWaveforms(char* path_to_root_file){
+
+    /**
+     * @brief Open ROOT file
+     * 
+     */
+    TFile* input  = new TFile(path_to_root_file, "UPDATE");
+
+
+
+    /**
+     * @brief Read ROOT file and find the number of necessary samples and the number of ADchannels.
+     * 
+     */
+
+    TTree* tree_infos = (TTree*) input->Get("tree_infos");
+
+    int numberSamples    = 0;
+    int numberADChannels = 0;
+    std::string* str     = 0;
+    
+    tree_infos->SetBranchAddress("NECESSARY_SAMPLES", &str);
+    tree_infos->GetBranch("NECESSARY_SAMPLES")->GetEntry(0);
+    sscanf(str->c_str(), "%d", &numberSamples);
+
+    tree_infos->SetBranchAddress("NUMBER_ADCHANNELS", &str);
+    tree_infos->GetBranch("NUMBER_ADCHANNELS")->GetEntry(0);
+    sscanf(str->c_str(), "%d", &numberADChannels);
+
+
+
+    /**
+     * @brief Read Waveforms from the correspondent TTree and create Canvas
+     * 
+     */
+    int waveformAsInt[numberADChannels];
+    memset(waveformAsInt, -1, sizeof(waveformAsInt));
+
+    TTree* tree_waveforms     = (TTree*) input->Get("tree_waveforms"); // TTree with waveforms
+    TBranch* branch_waveforms = tree_waveforms->GetBranch("waveforms");
+    branch_waveforms->SetAddress(waveformAsInt);
+
+    TCanvas* c = new TCanvas(); // Canvas
+
+    printf("branch entries = %d\n", (int) branch_waveforms->GetEntries());
+
+
+
+    /**
+     * @brief GRAPHIC ON THE CANVAS
+     * Read the branch on the TTree and plot on the canvas.
+     */
+
+    TGraph* gr = new TGraph();
+    char graph_title[64];
+    sprintf(graph_title, "%d Waveforms; time (units); value", numberSamples);
+    gr->SetTitle(graph_title);
+    gr->SetLineWidth(2);
+    gr->SetLineColor(kBlack);
+
+    int event_number = 0;
+
+    while(event_number < numberSamples){
+
+        branch_waveforms->GetEntry(event_number);
+
+        for(int i=0; i<numberADChannels; i++){
+
+            gr->SetPoint(i, i, waveformAsInt[i]);
+        }
+
+        gr->Draw("ALP");
+
+        event_number++;
+    }
+
+    printf("%d events graphed\n", numberSamples);
+
+    input->WriteObject(c, "waveforms");
+    input->Close();
+
+    return 0;
+}
+
+
+
+//====================================================================================================
 
 char* uppercase(char* str){
 
@@ -104,67 +196,4 @@ char* uppercase(char* str){
     }
 
     return str;
-}
-
-
-
-//==================================================
-
-double* Convert_WaveformMiliVolts(int* Waveform_Units, int numberPoitsWaveform){
-
-    /**
-     * V(v) = Delta_V / Delta_v * (v - v_min) + V_min 
-     */
-
-    // Min and Max values in units (depends on the encoding format)
-    int units_min, units_max;
-
-    // Min and Max display positions; symmectric, supposedly
-    int Position_min = (-1)*Scope_NumberOfDisplayDivisions / 2;
-    int Position_max =      Scope_NumberOfDisplayDivisions / 2;
-
-    // Delta_V / Delta_v
-    double ratio = 0;
-    
-    // Value of the waveform point as y-position
-    double y_pos = 0;
-
-    // Encoder format; values of the units min/max based on the encoder format
-    char encoder[12] = Scope_DataEncodeFormat;
-
-    if(   strcmp(uppercase(encoder), "RPBINARY") == 0   ){
-
-        units_min = 0;
-        units_max = 255;
-    }
-    else if(   strcmp(uppercase(encoder), "ASCII") == 0   ){
-
-        units_min = -127;
-        units_max = 128;
-    }
-    else{
-        return NULL;
-    }
-
-    ratio = (double) (Position_max - Position_min) / (units_max - units_min);
-
-
-
-    // Waveform converted to mV values
-    double* Waveform_mV = (double*) calloc(numberPoitsWaveform, sizeof(double));
-
-    
-
-    for(int i=0; i<numberPoitsWaveform; i++){
-
-        y_pos = ratio*(Waveform_Units[i] - units_min) + Position_min;
-
-        y_pos -= Scope_ChannelPosition; // relative to Scope_ChannelPosition value
-
-        Waveform_mV[i] = 1000 * Scope_ChannelScale * y_pos; // converts from position to mV, using y-scale value (in volts)
-    }
-    
-
-
-    return Waveform_mV;
 }

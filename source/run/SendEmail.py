@@ -23,5 +23,5 @@ if __name__ == '__main__':
 
         with open("../data/output/output.txt") as f:
             msg     = f.read() 
-            subject = 'PlaceHolder'
-            SendEmailAWS(msg, subject)
+            subject = '[MuonDecay] Acquisition finished'
+            SendEmailAWS(subject, msg)

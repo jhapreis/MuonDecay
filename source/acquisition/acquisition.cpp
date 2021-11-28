@@ -24,6 +24,7 @@
 #include <TGraph.h>
 #include <TImage.h>
 #include <TLatex.h>
+#include <TStopwatch.h>
 
 #include <iostream>
 #include <fstream>
@@ -37,25 +38,36 @@
 
 int main(){
 
+    // Measure elapsed time
+    TStopwatch time_elapsed;
+
     // Error string
     char err[32];
 
     // ROOT file name as time epoch
-    char root_FileName[16];
+    char root_FileName[64];
 
     // Number of good samples collected until then
     int numberGoodSamples = 0;
 
     // Waveform curve, as an event
-    int* WaveformAsInt = NULL;
+    int status_waveform = 0;
+    int WaveformAsInt[Scope_NumberADChannels];
+    memset(WaveformAsInt, Acquisition_WaveformInitializer, sizeof(WaveformAsInt));
+
+    // Number of peaks found on the waveform
+    int numberPeaksWaveform = 0;
+
+    // Trigger, converted from Volts to Units
+    double triggerUnits = Convert_VoltsToUnits(Scope_ChannelTrigger);
+    printf("\n   Trigger in units = %f", triggerUnits);
 
     // Scope parameters
     ViSession rm      = VI_NULL;             // Resource Manager
     ViSession scope   = VI_NULL;             // Oscilloscope
-    ViStatus status   = VI_NULL;             // failure or success
+    ViStatus status_scope   = VI_NULL;             // failure or success
     ViUInt32 retCount = VI_NULL;             // retCount
     ViChar buffer[4*Scope_NumberADChannels]; // Buffer; size > Scope_NumberADChannels
-
 
 
 
@@ -66,15 +78,19 @@ int main(){
      * required waveforms. 
      */
 
-    sprintf(root_FileName, "../data/%lu.root", time(NULL));
+    int event_name = 0;
+    char waveformsArrayROOT[20];
+    sprintf(waveformsArrayROOT, "waveform[%d]/I", Scope_NumberADChannels);
+
+    sprintf(root_FileName, "../data/%d_%lu.root", Acquisition_NecessarySamples, time(NULL));
     TFile* root_file = new TFile(root_FileName, "CREATE");
 
-    TTree* tree_waveforms = new TTree("tree_waveforms", "waveforms");
-    TBranch* branch_wvfm = NULL; // New branch to store every waveform, one per branch
-    int event_point = 0;         // Data point from the waveform
-    char event_name[20];         // Name of the event, as "event_[number]"
+    TTree* tree_scope_infos = new TTree("tree_infos", "infos");
 
-
+    TTree* tree_waveforms   = new TTree("tree_waveforms", "waveforms");
+    tree_waveforms->Branch("names", &event_name, "name/I");
+    tree_waveforms->Branch("waveforms", WaveformAsInt, "waveforms[2500]/I");
+    
 
 
     /**
@@ -84,10 +100,10 @@ int main(){
      * Handling situations in case of error or in case of success.
      */
 
-    status = viOpenDefaultRM(&rm);
-    status = viOpen(rm, USB_Instrument, VI_NULL, VI_NULL, &scope);
+    status_scope = viOpenDefaultRM(&rm);
+    status_scope = viOpen(rm, USB_Instrument, VI_NULL, VI_NULL, &scope);
 
-    if(status < VI_SUCCESS){
+    if(status_scope < VI_SUCCESS){
         strcpy(err, "Error opening device");
         goto error;
     }
@@ -95,24 +111,24 @@ int main(){
 
 
 
-
     /**
      * @brief SET SCOPE PARAMETERS 
      * 
      * Run a SetScopeParameters function in order to prepare for
-     * acquisition. After that, tries to read an IDN query. If failed, exits. 
+     * acquisition. Saves the informations on the ROOT file.
+     * After that, tries to read an IDN query. If failed, exits.
+     *  
      */
     printf("\n      Setting Scope Parameters...\n");
-    Set_ScopeParameters(status, scope, retCount);
+    Set_ScopeParameters(status_scope, scope, retCount, tree_scope_infos);
 
-    status = viWrite(scope, (ViBuf) "*IDN?\n"     , 6             , &retCount);
-    status = viRead( scope, (ViBuf) buffer        , sizeof(buffer), &retCount);
-    if(status < VI_SUCCESS){
+    status_scope = viWrite(scope, (ViBuf) "*IDN?\n"     , 6             , &retCount);
+    status_scope = viRead( scope, (ViBuf) buffer        , sizeof(buffer), &retCount);
+    if(status_scope < VI_SUCCESS){
         strcpy(err, "Error opening device");
         goto error;
     }
     printf("ID: %s\n\n      ...done\n\n", buffer);
-
 
 
 
@@ -131,7 +147,7 @@ int main(){
      * -- Repeat
      */
 
-    printf("      Collecting data... %d events necessary.\n", Acquisition_NecessarySamples);
+    printf("      Collecting data... %d events necessary. Min peaks = %d\n\n", Acquisition_NecessarySamples, Acquisition_MinPeaks);
 
     while(numberGoodSamples < Acquisition_NecessarySamples){
 
@@ -140,22 +156,28 @@ int main(){
         memset(buffer, 0, sizeof(buffer));
   
 
-        // Query for curve
-        status = viWrite(scope, (ViBuf) "CURVE?\n", 7             , &retCount);
-        status = viRead( scope, (ViBuf) buffer    , sizeof(buffer), &retCount);
-        if( status < VI_SUCCESS ){
+        // Query for curve and get the epoch time as event_name
+        status_scope = viWrite(scope, (ViBuf) "CURVE?\n", 7             , &retCount);
+        status_scope = viRead( scope, (ViBuf) buffer    , sizeof(buffer), &retCount);
+        if( status_scope < VI_SUCCESS ){
             printf("error on query: status < VI_SUCCESS: \n");
             continue;
-        } 
+        }
+        event_name = (int) time(NULL);
 
 
         // Unpacking curve into int array
-        WaveformAsInt = Get_CurveData(buffer);
-        if( WaveformAsInt == NULL ){
+        status_waveform = Get_CurveData(buffer, WaveformAsInt);
+        if( status_waveform < 0 ){
             printf("error on query: waveform unpacking error: \n");
             continue;
         }
         
+        
+        // Count the number of peaks on the waveform
+        numberPeaksWaveform = SearchPeaksNumber(WaveformAsInt, Scope_NumberADChannels, triggerUnits, Acquisition_MinPeaks);
+        if(numberPeaksWaveform < 0) continue; // if not successfull 
+
 
         /**
          * @brief SAVING DATA 
@@ -164,28 +186,28 @@ int main(){
          *    After that, we read the current waveform and store the values 
          * on the ROOT file (point to point).
          *    Then, free the current waveform data.
-         */
-        sprintf(event_name, "event_%d", numberGoodSamples);
-        branch_wvfm = tree_waveforms->Branch(event_name, &event_point, "event/I");
+         */        
 
-        for(int i=0; i<Scope_NumberADChannels; i++){
-            event_point = WaveformAsInt[i];
-            branch_wvfm->Fill();
-        }
+        tree_waveforms->Fill();
+        
         numberGoodSamples++;
-
-        free(WaveformAsInt);
     }
+
 
 
     /**
      * @brief Finish execution 
      */
 
-    printf("      Finishing...\n\n");
+    printf("\n      Finishing...\n\n");
+
+    time_elapsed.Print();
+    printf("\n\n");
 
     root_file->Write();
     root_file->Close();
+
+    GraphWaveforms(root_FileName);
 
     return 0;
     
@@ -194,11 +216,9 @@ int main(){
     
     error:
         // Report error and clean up
-        viStatusDesc(scope, status, buffer);
+        viStatusDesc(scope, status_scope, buffer);
         fprintf(stderr, "\n       %s: failure: %s\n", err, buffer);
-        if(rm != VI_NULL){
-            viClose(rm);
-        }
+        if(rm != VI_NULL) viClose(rm);
         root_file->Write();
         root_file->Close();
         return 1;  

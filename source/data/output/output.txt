@@ -1,0 +1,41 @@
+
+   Trigger in units = 233.750000
+
+
+      Oscilloscope RM: open.
+
+      Setting Scope Parameters...
+DATA:SOURCE? CH1
+ 
+DATA:ENCDG? RPBINARY
+
+DATA:WIDTH? 1
+
+TRIGGER:MAIN:LEVEL? -9.6E-3
+
+TRIGGER:MAIN:EDGE:SLOPE? FALL
+
+HORIZONTAL:MAIN:SCALE? 1.0E-6
+
+HORIZONTAL:MAIN:POSITION? 4.0E-6
+
+DISPLAY:PERSISTENCE? 0
+
+WFMPRE?
+   1;8;BIN;RP;MSB;2500;"Ch1, DC coupling, 3.0E-2 V/div, 1.0E-6 s/div, 2500 points, Sample mode";Y;4.0E-9;0;-1.0E-6;"s";1.2E-3;0.0E0;2.41E2;"Volts"
+
+ID: TEKTRONIX,TDS 1002B,04WRL8,CF:91.1CT FV:v22.11
+
+
+      ...done
+
+      Collecting data... 1000 events necessary. Min peaks = 2
+
+
+      Finishing...
+
+Real time 3:32:22, CP time 350.440
+
+
+branch entries = 1000
+1000 events graphed

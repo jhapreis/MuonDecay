@@ -102,7 +102,7 @@ int main(){
                 if(Waveform_MiliVolts == NULL) return 1;
                 
                 for(int i=0; i<Scope_NumberADChannels; i++){
-                    printf("%f ", Waveform_MiliVolts[i]);
+                    printf("%d ", WaveformAsInt[i]);
                 }
                 printf("\n");
             }
@@ -114,7 +114,7 @@ int main(){
 
         else if(  strcmp(cmd, "set") == 0  ){ // Set Scope Parameters
 
-            Set_ScopeParameters(status, scope, retCount);
+            Set_ScopeParameters(status, scope, retCount, NULL);
         }
 
 

@@ -4,6 +4,8 @@
 #include <string.h>
 #include <ctype.h>
 
+#include <TTree.h>
+
 #include <visa.h>
 
 #include "../configs/cfg.h"
@@ -11,11 +13,23 @@
 
 
 
-//==================================================
+//====================================================================================================
 
-int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount){
+int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, TTree* tree){
+
+    /**
+     * @brief For the manteiner:
+     * If you want to add another parameter to save on the ROOT file,
+     * just copy the "paragraph" method and change the correspondent parameters.
+     * 
+     * Pay attention: if the tree value is NULL, then the code only do the 
+     * writing/setup methods and do not even arrive on the query part.
+     * 
+     */
 
     char cmd[64], buffer[256];
+    std::string str;
+    TBranch* b = NULL;
 
 
     // Set Time Out
@@ -71,33 +85,47 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount){
 
     
 
+    // Check if it was required to save the infos on a ROOT file
+    if(tree == NULL) return 0;
+
 
 
     /**
      * QUERY INFOS FROM SCOPE 
-    **/
+     */
 
-    printf("\n");
     memset(buffer, 0, sizeof(buffer));
-    
+    memset(cmd   , 0, sizeof(cmd));
+
 
     sprintf(cmd, "DATA:SOURCE?\n");
     status = viWrite(scope, (ViBuf) cmd   , strlen(cmd)   , &retCount);
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
+    str = std::string(buffer);
+    b = tree->Branch(cmd, &str); 
+    b->Fill();   
     printf("DATA:SOURCE? %s \n", buffer);
     memset(buffer, 0, sizeof(buffer));
+    memset(cmd   , 0, sizeof(cmd));
     
 
     sprintf(cmd, "DATA:ENCDG?\n");
     status = viWrite(scope, (ViBuf) cmd   , strlen(cmd)   , &retCount);
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
+    str = std::string(buffer);
+    b = tree->Branch(cmd, &str); 
+    b->Fill();   
     printf("DATA:ENCDG? %s\n", buffer);
     memset(buffer, 0, sizeof(buffer));
+    memset(cmd   , 0, sizeof(cmd));
 
 
     sprintf(cmd, "DATA:WIDTH?\n");
     status = viWrite(scope, (ViBuf) cmd   , strlen(cmd)   , &retCount);
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
+    str = std::string(buffer);
+    b = tree->Branch(cmd, &str); 
+    b->Fill();   
     printf("DATA:WIDTH? %s\n", buffer);
     memset(buffer, 0, sizeof(buffer));
     
@@ -105,51 +133,96 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount){
     sprintf(cmd, "TRIGGER:MAIN:LEVEL?\n");
     status = viWrite(scope, (ViBuf) cmd   , strlen(cmd)   , &retCount);
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
+    str = std::string(buffer);
+    b = tree->Branch(cmd, &str); 
+    b->Fill();   
     printf("TRIGGER:MAIN:LEVEL? %s\n", buffer);
     memset(buffer, 0, sizeof(buffer));
+    memset(cmd   , 0, sizeof(cmd));
     
 
     sprintf(cmd, "TRIGGER:MAIN:EDGE:SLOPE?\n");
     status = viWrite(scope, (ViBuf) cmd   , strlen(cmd)   , &retCount);
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
+    str = std::string(buffer);
+    b = tree->Branch(cmd, &str); 
+    b->Fill();   
     printf("TRIGGER:MAIN:EDGE:SLOPE? %s\n", buffer);
     memset(buffer, 0, sizeof(buffer));
+    memset(cmd   , 0, sizeof(cmd));
 
 
     sprintf(cmd, "HORIZONTAL:MAIN:SCALE?\n");
     status = viWrite(scope, (ViBuf) cmd   , strlen(cmd)   , &retCount);
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
+    str = std::string(buffer);
+    b = tree->Branch(cmd, &str); 
+    b->Fill();   
     printf("HORIZONTAL:MAIN:SCALE? %s\n", buffer);
     memset(buffer, 0, sizeof(buffer));
+    memset(cmd   , 0, sizeof(cmd));
 
 
     sprintf(cmd, "HORIZONTAL:MAIN:POSITION?\n");
     status = viWrite(scope, (ViBuf) cmd   , strlen(cmd)   , &retCount);
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
+    str = std::string(buffer);
+    b = tree->Branch(cmd, &str); 
+    b->Fill();   
     printf("HORIZONTAL:MAIN:POSITION? %s\n", buffer);
     memset(buffer, 0, sizeof(buffer));
+    memset(cmd   , 0, sizeof(cmd));
 
 
     sprintf(cmd, "DISPLAY:PERSISTENCE?\n");
     status = viWrite(scope, (ViBuf) cmd   , strlen(cmd)   , &retCount);
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
+    str = std::string(buffer);
+    b = tree->Branch(cmd, &str); 
+    b->Fill();   
     printf("DISPLAY:PERSISTENCE? %s\n", buffer);
     memset(buffer, 0, sizeof(buffer));
+    memset(cmd   , 0, sizeof(cmd));
 
 
-
-    // Query Preamble
     sprintf(cmd, "WFMPRE?\n");
     status = viWrite(scope, (ViBuf) cmd   , strlen(cmd)   , &retCount);
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
-    if(status < VI_SUCCESS) goto error;
-    
+    str = std::string(buffer);
+    b = tree->Branch(cmd, &str); 
+    b->Fill();   
     printf("WFMPRE?\n   %s\n", buffer);
-    memset(buffer, 0, sizeof(buffer));    
+    memset(buffer, 0, sizeof(buffer));   
+    memset(cmd   , 0, sizeof(cmd)); 
 
 
+    sprintf(cmd, "MIN_PEAKS");
+    sprintf(buffer, "%d", Acquisition_MinPeaks);
+    str = std::string(buffer);
+    b = tree->Branch(cmd, &str); 
+    b->Fill();   
+    memset(buffer, 0, sizeof(buffer));   
+    memset(cmd   , 0, sizeof(cmd)); 
 
-    // printf("\n\n");
+
+    sprintf(cmd, "NECESSARY_SAMPLES");
+    sprintf(buffer, "%d", Acquisition_NecessarySamples);
+    str = std::string(buffer);
+    b = tree->Branch(cmd, &str); 
+    b->Fill();   
+    memset(buffer, 0, sizeof(buffer));   
+    memset(cmd   , 0, sizeof(cmd));
+
+
+    sprintf(cmd, "NUMBER_ADCHANNELS");
+    sprintf(buffer, "%d", Scope_NumberADChannels);
+    str = std::string(buffer);
+    b = tree->Branch(cmd, &str); 
+    b->Fill();   
+    memset(buffer, 0, sizeof(buffer));   
+    memset(cmd   , 0, sizeof(cmd));
+
+
 
     return 0;
 
