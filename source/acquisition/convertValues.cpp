@@ -1,5 +1,10 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
 #include "../configs/cfg.h"
-#include "acquisition.h"
+#include "peaks.h"
 
 
 
@@ -112,4 +117,19 @@ double Convert_VoltsToUnits(double valueVolts){
 
 
     return valueUnits;
+}
+
+
+
+//====================================================================================================
+
+char* uppercase(char* str){
+
+    int lenght = strlen(str);
+
+    for(int i=0; i<lenght; i++){
+        str[i] = toupper( str[i] );
+    }
+
+    return str;
 }

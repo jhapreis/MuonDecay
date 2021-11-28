@@ -39,18 +39,6 @@ int Get_CurveData(ViChar* buffer, int* Array_WaveformAsInt);
 
 //====================================================================================================
 /**
- * @brief Gets a str* and makes it to UPPERCASE.
- * It does change the original char*.
- * 
- * @param str 
- * @return char* 
- */
-char* uppercase(char* str);
-
-
-
-//====================================================================================================
-/**
  * @brief This function runs the settings on the scope setup,
  * following the correspondent config file. 
  * 
@@ -67,76 +55,6 @@ char* uppercase(char* str);
  * @return int ; success or failure
  */
 int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, TTree* tree);
-
-
-
-//====================================================================================================
-/**
- * @brief 
- * 
- * @param Waveform_Units 
- * @param numberPoitsWaveform 
- * @return double* 
- */
-double* Convert_WaveformMiliVolts(int* Waveform_Units, int numberPoitsWaveform);
-
-
-
-//====================================================================================================
-/**
- * @brief 
- * 
- * @param valueVolts 
- * @return double 
- */
-double Convert_VoltsToUnits(double valueVolts);
-
-
-
-//====================================================================================================
-/**
- * @brief 
- * 
- * @param waveformAsInt 
- * @param waveformSize 
- * @return int* 
- */
-int* FindPeaks_Waveform(int* waveformAsInt, int waveformSize, double height);
-
-
-
-//====================================================================================================
-// int SearchPeaksNumber_WithExpected(int* waveformAsInt, int waveformSize, double height, int expectedPeaks);
-
-
-
-//====================================================================================================
-// int SearchPeaksNumber_WithoutExpected(int* waveformAsInt, int waveformSize, double height, int expectedPeaks);
-
-
-
-//====================================================================================================
-/**
- * @brief 
- * 
- * @param waveformAsInt 
- * @param waveformSize 
- * @param height 
- * @param expectedPeaks 
- * @return int 
- */
-int SearchPeaksNumber(int* waveformAsInt, int waveformSize, double height, int expectedPeaks);
-
-
-
-//====================================================================================================
-/**
- * @brief 
- * 
- * @param path_to_root_file 
- * @return int 
- */
-int GraphWaveforms(char* path_to_root_file);
 
 
 

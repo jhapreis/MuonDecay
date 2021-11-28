@@ -5,6 +5,14 @@
 #include <TF1.h>
 
 
+
+int* FindPeaks_Waveform(int* waveformAsInt, int waveformSize, double height, int pulseWidth, int minPeaks);
+
+double* Convert_WaveformMiliVolts(int* Waveform_Units, int numberPoitsWaveform, char* encoder, float chScale, float chPosition);
+
+double Convert_VoltsToUnits(double valueVolts, char* encoder, float chScale, float chPosition);
+
+//====================================================================================================
 /**
  * @brief This functions recieves the path to the data file and its name (with extension)
  * and returns the full path of the relative root file, in order to create lately
@@ -16,6 +24,7 @@ void root_file(char* root_file, std::string path_to_data_file_folder, std::strin
 
 
 
+//====================================================================================================
 /**
  * @brief 
  * 
@@ -25,10 +34,22 @@ void root_file(char* root_file, std::string path_to_data_file_folder, std::strin
  * @returns int; success or failure
  * 
  */
-int Analyze_DataFile(std::string path_to_data_file_folder, std::string file_name_with_extension);
+int Analyze_CSVDataFile(std::string path_to_data_file_folder, std::string file_name_with_extension);
 
 
 
+//====================================================================================================
+/**
+ * @brief 
+ * 
+ * @param path_to_root_file 
+ * @return int 
+ */
+int Analyze_ROOTDataFile(std::string path_to_root_file);
+
+
+
+//====================================================================================================
 /**
  * @brief 
  * 
@@ -41,11 +62,23 @@ int ExponentialFit(const char* path_to_root_file);
 
 
 
+//====================================================================================================
+/**
+ * @brief 
+ * 
+ * @param x 
+ * @param par 
+ * @return double 
+ */
 double f_Aexpx_C(double x, double* par);
 
 
 
-
+//====================================================================================================
+/**
+ * @brief 
+ * 
+ */
 class ExpFitClass{
 
     public:

@@ -25,6 +25,20 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, TTr
      * Pay attention: if the tree value is NULL, then the code only do the 
      * writing/setup methods and do not even arrive on the query part.
      * 
+     * TIMEOUT
+     * DATA:SOURCE
+     * DATa:ENCdg
+     * DATA:WIDTH
+     * TRIGGER:MAIN:LEVEL
+     * TRIGGER:MAIN:EDGE:SLOPE
+     * HORIZONTAL:MAIN:SCALE
+     * HORIZONTAL:MAIN:POSITION
+     * DISPLAY:PERSISTENCE
+     * CH<X>:SCALE
+     * CH<X>:POSITION
+     * CH<X>:PROBE
+     * 
+     * 
      */
 
     char cmd[64], buffer[256];
@@ -43,11 +57,12 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, TTr
     if(status < VI_SUCCESS) goto error;
 
     
-    // Set Channel
+    // Set Encoding
     sprintf(cmd, "DATa:ENCdg %s", Scope_DataEncodeFormat);
     status = viWrite(scope, (ViBuf) cmd, strlen(cmd), &retCount);
     if(status < VI_SUCCESS) goto error;
     
+
     // Set Data Width
     sprintf(cmd, "DATA:WIDTH %d", Scope_DataEncodeWidth);
     status = viWrite(scope, (ViBuf) cmd, strlen(cmd), &retCount);
@@ -84,6 +99,24 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, TTr
     if(status < VI_SUCCESS) goto error;
 
     
+    // Set Channel Scale
+    sprintf(cmd, "%s:SCALE %s", Scope_ChannelName, Scope_ChannelScale);
+    status = viWrite(scope, (ViBuf) cmd, strlen(cmd), &retCount);
+    if(status < VI_SUCCESS) goto error;
+
+    
+    // Set Channel Position
+    sprintf(cmd, "%s:POSITION %s", Scope_ChannelName, Scope_ChannelPosition);
+    status = viWrite(scope, (ViBuf) cmd, strlen(cmd), &retCount);
+    if(status < VI_SUCCESS) goto error;
+
+    
+    // Set Channel Probe
+    sprintf(cmd, "%s:PROBE %s", Scope_ChannelName, Scope_ChannelProbe);
+    status = viWrite(scope, (ViBuf) cmd, strlen(cmd), &retCount);
+    if(status < VI_SUCCESS) goto error;
+
+    
 
     // Check if it was required to save the infos on a ROOT file
     if(tree == NULL) return 0;
@@ -98,7 +131,7 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, TTr
     memset(cmd   , 0, sizeof(cmd));
 
 
-    sprintf(cmd, "DATA:SOURCE?\n");
+    sprintf(cmd, "DATA:SOURCE?");
     status = viWrite(scope, (ViBuf) cmd   , strlen(cmd)   , &retCount);
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
     str = std::string(buffer);
@@ -109,7 +142,7 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, TTr
     memset(cmd   , 0, sizeof(cmd));
     
 
-    sprintf(cmd, "DATA:ENCDG?\n");
+    sprintf(cmd, "DATA:ENCDG?");
     status = viWrite(scope, (ViBuf) cmd   , strlen(cmd)   , &retCount);
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
     str = std::string(buffer);
@@ -120,7 +153,7 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, TTr
     memset(cmd   , 0, sizeof(cmd));
 
 
-    sprintf(cmd, "DATA:WIDTH?\n");
+    sprintf(cmd, "DATA:WIDTH?");
     status = viWrite(scope, (ViBuf) cmd   , strlen(cmd)   , &retCount);
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
     str = std::string(buffer);
@@ -130,7 +163,7 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, TTr
     memset(buffer, 0, sizeof(buffer));
     
 
-    sprintf(cmd, "TRIGGER:MAIN:LEVEL?\n");
+    sprintf(cmd, "TRIGGER:MAIN:LEVEL?");
     status = viWrite(scope, (ViBuf) cmd   , strlen(cmd)   , &retCount);
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
     str = std::string(buffer);
@@ -141,7 +174,7 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, TTr
     memset(cmd   , 0, sizeof(cmd));
     
 
-    sprintf(cmd, "TRIGGER:MAIN:EDGE:SLOPE?\n");
+    sprintf(cmd, "TRIGGER:MAIN:EDGE:SLOPE?");
     status = viWrite(scope, (ViBuf) cmd   , strlen(cmd)   , &retCount);
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
     str = std::string(buffer);
@@ -152,7 +185,7 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, TTr
     memset(cmd   , 0, sizeof(cmd));
 
 
-    sprintf(cmd, "HORIZONTAL:MAIN:SCALE?\n");
+    sprintf(cmd, "HORIZONTAL:MAIN:SCALE?");
     status = viWrite(scope, (ViBuf) cmd   , strlen(cmd)   , &retCount);
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
     str = std::string(buffer);
@@ -163,7 +196,7 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, TTr
     memset(cmd   , 0, sizeof(cmd));
 
 
-    sprintf(cmd, "HORIZONTAL:MAIN:POSITION?\n");
+    sprintf(cmd, "HORIZONTAL:MAIN:POSITION?");
     status = viWrite(scope, (ViBuf) cmd   , strlen(cmd)   , &retCount);
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
     str = std::string(buffer);
@@ -174,7 +207,7 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, TTr
     memset(cmd   , 0, sizeof(cmd));
 
 
-    sprintf(cmd, "DISPLAY:PERSISTENCE?\n");
+    sprintf(cmd, "DISPLAY:PERSISTENCE?");
     status = viWrite(scope, (ViBuf) cmd   , strlen(cmd)   , &retCount);
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
     str = std::string(buffer);
@@ -185,7 +218,40 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, TTr
     memset(cmd   , 0, sizeof(cmd));
 
 
-    sprintf(cmd, "WFMPRE?\n");
+    sprintf(cmd, "%s:SCALE?", Scope_ChannelName);
+    status = viWrite(scope, (ViBuf) cmd   , strlen(cmd)   , &retCount);
+    status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
+    str = std::string(buffer);
+    b = tree->Branch(cmd, &str); 
+    b->Fill();   
+    printf("%s:SCALE? %s\n", Scope_ChannelName, buffer);
+    memset(buffer, 0, sizeof(buffer));
+    memset(cmd   , 0, sizeof(cmd));
+
+
+    sprintf(cmd, "%s:POSITION?", Scope_ChannelName);
+    status = viWrite(scope, (ViBuf) cmd   , strlen(cmd)   , &retCount);
+    status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
+    str = std::string(buffer);
+    b = tree->Branch(cmd, &str); 
+    b->Fill();   
+    printf("%s:POSITION? %s\n", Scope_ChannelName, buffer);
+    memset(buffer, 0, sizeof(buffer));
+    memset(cmd   , 0, sizeof(cmd));
+
+
+    sprintf(cmd, "%s:PROBE?", Scope_ChannelName);
+    status = viWrite(scope, (ViBuf) cmd   , strlen(cmd)   , &retCount);
+    status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
+    str = std::string(buffer);
+    b = tree->Branch(cmd, &str); 
+    b->Fill();   
+    printf("%s:PROBE? %s\n", Scope_ChannelName, buffer);
+    memset(buffer, 0, sizeof(buffer));
+    memset(cmd   , 0, sizeof(cmd));
+
+
+    sprintf(cmd, "WFMPRE?");
     status = viWrite(scope, (ViBuf) cmd   , strlen(cmd)   , &retCount);
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
     str = std::string(buffer);
@@ -216,6 +282,15 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, TTr
 
     sprintf(cmd, "NUMBER_ADCHANNELS");
     sprintf(buffer, "%d", Scope_NumberADChannels);
+    str = std::string(buffer);
+    b = tree->Branch(cmd, &str); 
+    b->Fill();   
+    memset(buffer, 0, sizeof(buffer));   
+    memset(cmd   , 0, sizeof(cmd));
+
+
+    sprintf(cmd, "PULSE_WIDTH");
+    sprintf(buffer, "%d", Acquisition_PulseWidth);
     str = std::string(buffer);
     b = tree->Branch(cmd, &str); 
     b->Fill();   

@@ -7,6 +7,7 @@
 
 #include "../configs/cfg.h"
 #include "acquisition.h"
+#include "peaks.h"
 
 
 

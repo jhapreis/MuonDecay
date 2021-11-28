@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <memory.h>
 #include <string.h>
-#include <ctype.h>
 
 #include <string>
 #include <iostream>
@@ -143,8 +142,6 @@ int GraphWaveforms(char* path_to_root_file){
 
     TCanvas* c = new TCanvas(); // Canvas
 
-    printf("branch entries = %d\n", (int) branch_waveforms->GetEntries());
-
 
 
     /**
@@ -181,19 +178,4 @@ int GraphWaveforms(char* path_to_root_file){
     input->Close();
 
     return 0;
-}
-
-
-
-//====================================================================================================
-
-char* uppercase(char* str){
-
-    int lenght = strlen(str);
-
-    for(int i=0; i<lenght; i++){
-        str[i] = toupper( str[i] );
-    }
-
-    return str;
 }
