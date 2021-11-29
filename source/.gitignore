@@ -3,3 +3,4 @@ _secure
 acquisition/.vs
 acquisition/.vscode
 email/cfg_email.py
+.vscode
