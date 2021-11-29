@@ -5,7 +5,7 @@
 
 #include <visa.h>
 
-#include "../configs/cfg.h"
+#include "cfg.h"
 #include "acquisition.h"
 #include "peaks.h"
 
@@ -96,7 +96,7 @@ int main(){
             }
 
             if( strcmp(uppercase(cmd), "CURVE?") == 0 ){
-                WaveformAsInt = Get_CurveData(buffer);
+                Get_CurveData(buffer, WaveformAsInt);
                 if(WaveformAsInt == NULL) return 1;
 
                 Waveform_MiliVolts   = Convert_WaveformMiliVolts(WaveformAsInt, Scope_NumberADChannels);

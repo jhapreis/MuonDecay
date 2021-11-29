@@ -9,12 +9,11 @@ CLEARFLAGS   = *.o
 
 all: analyze.o
 
-libanalyze.o: expFit.cpp readwfm_root.cpp readwfm_csv.cpp ../acquisition/convertValues.cpp ../acquisition/findPeaks.cpp
+libanalyze.o: expFit.cpp findPeaks.cpp readwfm_root.cpp readwfm_csv.cpp 
 	$(CPP) $(CPPFLAGS) -c $@ $^ $(LIBS) $(ROOTFLAGS)
 
-analyze.o:  expFit.cpp readwfm_root.cpp readwfm_csv.cpp ../acquisition/convertValues.cpp ../acquisition/findPeaks.cpp analyze.cpp
+analyze.o:  expFit.cpp findPeaks.cpp readwfm_root.cpp readwfm_csv.cpp analyze.cpp
 	$(CPP) $(CPPFLAGS) -o $@ $^ $(LIBS) $(ROOTFLAGS)
-	cp ./analyze.o ../run/libs/
 
 memory: analyze.o
 	valgrind --leak-check=full --log-file="logfile.out" ./$^

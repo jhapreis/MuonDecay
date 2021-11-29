@@ -17,7 +17,7 @@
 #include <string>
 #include <sstream>
 
-#include "../configs/cfg.h"
+#include "../acquisition/cfg.h"
 #include "analyze.h"
 
 
@@ -58,7 +58,7 @@ int Analyze_ROOTDataFile(std::string path_to_root_file){
     /**
      * @brief READ ROOT FILE
      */
-    printf("   Reading .root file...\n"); 
+    printf("   Reading .root file... %s\n", path_to_root_file.c_str()); 
     char root_file[32];
     strcpy(root_file, path_to_root_file.c_str());
     TFile* input = new TFile( root_file, "UPDATE");
@@ -107,15 +107,15 @@ int Analyze_ROOTDataFile(std::string path_to_root_file){
     strcpy(encoder, str->c_str());
 
     tree_infos->SetBranchAddress("CH1:SCALE?", &str);
-    tree_infos->GetBranch("TRIGGER:MAIN:LEVEL?")->GetEntry(0);
-    sscanf(str->c_str(), "%lf", &chScale);
+    tree_infos->GetBranch("CH1:SCALE?")->GetEntry(0);
+    sscanf(str->c_str(), "%f", &chScale);
 
     tree_infos->SetBranchAddress("CH1:POSITION?", &str);
-    tree_infos->GetBranch("TRIGGER:MAIN:LEVEL?")->GetEntry(0);
-    sscanf(str->c_str(), "%lf", &chPosition);
+    tree_infos->GetBranch("CH1:POSITION?")->GetEntry(0);
+    sscanf(str->c_str(), "%f", &chPosition);
 
     triggerUnits = Convert_VoltsToUnits(triggerVolts, encoder, chScale, chPosition);
-    printf("Trigger in units: %f\n", triggerUnits);
+    printf("      Trigger in units: %f\n", triggerUnits);
 
     if(min_peaks == 0){
         input->Close();
@@ -177,6 +177,7 @@ int Analyze_ROOTDataFile(std::string path_to_root_file){
 
         // Read the current waveform
         branch_waveforms->GetEntry(event_number);
+        event_number++;
 
 
         // Find peaks coordinates, check matching and pass to TTree
@@ -205,7 +206,6 @@ int Analyze_ROOTDataFile(std::string path_to_root_file){
         }
 
 
-        event_number++;
         free(x_peaks_units);
     }
 
@@ -215,9 +215,9 @@ int Analyze_ROOTDataFile(std::string path_to_root_file){
     printf("   Time differences calculated.\n");
 
 
-    // tree_peaks->Write();
-    // tree_integrals->Write();
-    // tree_differences->Write();
+    tree_peaks->Write();
+    tree_integrals->Write();
+    tree_differences->Write();
 
     input->Close();
 

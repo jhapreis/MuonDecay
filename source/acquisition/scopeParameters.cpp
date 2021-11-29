@@ -8,7 +8,7 @@
 
 #include <visa.h>
 
-#include "../configs/cfg.h"
+#include "cfg.h"
 #include "acquisition.h"
 
 
@@ -100,19 +100,19 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, TTr
 
     
     // Set Channel Scale
-    sprintf(cmd, "%s:SCALE %s", Scope_ChannelName, Scope_ChannelScale);
+    sprintf(cmd, "%s:SCALE %f", Scope_ChannelName, Scope_ChannelScale);
     status = viWrite(scope, (ViBuf) cmd, strlen(cmd), &retCount);
     if(status < VI_SUCCESS) goto error;
 
     
     // Set Channel Position
-    sprintf(cmd, "%s:POSITION %s", Scope_ChannelName, Scope_ChannelPosition);
+    sprintf(cmd, "%s:POSITION %f", Scope_ChannelName, Scope_ChannelPosition);
     status = viWrite(scope, (ViBuf) cmd, strlen(cmd), &retCount);
     if(status < VI_SUCCESS) goto error;
 
     
     // Set Channel Probe
-    sprintf(cmd, "%s:PROBE %s", Scope_ChannelName, Scope_ChannelProbe);
+    sprintf(cmd, "%s:PROBE %d", Scope_ChannelName, Scope_ChannelProbe);
     status = viWrite(scope, (ViBuf) cmd, strlen(cmd), &retCount);
     if(status < VI_SUCCESS) goto error;
 

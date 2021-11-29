@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "../configs/cfg.h"
+#include "cfg.h"
 #include "peaks.h"
 
 

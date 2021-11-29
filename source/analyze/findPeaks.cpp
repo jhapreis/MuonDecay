@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <memory.h>
 
-#include "../configs/cfg.h"
+#include "../acquisition/cfg.h"
 
 
 //====================================================================================================
@@ -53,7 +53,7 @@ int* FindPeaks_Waveform(int* waveformAsInt, int waveformSize, double height, int
         index++;
     }
 
-    printf("number peaks = %d\n", number_peaks);
+    // printf("number peaks = %d\n", number_peaks);
     if(number_peaks != minPeaks) return NULL; // error on search for peaks
 
 
@@ -100,6 +100,7 @@ double* Convert_WaveformMiliVolts(int* Waveform_Units, int numberPoitsWaveform, 
         units_max = 128;
     }
     else{
+        
         return NULL;
     }
 
@@ -122,7 +123,6 @@ double* Convert_WaveformMiliVolts(int* Waveform_Units, int numberPoitsWaveform, 
     }
     
 
-
     return Waveform_mV;
 }
 
@@ -143,12 +143,12 @@ double Convert_VoltsToUnits(double valueVolts, char* encoder, float chScale, flo
 
     // Min and Max values in units (depends on the encoding format)
     int units_min, units_max;
-    if(   strcmp(encoder, "RPBINARY") == 0   ){
+    if(   strcmp(encoder, "RPBINARY\n") == 0   ){
 
         units_min = 0;
         units_max = 255;
     }
-    else if(   strcmp(encoder, "ASCII") == 0   ){
+    else if(   strcmp(encoder, "ASCII\n") == 0   ){
 
         units_min = -127;
         units_max = 128;
@@ -168,7 +168,6 @@ double Convert_VoltsToUnits(double valueVolts, char* encoder, float chScale, flo
 
     // Convert value from position to units
     double valueUnits = ratio*(y_pos - Position_min) + units_min;
-
 
     return valueUnits;
 }

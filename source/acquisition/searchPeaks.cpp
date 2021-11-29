@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <memory.h>
 
-#include "../configs/cfg.h"
+#include "cfg.h"
 
 
 

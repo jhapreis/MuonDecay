@@ -1,7 +1,7 @@
 #ifndef PEAKS_H
 #define PEAKS_H
 
-#include "../configs/cfg.h"
+#include "cfg.h"
 
 
 

@@ -1,12 +1,11 @@
 #include <TStopwatch.h>
 
-#include "../configs/cfg.h"
-#include "../acquisition/peaks.h"
+#include "../acquisition/cfg.h"
 #include "analyze.h"
 
 
 
-int main(){
+int main(int argc, char **argv){
 
     // Measure elapsed time
     TStopwatch time_elapsed;
@@ -18,9 +17,10 @@ int main(){
     printf("            RUNNING readWaveform.cpp\n");
     printf("//==================================================\n");
     
-    Analyze_ROOTDataFile("../data/results/1000_1638087362_copy.root");
-
-    printf("ascsfafdasdf");
+    // Analyze_ROOTDataFile("../data/results/10_1638138645.root");
+    for(int i=1; i<argc; i++){
+        Analyze_ROOTDataFile(argv[i]);
+    }
 
 
     time_elapsed.Print();

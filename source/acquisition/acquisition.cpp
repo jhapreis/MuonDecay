@@ -31,7 +31,7 @@
 #include <string>
 #include <sstream>
 
-#include "../configs/cfg.h"
+#include "cfg.h"
 #include "acquisition.h"
 #include "peaks.h"
 

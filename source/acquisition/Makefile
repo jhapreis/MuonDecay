@@ -14,11 +14,9 @@ readWfm.o: readwvf.cpp
 
 acquisition.o: scopeParameters.cpp readwvf.cpp convertValues.cpp searchPeaks.cpp acquisition.cpp
 	$(CPP) $(CPPFLAGS) -o $@ $^ $(LIBS) $(ROOTFLAGS)
-	cp ./acquisition.o ../libs/
 
 interactive.o: scopeParameters.cpp readwvf.cpp convertValues.cpp searchPeaks.cpp interactive.cpp
 	$(CPP) $(CPPFLAGS) -o $@ $^ $(LIBS) $(ROOTFLAGS)
-	cp ./interactive.o ../run/libs/
 
 clear:
 	rm $(CLEARFLAGS)
