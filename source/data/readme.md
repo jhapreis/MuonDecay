@@ -7,4 +7,4 @@ Os arquivos gerados após a aquisição são salvos diretamente raiz dessa pasta
 
 ## Estrutura dos diretórios
 
--- old: aqui estão salvos os dados salvos em um projeto anterior. Os arquivos estão no formato _csv_.
+* old: aqui estão salvos os dados salvos em um projeto anterior. Os arquivos estão no formato _csv_.
