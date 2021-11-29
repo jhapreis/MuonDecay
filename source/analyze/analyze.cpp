@@ -20,6 +20,7 @@ int main(int argc, char **argv){
     // Analyze_ROOTDataFile("../data/results/10_1638138645.root");
     for(int i=1; i<argc; i++){
         Analyze_ROOTDataFile(argv[i]);
+        ExponentialFit(argv[i]);
     }
 
 
