@@ -18,7 +18,7 @@ import boto3
 CONFIG_FILE_EMAILS = True # it will check the existence of the cfg_email file
 
 try:
-    from  source.email import cfg_email
+    from source.email import cfg_email
 except ModuleNotFoundError as e:
     print('cfg_email was not found :/\n\n')
     CONFIG_FILE_EMAILS = False
