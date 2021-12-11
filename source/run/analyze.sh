@@ -1,10 +1,10 @@
 # Recompile the analyze.o file
 printf "\n\n===== Recompiling analyze.o =====\n\n"
-cd ../analyze
+cd ../analyze/
 make clear
 make analyze.o
-cp analyze.o ../run/libs
-cd ../run
+cp analyze.o ../run/libs/
+cd ../run/
 
 
 # Run analyze
