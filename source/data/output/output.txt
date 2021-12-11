@@ -1,5 +1,5 @@
 
-   Trigger in units = 233.750000
+   Trigger in units = 229.500000
 
 
       Oscilloscope RM: open.
@@ -11,7 +11,7 @@ DATA:ENCDG? RPBINARY
 
 DATA:WIDTH? 1
 
-TRIGGER:MAIN:LEVEL? -1.0E-2
+TRIGGER:MAIN:LEVEL? -1.5E-2
 
 TRIGGER:MAIN:EDGE:SLOPE? FALL
 
@@ -40,7 +40,7 @@ ID: TEKTRONIX,TDS 1002B,04WRL8,CF:91.1CT FV:v22.11
 
       Finishing...
 
-Real time 8:56:20, CP time 889.010
+Real time 52:27:18, CP time 5218.710
 
 
 3000 events graphed
