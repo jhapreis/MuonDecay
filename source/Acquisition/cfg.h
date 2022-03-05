@@ -40,7 +40,7 @@
 #define Scope_ChannelScale 30E-3
 #define Scope_ChannelPosition 4.5
 #define Scope_ChannelProbe 1
-#define Scope_ChannelTrigger -10E-3
+#define Scope_ChannelTrigger -15E-3
 #define Scope_ChannelHorizontalScale 1E-6
 #define Scope_ChannelHorizontalPosition 4.2E-6
 #define Scope_NumberOfDisplayDivisions 10                    // Immutable; from scope, phisically
