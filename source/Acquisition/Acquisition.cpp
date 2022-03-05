@@ -39,35 +39,37 @@
 
 int main(){
 
-    // Measure elapsed time
-    TStopwatch time_elapsed;
+    
+    TStopwatch time_elapsed;    // Measure elapsed time
+    
+    char err[32];               // Error string
+    
+    char root_FileName[64];     // ROOT file name as time epoch
 
-    // Error string
-    char err[32];
+    int numberGoodSamples = 0;  // Number of good samples collected until then
 
-    // ROOT file name as time epoch
-    char root_FileName[64];
+    
+    int status_waveform = 0;    // Waveform curve, as an event
 
-    // Number of good samples collected until then
-    int numberGoodSamples = 0;
-
-    // Waveform curve, as an event
-    int status_waveform = 0;
     int WaveformAsInt[Scope_NumberADChannels];
+
     memset(WaveformAsInt, Acquisition_WaveformInitializer, sizeof(WaveformAsInt));
 
-    // Number of peaks found on the waveform
-    int numberPeaksWaveform = 0;
 
-    // Trigger, converted from Volts to Units
-    double triggerUnits = Convert_VoltsToUnits(Scope_ChannelTrigger);
+    
+    int numberPeaksWaveform = 0;// Number of peaks found on the waveform
+
+
+    double triggerUnits = Convert_VoltsToUnits(Scope_ChannelTrigger); // Trigger, converted from Volts to Units
+    
     printf("\n   Trigger in units = %f", triggerUnits);
 
+
     // Scope parameters
-    ViSession rm      = VI_NULL;             // Resource Manager
-    ViSession scope   = VI_NULL;             // Oscilloscope
-    ViStatus status_scope   = VI_NULL;             // failure or success
-    ViUInt32 retCount = VI_NULL;             // retCount
+    ViSession rm          = VI_NULL;         // Resource Manager
+    ViSession scope       = VI_NULL;         // Oscilloscope
+    ViStatus status_scope = VI_NULL;         // failure or success
+    ViUInt32 retCount     = VI_NULL;         // retCount
     ViChar buffer[4*Scope_NumberADChannels]; // Buffer; size > Scope_NumberADChannels
 
 
@@ -80,16 +82,23 @@ int main(){
      */
 
     int event_name = 0;
+
     char waveformsArrayROOT[20];
+
     sprintf(waveformsArrayROOT, "waveform[%d]/I", Scope_NumberADChannels);
 
+
     sprintf(root_FileName, "../data/%d_%lu.root", Acquisition_NecessarySamples, time(NULL));
+
     TFile* root_file = new TFile(root_FileName, "CREATE");
+
 
     TTree* tree_scope_infos = new TTree("tree_infos", "infos");
 
     TTree* tree_waveforms   = new TTree("tree_waveforms", "waveforms");
+
     tree_waveforms->Branch("names", &event_name, "name/I");
+    
     tree_waveforms->Branch("waveforms", WaveformAsInt, "waveforms[2500]/I");
     
 

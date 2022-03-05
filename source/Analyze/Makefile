@@ -12,7 +12,7 @@ all: analyze.o
 libanalyze.o: expFit.cpp findPeaks.cpp readwfm_root.cpp readwfm_csv.cpp 
 	$(CPP) $(CPPFLAGS) -c $@ $^ $(LIBS) $(ROOTFLAGS)
 
-analyze.o:  expFit.cpp findPeaks.cpp readwfm_root.cpp readwfm_csv.cpp analyze.cpp
+analyze.o:  expFit.cpp findPeaks.cpp readwfm_root.cpp readwfm_csv.cpp Analyze.cpp
 	$(CPP) $(CPPFLAGS) -o $@ $^ $(LIBS) $(ROOTFLAGS)
 
 memory: analyze.o
