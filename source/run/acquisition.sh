@@ -1,7 +1,7 @@
 # Recompile the acquisition.o file
 printf "\n\n===== Recompiling acquisition.o =====\n\n"
 cd ../
-cd acquisition
+cd Acquisition
 make clear
 make acquisition.o
 cp acquisition.o ../run/libs

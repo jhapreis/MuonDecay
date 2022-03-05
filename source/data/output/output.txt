@@ -35,12 +35,12 @@ ID: TEKTRONIX,TDS 1002B,04WRL8,CF:91.1CT FV:v22.11
 
       ...done
 
-      Collecting data... 3000 events necessary. Min peaks = 2
+      Collecting data... 30 events necessary. Min peaks = 1
 
 
       Finishing...
 
-Real time 52:27:18, CP time 5218.710
+Real time 0:00:10, CP time 0.440
 
 
-3000 events graphed
+30 events graphed

@@ -21,7 +21,7 @@
 #include <string>
 #include <sstream>
 
-#include "../acquisition/cfg.h"
+#include "../Acquisition/cfg.h"
 #include "analyze.h"
 
 

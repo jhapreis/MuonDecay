@@ -158,14 +158,23 @@ int GraphWaveforms(char* path_to_root_file){
 
     int event_number = 0;
 
+    int index        = 0;
+
     while(event_number < numberSamples){
+
 
         branch_waveforms->GetEntry(event_number);
 
         for(int i=0; i<numberADChannels; i++){
 
-            gr->SetPoint(i, i, waveformAsInt[i]);
+            // printf("%d ", waveformAsInt[i]);
+
+            gr->SetPoint(index, i, waveformAsInt[i]);
+
+            index++;
         }
+
+        // printf("\n\n");
 
         gr->Draw("ALP");
 

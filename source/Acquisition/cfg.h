@@ -15,9 +15,9 @@
 #define FisrtPeak_MaxIndex 110                // Expected max-index to find a first-peak
 #define TriggerInUnits 0                      // Trigger value, in "oscilloscope units"
 #define MaxTimeStampScope 10                  // Value in micro-seconds
-#define Acquisition_NecessarySamples 3000     // Minimal number of samples needed to retrieve
+#define Acquisition_NecessarySamples 30       // Minimal number of samples needed to retrieve
 #define Acquisition_NumberOfSamplesBuffer 100 // Number of random samples to collect
-#define Acquisition_MinPeaks 2                // 
+#define Acquisition_MinPeaks 1                // 
 #define Acquisition_MinSeparation 10          // Value in units on the x-axis
 #define Acquisition_PulseWidth 30             // Value supposed to be the pulse width
 #define Acquisition_WaveformInitializer -1    // 
