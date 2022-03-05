@@ -12,7 +12,7 @@ idn.o: idn.cpp
 readWfm.o: readwvf.cpp
 	$(CPP) $(CPPFLAGS) -c $^ $(LIBS)
 
-acquisition.o: scopeParameters.cpp readwvf.cpp convertValues.cpp searchPeaks.cpp acquisition.cpp
+acquisition.o: scopeParameters.cpp readwvf.cpp convertValues.cpp searchPeaks.cpp Acquisition.cpp
 	$(CPP) $(CPPFLAGS) -o $@ $^ $(LIBS) $(ROOTFLAGS)
 
 interactive.o: scopeParameters.cpp readwvf.cpp convertValues.cpp searchPeaks.cpp interactive.cpp
