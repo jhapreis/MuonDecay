@@ -1,7 +1,7 @@
 #ifndef PEAKS_H
 #define PEAKS_H
 
-#include "Configs/cfg.h"
+#include "../../Configs/cfg.h"
 
 
 
@@ -65,4 +65,4 @@ int GraphWaveforms(char* path_to_root_file);
 
 
 
-#endif 
+#endif

@@ -9,7 +9,7 @@ all: acquisition.o
 readWfm.o: acq/readwvf.cpp
 	$(CPP) $(CPPFLAGS) -c $^ $(LIBS)
 
-acquisition.o: acq/scopeParameters.cpp acq/readwvf.cpp acq/convertValues.cpp acq/searchPeaks.cpp Acquisition.cpp
+acquisition.o: acq/scopeParameters.cpp acq/readwvf.cpp acq/convertValues.cpp acq/searchPeaks.cpp acq/graphwvf.cpp Acquisition.cpp
 	$(CPP) $(CPPFLAGS) -o $@ $^ $(LIBS) $(ROOTFLAGS)
 
 interactive.o: acq/scopeParameters.cpp acq/readwvf.cpp acq/convertValues.cpp acq/searchPeaks.cpp interactive.cpp
