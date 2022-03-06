@@ -1,5 +1,5 @@
 
-   Trigger in units = 229.500000
+   Trigger in units = 216.750000
 
 
       Oscilloscope RM: open.
@@ -11,7 +11,7 @@ DATA:ENCDG? RPBINARY
 
 DATA:WIDTH? 1
 
-TRIGGER:MAIN:LEVEL? -1.5E-2
+TRIGGER:MAIN:LEVEL? -2.0E-2
 
 TRIGGER:MAIN:EDGE:SLOPE? FALL
 
@@ -21,26 +21,26 @@ HORIZONTAL:MAIN:POSITION? 4.0E-6
 
 DISPLAY:PERSISTENCE? 0
 
-CH1:SCALE? 3.0E-2
+CH1:SCALE? 2.0E-2
 
 CH1:POSITION? 4.52E0
 
 CH1:PROBE? 1.0E0
 
 WFMPRE?
-   1;8;BIN;RP;MSB;2500;"Ch1, DC coupling, 3.0E-2 V/div, 1.0E-6 s/div, 2500 points, Sample mode";Y;4.0E-9;0;-1.0E-6;"s";1.2E-3;0.0E0;2.41E2;"Volts"
+   1;8;BIN;RP;MSB;2500;"Ch1, DC coupling, 2.0E-2 V/div, 1.0E-6 s/div, 2500 points, Sample mode";Y;4.0E-9;0;-1.0E-6;"s";8.0E-4;0.0E0;2.41E2;"Volts"
 
 ID: TEKTRONIX,TDS 1002B,04WRL8,CF:91.1CT FV:v22.11
 
 
       ...done
 
-      Collecting data... 30 events necessary. Min peaks = 1
+      Collecting data... 500 events necessary. Min peaks = 2
 
 
       Finishing...
 
-Real time 0:00:10, CP time 0.440
+Real time 15:02:04, CP time 1486.490
 
 
-30 events graphed
+500 events graphed
