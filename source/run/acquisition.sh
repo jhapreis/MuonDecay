@@ -14,4 +14,6 @@ printf "\n\n===== Running acquisition =====\n\n"
 libs/acquisition.o |& tee ../data/output/output.txt
 
 # SEND EMAIL
+cd ../
+cd email/
 python3 SendEmail.py

@@ -3,8 +3,8 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "cfg.h"
-#include "peaks.h"
+#include "../includes/peaks.h"
+#include "../../Configs/cfg.h"
 
 
 

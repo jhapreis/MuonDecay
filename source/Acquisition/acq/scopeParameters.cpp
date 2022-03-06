@@ -8,8 +8,8 @@
 
 #include <visa.h>
 
-#include "cfg.h"
-#include "acquisition.h"
+#include "../includes/acquisition.h"
+#include "../../Configs/cfg.h"
 
 
 
