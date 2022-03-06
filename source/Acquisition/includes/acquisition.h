@@ -12,7 +12,7 @@
 
 #include <visa.h>
 
-#include "cfg.h"
+#include "Configs/cfg.h"
 
 
 

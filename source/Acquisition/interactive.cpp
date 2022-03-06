@@ -5,9 +5,9 @@
 
 #include <visa.h>
 
-#include "cfg.h"
-#include "acquisition.h"
-#include "peaks.h"
+#include "Configs/cfg.h"
+#include "includes/acquisition.h"
+#include "includes/peaks.h"
 
 
 
