@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <memory.h>
 
-#include "../Acquisition/cfg.h"
+#include "../../Configs/cfg.h"
+
 
 
 //====================================================================================================

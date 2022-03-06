@@ -13,8 +13,8 @@
 #include <TCanvas.h>
 #include <TGraph.h>
 
-#include "Configs/cfg.h"
-#include "includes/acquisition.h"
+#include "../includes/acquisition.h"
+#include "../../Configs/cfg.h"
 
 
 

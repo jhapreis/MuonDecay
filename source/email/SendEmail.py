@@ -9,7 +9,7 @@ _ = Path().resolve().parent.parent # Add parent.parent folder to sys.path
 sys.path.insert(0, str(_))
 
 
-from source.email.amazon_ses_sample import SendEmail
+from amazon_ses_sample import SendEmail
 
 
 #==================================================

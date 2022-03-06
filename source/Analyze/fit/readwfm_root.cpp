@@ -17,8 +17,8 @@
 #include <string>
 #include <sstream>
 
-#include "../Acquisition/cfg.h"
-#include "analyze.h"
+#include "../../Configs/cfg.h"
+#include "../includes/analyze.h"
 
 
 
