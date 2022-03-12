@@ -1,19 +1,27 @@
 # Recompile the acquisition.o file
 printf "\n\n===== Recompiling acquisition.o =====\n\n"
-cd ../
-cd Acquisition
+cd ../Acquisition
 make clear
 make acquisition.o
 cp acquisition.o ../run/libs
-cd ../
-cd run/
 
 
 # Run acquisition
 printf "\n\n===== Running acquisition =====\n\n"
-libs/acquisition.o |& tee ../data/output/output.txt
+cd ../run
+
+NOW=$( date +%s ) # Get time epoch to use as folder name
+FOLDER=../data/$NOW
+
+mkdir $FOLDER
+
+libs/acquisition.o $FOLDER # |& tee ../data/output/output.txt
+
+zip -r "../data/$NOW.zip" $FOLDER
+
+rm -rf $FOLDER
+
 
 # SEND EMAIL
-cd ../
-cd email/
+cd ../email/
 python3 SendEmail.py

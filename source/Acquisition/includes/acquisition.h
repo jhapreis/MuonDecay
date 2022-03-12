@@ -49,12 +49,10 @@ int Get_CurveData(ViChar* buffer, int* Array_WaveformAsInt);
  * @param status 
  * @param scope 
  * @param retCount 
- * @param tree Optional (may be NULL). If it's NULL, doesn't do nothing with 
- * the TTree or ROOT file. If it is not NULL, creates a branch for every parameter
- * that is required to save on the TTree. 
+ * @param path_to_output_file Optional (may be NULL)
  * @return int ; success or failure
  */
-int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, TTree* tree);
+int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, char* path_to_output_file);
 
 
 

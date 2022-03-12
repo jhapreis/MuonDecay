@@ -37,14 +37,12 @@
 
 
 
-int main(){
+int main(int argc, char **argv){
 
-    
+
     TStopwatch time_elapsed;    // Measure elapsed time
     
     char err[32];               // Error string
-    
-    char root_FileName[64];     // ROOT file name as time epoch
 
     int numberGoodSamples = 0;  // Number of good samples collected until then
 
@@ -77,23 +75,20 @@ int main(){
     /**
      * @brief ROOT FILE AND TTREES
      *  
-     * Create ROOT file and set the TTree to store the 
-     * required waveforms. 
+     * Create ROOT file and set the TTree to store the required waveforms. 
      */
 
-    int event_name = 0;
-
-    char waveformsArrayROOT[20];
-
-    sprintf(waveformsArrayROOT, "waveform[%d]/I", Scope_NumberADChannels);
 
 
-    sprintf(root_FileName, "../data/%d_%lu.root", Acquisition_NecessarySamples, time(NULL));
+    char root_FileName[64]; // ROOT file name as time epoch
+
+    sprintf(root_FileName, "%s/%d.root", argv[1], Acquisition_NecessarySamples);
 
     TFile* root_file = new TFile(root_FileName, "CREATE");
 
 
-    TTree* tree_scope_infos = new TTree("tree_infos", "infos");
+    
+    int event_name = 0;
 
     TTree* tree_waveforms   = new TTree("tree_waveforms", "waveforms");
 
@@ -130,7 +125,7 @@ int main(){
      *  
      */
     printf("\n      Setting Scope Parameters...\n");
-    Set_ScopeParameters(status_scope, scope, retCount, tree_scope_infos);
+    Set_ScopeParameters(status_scope, scope, retCount, argv[1]);
 
     status_scope = viWrite(scope, (ViBuf) "*IDN?\n"     , 6             , &retCount);
     status_scope = viRead( scope, (ViBuf) buffer        , sizeof(buffer), &retCount);
@@ -217,7 +212,7 @@ int main(){
     root_file->Write();
     root_file->Close();
 
-    GraphWaveforms(root_FileName);
+    GraphWaveforms(root_FileName, Acquisition_NecessarySamples, Scope_NumberADChannels);
 
     return 0;
     

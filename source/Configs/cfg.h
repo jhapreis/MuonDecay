@@ -15,12 +15,13 @@
 #define FisrtPeak_MaxIndex 110                // Expected max-index to find a first-peak
 #define TriggerInUnits 0                      // Trigger value, in "oscilloscope units"
 #define MaxTimeStampScope 10                  // Value in micro-seconds
-#define Acquisition_NecessarySamples 30       // Minimal number of samples needed to retrieve
-#define Acquisition_NumberOfSamplesBuffer 100 // Number of random samples to collect
-#define Acquisition_MinPeaks 1                // 
 #define Acquisition_MinSeparation 10          // Value in units on the x-axis
 #define Acquisition_PulseWidth 30             // Value supposed to be the pulse width
 #define Acquisition_WaveformInitializer -1    // 
+
+#define Acquisition_NecessarySamples 10       // Minimal number of samples needed to retrieve
+#define Acquisition_NumberOfSamplesBuffer 100 // Number of random samples to collect
+#define Acquisition_MinPeaks 1                // 
 
 
 
@@ -37,13 +38,14 @@
 #define Scope_Persistence "OFF"
 #define Scope_ChannelTriggerSlope "FALL"
 #define Scope_ChannelName "CH1"
-#define Scope_ChannelScale 30E-3
 #define Scope_ChannelPosition 4.5
 #define Scope_ChannelProbe 1
-#define Scope_ChannelTrigger -15E-3
 #define Scope_ChannelHorizontalScale 1E-6
 #define Scope_ChannelHorizontalPosition 4.2E-6
-#define Scope_NumberOfDisplayDivisions 10                    // Immutable; from scope, phisically
+#define Scope_NumberOfDisplayDivisions 10                   // Immutable; from scope, phisically
+
+#define Scope_ChannelTrigger -15E-3
+#define Scope_ChannelScale 30E-3                    
 
 
 

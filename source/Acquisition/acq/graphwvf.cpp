@@ -20,34 +20,13 @@
 
 //====================================================================================================
 
-int GraphWaveforms(char* path_to_root_file){
+int GraphWaveforms(char* path_to_root_file, int numberSamples, int numberADChannels){
 
     /**
      * @brief Open ROOT file
      * 
      */
     TFile* input  = new TFile(path_to_root_file, "UPDATE");
-
-
-
-    /**
-     * @brief Read ROOT file and find the number of necessary samples and the number of ADchannels.
-     * 
-     */
-
-    TTree* tree_infos = (TTree*) input->Get("tree_infos");
-
-    int numberSamples    = 0;
-    int numberADChannels = 0;
-    std::string* str     = 0;
-    
-    tree_infos->SetBranchAddress("NECESSARY_SAMPLES", &str);
-    tree_infos->GetBranch("NECESSARY_SAMPLES")->GetEntry(0);
-    sscanf(str->c_str(), "%d", &numberSamples);
-
-    tree_infos->SetBranchAddress("NUMBER_ADCHANNELS", &str);
-    tree_infos->GetBranch("NUMBER_ADCHANNELS")->GetEntry(0);
-    sscanf(str->c_str(), "%d", &numberADChannels);
 
 
 
@@ -89,14 +68,10 @@ int GraphWaveforms(char* path_to_root_file){
 
         for(int i=0; i<numberADChannels; i++){
 
-            // printf("%d ", waveformAsInt[i]);
-
             gr->SetPoint(index, i, waveformAsInt[i]);
 
             index++;
         }
-
-        // printf("\n\n");
 
         gr->Draw("ALP");
 
