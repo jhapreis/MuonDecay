@@ -12,6 +12,9 @@ readWfm.o: acq/readwvf.cpp
 acquisition.o: acq/scopeParameters.cpp acq/readwvf.cpp acq/convertValues.cpp acq/searchPeaks.cpp acq/graphwvf.cpp Acquisition.cpp
 	$(CPP) $(CPPFLAGS) -o $@ $^ $(LIBS) $(ROOTFLAGS)
 
+setparameters.o: acq/scopeParameters.cpp acq/readwvf.cpp acq/convertValues.cpp acq/searchPeaks.cpp acq/graphwvf.cpp SetScopeParameters.cpp
+	$(CPP) $(CPPFLAGS) -o $@ $^ $(LIBS) $(ROOTFLAGS)
+
 interactive.o: acq/scopeParameters.cpp acq/readwvf.cpp acq/convertValues.cpp acq/searchPeaks.cpp interactive.cpp
 	$(CPP) $(CPPFLAGS) -o $@ $^ $(LIBS) $(ROOTFLAGS)
 

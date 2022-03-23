@@ -66,6 +66,9 @@ int main(int argc, char **argv){
     printf("ID: %s\n\n      ...done\n\n", buffer);
 
 
+    viClose(rm)
+
+
 
     return 0;
 

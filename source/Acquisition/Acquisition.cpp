@@ -113,29 +113,7 @@ int main(int argc, char **argv){
         goto error;
     }
     // printf("\n\n\n      Oscilloscope RM: open.\n");
-
-
-
-    // /**
-    //  * @brief SET SCOPE PARAMETERS 
-    //  * 
-    //  * Run a SetScopeParameters function in order to prepare for
-    //  * acquisition. Saves the informations on the ROOT file.
-    //  * After that, tries to read an IDN query. If failed, exits.
-    //  *  
-    //  */
-    // printf("\n      Setting Scope Parameters...\n");
-
-    // // Set_ScopeParameters(status_scope, scope, retCount, argv[1]);
-
-    // status_scope = viWrite(scope, (ViBuf) "*IDN?\n"     , 6             , &retCount);
-    // status_scope = viRead( scope, (ViBuf) buffer        , sizeof(buffer), &retCount);
-    // if(status_scope < VI_SUCCESS){
-    //     strcpy(err, "Error opening device");
-    //     goto error;
-    // }
-    // printf("ID: %s\n\n      ...done\n\n", buffer);
-
+    
 
 
     /**
