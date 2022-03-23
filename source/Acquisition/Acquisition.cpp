@@ -40,27 +40,28 @@
 int main(int argc, char **argv){
 
 
-    TStopwatch time_elapsed;    // Measure elapsed time
+    TStopwatch time_elapsed;     // Measure elapsed time
     
-    char err[32];               // Error string
+    char err[32];                // Error string
 
-    int numberGoodSamples = 0;  // Number of good samples collected until then
+    int numberGoodSamples   = 0; // Number of good samples collected until then
 
+    int numberPeaksWaveform = 0; // Number of peaks found on the waveform
     
-    int status_waveform = 0;    // Waveform curve, as an event
+    int status_waveform     = 0; // Waveform curve, as an event
+
+
 
     int WaveformAsInt[Scope_NumberADChannels];
 
-    memset(WaveformAsInt, Acquisition_WaveformInitializer, sizeof(WaveformAsInt));
+    memset(WaveformAsInt, Acquisition_WaveformInitializer, sizeof(WaveformAsInt));  
 
-
-    
-    int numberPeaksWaveform = 0;// Number of peaks found on the waveform
 
 
     double triggerUnits = Convert_VoltsToUnits(Scope_ChannelTrigger); // Trigger, converted from Volts to Units
     
     printf("\n   Trigger in units = %f", triggerUnits);
+
 
 
     // Scope parameters
@@ -82,7 +83,7 @@ int main(int argc, char **argv){
 
     char root_FileName[64]; // ROOT file name as time epoch
 
-    sprintf(root_FileName, "%s/%d.root", argv[1], Acquisition_NecessarySamples);
+    sprintf(root_FileName, "%s/%ld.root", argv[1], std::time(nullptr));
 
     TFile* root_file = new TFile(root_FileName, "CREATE");
 
@@ -92,8 +93,7 @@ int main(int argc, char **argv){
 
     TTree* tree_waveforms   = new TTree("tree_waveforms", "waveforms");
 
-    tree_waveforms->Branch("names", &event_name, "name/I");
-    
+    tree_waveforms->Branch("names"    , &event_name  , "name/I");
     tree_waveforms->Branch("waveforms", WaveformAsInt, "waveforms[2500]/I");
     
 
@@ -112,28 +112,29 @@ int main(int argc, char **argv){
         strcpy(err, "Error opening device");
         goto error;
     }
-    printf("\n\n\n      Oscilloscope RM: open.\n");
+    // printf("\n\n\n      Oscilloscope RM: open.\n");
 
 
 
-    /**
-     * @brief SET SCOPE PARAMETERS 
-     * 
-     * Run a SetScopeParameters function in order to prepare for
-     * acquisition. Saves the informations on the ROOT file.
-     * After that, tries to read an IDN query. If failed, exits.
-     *  
-     */
-    printf("\n      Setting Scope Parameters...\n");
-    Set_ScopeParameters(status_scope, scope, retCount, argv[1]);
+    // /**
+    //  * @brief SET SCOPE PARAMETERS 
+    //  * 
+    //  * Run a SetScopeParameters function in order to prepare for
+    //  * acquisition. Saves the informations on the ROOT file.
+    //  * After that, tries to read an IDN query. If failed, exits.
+    //  *  
+    //  */
+    // printf("\n      Setting Scope Parameters...\n");
 
-    status_scope = viWrite(scope, (ViBuf) "*IDN?\n"     , 6             , &retCount);
-    status_scope = viRead( scope, (ViBuf) buffer        , sizeof(buffer), &retCount);
-    if(status_scope < VI_SUCCESS){
-        strcpy(err, "Error opening device");
-        goto error;
-    }
-    printf("ID: %s\n\n      ...done\n\n", buffer);
+    // // Set_ScopeParameters(status_scope, scope, retCount, argv[1]);
+
+    // status_scope = viWrite(scope, (ViBuf) "*IDN?\n"     , 6             , &retCount);
+    // status_scope = viRead( scope, (ViBuf) buffer        , sizeof(buffer), &retCount);
+    // if(status_scope < VI_SUCCESS){
+    //     strcpy(err, "Error opening device");
+    //     goto error;
+    // }
+    // printf("ID: %s\n\n      ...done\n\n", buffer);
 
 
 
@@ -173,9 +174,12 @@ int main(int argc, char **argv){
 
         // Unpacking curve into int array
         status_waveform = Get_CurveData(buffer, WaveformAsInt);
-        if( status_waveform < 0 ){
-            printf("error on query: waveform unpacking error: \n");
+        if( status_waveform < 0 ){      // erro no salvamento da waveform
             continue;
+        }
+        else if( status_waveform == 1){ // erro na descompactação da waveform, exit
+            printf("error on query: waveform unpacking error: \n"); 
+            exit(1);
         }
         
         

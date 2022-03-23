@@ -28,28 +28,26 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, cha
      * writing/setup methods and do not even arrive on the query part.
      * 
      * TIMEOUT
-     * DATA:SOURCE
-     * DATa:ENCdg
-     * DATA:WIDTH
-     * TRIGGER:MAIN:LEVEL
-     * TRIGGER:MAIN:EDGE:SLOPE
-     * HORIZONTAL:MAIN:SCALE
-     * HORIZONTAL:MAIN:POSITION
-     * DISPLAY:PERSISTENCE
+     * DATA SOURCE
+     * DATa ENCdg
+     * DATA WIDTH
+     * TRIGGER MAIN LEVEL
+     * TRIGGER MAIN EDGE SLOPE
+     * HORIZONTAL MAIN SCALE
+     * HORIZONTAL MAIN POSITION
+     * DISPLAY PERSISTENCE
      * CH<X>:SCALE
      * CH<X>:POSITION
      * CH<X>:PROBE
-     * 
-     * 
      */
 
     char cmd[64], buffer[256];
     std::string str;
 
 
-    char filePath[32];
+    char filePath[128];
 
-    sprintf(filePath, "%s/output.csv", path_to_output_file);
+    sprintf(filePath, "%s/output.txt", path_to_output_file);
 
     std::fstream outputFile;
 
@@ -130,6 +128,7 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, cha
 
     // Check if it was required to save the infos on a ROOT file
     if(!outputFile) return 0;
+
 
 
     outputFile.open(filePath, std::ios::out | std::ios::app);
@@ -342,5 +341,5 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, cha
         // Report error and clean up
         viStatusDesc(scope, status, buffer);
         fprintf(stderr, "\n       failure: %s\n", buffer);
-        return 1;
+        exit (1);
 }
