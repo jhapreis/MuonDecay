@@ -113,7 +113,7 @@ para exibir o status de conexão do dispositivo. O osciloscópio aparecerá como
 
 </br>
 
-![connection](images/connection.jpeg "Foto da janela do visaic.")
+![connection](documentos/images/connection.jpeg "Foto da janela do visaic.")
 
 </br>
 
@@ -122,7 +122,7 @@ Após isso, acesse o instrumento (clicando sobre ele) e vá até a opção de
 
 </br>
 
-![query idn](images/idn.jpeg "Resultados de uma query por IDN.")
+![query idn](documentos/images/idn.jpeg "Resultados de uma query por IDN.")
 
 </br>
 </br>
@@ -162,7 +162,7 @@ lsusb
 ``` 
 Ele exibirá as conexões USB do computador. O osciloscópio, caso esteja conectado, aparecerá com seu nome associado, como no exemplo abaixo (olhe em BUS 003 Device 002):
 
-![lsusb](images/lsusb.png "Listagem com o comando lsusb.")
+![lsusb](documentos/images/lsusb.png "Listagem com o comando lsusb.")
 
 </br>
 
