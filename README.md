@@ -3,7 +3,7 @@
 
 
 
-# MuonDecay
+# 1. MuonDecay
 Repository for Muon Decay experiments. It's going to use ROOT, mostly.
 </br>
 </br>
@@ -24,10 +24,10 @@ Aqui estão os códigos fontes e os dados até então adquiridos.
 
 
 
-# Preparação do ambiente de Muon Decay
+# 2. Preparação do ambiente de Muon Decay
 <br/>
 
-## 1. Instalação dos pré-requisitos
+## 2.1. Instalação dos pré-requisitos
 
 ### (a) Instalação do python3: 
 ```
@@ -74,7 +74,7 @@ Para instalar o GitHub Desktop no Ubuntu, veja o passo-a-passo [aqui](https://gi
 <br/>
 
 ---
-## 2) Utilizando o NI-VISA
+## 2.2. Utilizando o NI-VISA
 
 <br/>
 
