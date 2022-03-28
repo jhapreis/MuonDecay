@@ -2,6 +2,8 @@ import ROOT as root
 
 from array import array
 
+import pandas as pd
+
 import os
 
 
@@ -187,7 +189,20 @@ fit = root.TF1("fit", "gaus", hist_min, hist_max)
 
 hist.Fit("fit", "R")
 
-mean  = fit.GetParameter(1)
-sigma = fit.GetParameter(2)
+df = pd.DataFrame({
+    'constant': [fit.GetParameter(0)],
+    'mean'    : [fit.GetParameter(1)],
+    'sigma'   : [fit.GetParameter(2)]
+})
 
-print(f'\n\n3 sigmas de distancia: {mean - 3*sigma}, {mean + 3*sigma}\n')
+df.index = ['values']
+
+df.T.to_csv(folder+'/gausfit.csv')
+
+c1.SaveAs(folder+'/baseline.png')
+
+lower = df['mean'] - 3*df['sigma']
+
+upper = df['mean'] + 3*df['sigma']
+
+print(f"\n\n3 sigmas de distancia: {lower[0]} mV, {upper[0]} mV\n")
