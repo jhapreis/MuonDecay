@@ -1,9 +1,5 @@
 import ROOT as root
 
-import numpy as np
-
-import pandas as pd
-
 from array import array
 
 import os
