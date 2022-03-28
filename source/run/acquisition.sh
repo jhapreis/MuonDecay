@@ -66,7 +66,7 @@ cd ../run
 #----------------------------------------------------------------------------------------------------
 # Create folder and time variables
 
-CURRENT_DAY=$(date +%Y%m%d)
+CURRENT_DAY=$(date +"%Y%m%d")
 
 NOW_AS_DATE=$(date +"%Y%m%d_%H%M%S")
 
@@ -92,14 +92,14 @@ while true; do
     #   Feche o diretório atual
     #   Atualize os valores
     #   Tente SetScopeParameters
-    if [[ $"CURRENT_DAY" < $(date +%Y%m%d) ]]; then
+    if [[ $"CURRENT_DAY" < $(date +"%Y%m%d") ]]; then
 
         zip -r "../data/$NOW_AS_DATE.zip" $FOLDER
 
         rm -rf $FOLDER
 
 
-        CURRENT_DAY=$(date +%Y%m%d)
+        CURRENT_DAY=$(date +"%Y%m%d")
 
         NOW_AS_DATE=$(date +"%Y%m%d_%H%M%S")
 
