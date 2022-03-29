@@ -7,57 +7,12 @@ import pandas as pd
 import os
 
 
+from modules.convert_values import Convert_WaveformToMiliVolts
 
-#====================================================================================================
-def Convert_WaveformToMiliVolts(waveform_in_units, encoder, Scope_ChannelPosition, Scope_ChannelScale, Scope_NumberOfDisplayDivisions=10):
-    
-    """
-    Converts Waveform in units to mV
-    
-        V(v) = Delta_V / Delta_v * (v - v_min) + V_min
+from modules.read_output_file import Get_AcquisitionParameters
 
-    ----------
-    Returns:
-        array: waveform in mV
-    """
-    
-    Position_min = (-1)*Scope_NumberOfDisplayDivisions / 2
-    
-    Position_max =      Scope_NumberOfDisplayDivisions / 2
-    
-    
-    
-    if(   encoder.upper() == "RPBINARY" ):
-        units_min =    0
-        units_max =  255    
-        
-    elif( encoder.upper() == "ASCII"    ):
-        units_min = -127
-        units_max =  128
-        
-    else:
-        print(f"Erro no encoder: {encoder}\n\n")
-        
-        exit(1)
-    
-    ratio = (Position_max - Position_min) / (units_max - units_min)
-    
-        
-    Waveform_mV = array('f', [0]*len(waveform_in_units))
-    
-    for i in range(len(waveform_in_units)):
 
-        y_pos = ratio*(waveform_in_units[i] - units_min) + Position_min
 
-        y_pos -= Scope_ChannelPosition                     # relative to Scope_ChannelPosition value
-
-        Waveform_mV[i] = 1000 * Scope_ChannelScale * y_pos # converts from position to mV, using y-scale value (in volts)
-    
-    
-    
-    return Waveform_mV
-    
-    
 
 
 """
@@ -80,29 +35,7 @@ units_max      = 250
 
 
 
-
-"""
-Read output.txt
-"""
-#----------------------------------------------------------------------------------------------------
-with open(folder+'/'+output_file, 'r') as f:
-    
-    lines = f.read()
-    
-    encoder                  = lines.split(   "DATA:ENCDG?,"   )[1].split("\n")[0]
-    
-    trigger_main_level       = float( lines.split(   "TRIGGER:MAIN:LEVEL?,"   )[1].split("\n")[0] )
-    
-    horizontal_main_scale    = float( lines.split(  "HORIZONTAL:MAIN:SCALE?," )[1].split("\n")[0] )
-    
-    horizontal_main_position = float( lines.split("HORIZONTAL:MAIN:POSITION?,")[1].split("\n")[0] )
-    
-    channel_scale            = float( lines.split(       "CH1:SCALE?,"        )[1].split("\n")[0] )
-    
-    channel_position         = float( lines.split(      "CH1:POSITION?,"      )[1].split("\n")[0] )
-    
-    channel_probe            = float( lines.split(       "CH1:PROBE?,"        )[1].split("\n")[0] )
-
+df_output = Get_AcquisitionParameters(folder+'/'+output_file)
 
 
 
@@ -143,9 +76,9 @@ Create histogram
 #----------------------------------------------------------------------------------------------------
 hist_min, hist_max = Convert_WaveformToMiliVolts(
     array('i', [units_min, units_max]),
-    encoder,
-    channel_position,
-    channel_scale
+    df_output['encoder'][0]           ,
+    df_output['channel_position'][0]  ,
+    df_output['channel_scale'][0]
  )
 
 hist = root.TH1F("hist", "Waveforms values", number_of_bins, hist_min, hist_max)
@@ -161,10 +94,10 @@ for i in range(entries):
     chain.GetEntry(i)
 
     waveform_in_mv = Convert_WaveformToMiliVolts(
-        waveform_in_units,
-        encoder,
-        channel_position,
-        channel_scale
+        waveform_in_units               ,
+        df_output['encoder'][0]         ,
+        df_output['channel_position'][0],
+        df_output['channel_scale'][0]
         )
 
     for j in range(2500):
