@@ -19,9 +19,8 @@
 #define Acquisition_PulseWidth 30             // Value supposed to be the pulse width
 #define Acquisition_WaveformInitializer -1    // 
 
-#define Acquisition_NecessarySamples 10       // Minimal number of samples needed to retrieve
-#define Acquisition_NumberOfSamplesBuffer 100 // Number of random samples to collect
-#define Acquisition_MinPeaks 1                // 
+#define Acquisition_NecessarySamples 1000     // Minimal number of samples needed to retrieve
+#define Acquisition_MinPeaks 2                // 
 
 
 
