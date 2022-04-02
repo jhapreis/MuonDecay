@@ -1,8 +1,9 @@
-CPP  	   = g++ 
-CPPFLAGS   = -g3 -Wall
-LIBS 	   = -L. -lvisa
-CLEARFLAGS = *.o
-ROOTFLAGS  = `root-config --cflags --libs`
+CPP  	    = g++ 
+CPPFLAGS    = -g3 -Wall
+LIBS 	    = -L. -lvisa
+CLEARFLAGS  = *.o
+ROOTFLAGS   = `root-config --cflags --libs`
+DESTINATION = exec/
 
 all: acquisition.o
 
@@ -11,12 +12,17 @@ readWfm.o: acq/readwvf.cpp
 
 acquisition.o: acq/scopeParameters.cpp acq/readwvf.cpp acq/convertValues.cpp acq/searchPeaks.cpp acq/graphwvf.cpp Acquisition.cpp
 	$(CPP) $(CPPFLAGS) -o $@ $^ $(LIBS) $(ROOTFLAGS)
+	mv $@ $(DESTINATION)
 
 setparameters.o: acq/scopeParameters.cpp acq/readwvf.cpp acq/convertValues.cpp acq/searchPeaks.cpp acq/graphwvf.cpp SetScopeParameters.cpp
 	$(CPP) $(CPPFLAGS) -o $@ $^ $(LIBS) $(ROOTFLAGS)
+	mv $@ $(DESTINATION)
 
 interactive.o: acq/scopeParameters.cpp acq/readwvf.cpp acq/convertValues.cpp acq/searchPeaks.cpp interactive.cpp
 	$(CPP) $(CPPFLAGS) -o $@ $^ $(LIBS) $(ROOTFLAGS)
+	mv $@ $(DESTINATION)
 
 clear:
+	cd $(DESTINATION)
 	rm $(CLEARFLAGS)
+	cd ../

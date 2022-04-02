@@ -63,7 +63,7 @@ int SearchPeaksNumber(int* waveformAsInt, int waveformSize, double height, int e
  * @param numberADChannels
  * @return int 
  */
-int GraphWaveforms(char* path_to_root_file, int numberSamples, int numberADChannels);
+int GraphWaveforms(char* folder_path, char* path_to_root_file, int numberSamples, int numberADChannels);
 
 
 
