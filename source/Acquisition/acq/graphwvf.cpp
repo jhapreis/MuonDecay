@@ -20,28 +20,26 @@
 
 //====================================================================================================
 
-int GraphWaveforms(char* path_to_root_file, int numberSamples, int numberADChannels){
+int GraphWaveforms(char* folder_path, char* path_to_root_file, int numberSamples, int numberADChannels){
 
     /**
      * @brief Open ROOT file
-     * 
      */
-    TFile* input  = new TFile(path_to_root_file, "UPDATE");
+    TFile* file  = new TFile(path_to_root_file, "UPDATE");
 
 
 
     /**
      * @brief Read Waveforms from the correspondent TTree and create Canvas
-     * 
      */
     int waveformAsInt[numberADChannels];
     memset(waveformAsInt, -1, sizeof(waveformAsInt));
 
-    TTree* tree_waveforms     = (TTree*) input->Get("tree_waveforms"); // TTree with waveforms
+    TTree* tree_waveforms     = (TTree*) file->Get("tree_waveforms"); // TTree with waveforms
     TBranch* branch_waveforms = tree_waveforms->GetBranch("waveforms");
     branch_waveforms->SetAddress(waveformAsInt);
 
-    TCanvas* c = new TCanvas(); // Canvas
+    TCanvas* c1 = new TCanvas(); // Canvas
 
 
 
@@ -80,8 +78,8 @@ int GraphWaveforms(char* path_to_root_file, int numberSamples, int numberADChann
 
     printf("%d events graphed\n", numberSamples);
 
-    input->WriteObject(c, "waveforms");
-    input->Close();
+    // c1->SaveAs(folder_path);
+    file->Close();
 
     return 0;
 }

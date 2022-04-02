@@ -1,13 +1,18 @@
+#!/bin/bash
+
 #====================================================================================================
 # Recompile the .o files
 printf "\n\n===== Recompiling... =====\n\n"
-cd ../Acquisition
-make clear
-make acquisition.o
-make setparameters.o
-cp acquisition.o ../run/exec
-cp setparameters.o ../run/exec
 
+make clear
+
+if ! make acquisition.o; then
+    exit 1
+fi
+
+if ! make setparameters.o; then
+    exit 1
+fi
 
 
 
@@ -25,8 +30,6 @@ SetScopeParameters_MultipleTries () {
 
     numberOfTries=0
 
-    status=0
-
 
     while true; do
 
@@ -34,18 +37,14 @@ SetScopeParameters_MultipleTries () {
         
         ((numberOfTries++))
 
-        exec/setparameters.o $1
-
-        if [ $? -eq 0 ]; then
-
-            status=0
+        if ! exec/setparameters.o "$1"; then
 
             break
         fi
 
         if [[ $numberOfTries -gt 3 ]]; then
 
-            printf "\n\n\nProblema no Set dos Parâmetros do Osciloscópio. Foram feitas $numberOfTries tentativas\n\n\n"
+            printf "\n\n\nProblema no Set dos Parâmetros do Osciloscópio. Foram feitas %s tentativas\n\n\n" "$numberOfTries" 
 
             exit 1
         fi
@@ -55,87 +54,44 @@ SetScopeParameters_MultipleTries () {
 
 
 
-
 #====================================================================================================
-# Run acquisition
+# Run acquisition:
+#   - Execute múltiplas tentativas de SetScopeParameters
+#   - Inicie a aquisição com o script em cpp
+#   - Caso dê algum erro, feche o folder e recomece
+#   - Caso o erro persista, encerre e avise com um email
 printf "\n\n===== Running acquisition... =====\n\n"
-cd ../run
-
-
-
-#----------------------------------------------------------------------------------------------------
-# Create folder and time variables
-
-CURRENT_DAY=$(date +"%Y%m%d")
 
 NOW_AS_DATE=$(date +"%Y%m%d_%H%M%S")
 
 FOLDER=../data/$NOW_AS_DATE
 
-mkdir $FOLDER
+mkdir "$FOLDER"
 
 numberOfTries=0
 
 
+#----------------------------------------------------------------------------------------------------
+# Try to SetScopeParameters
+SetScopeParameters_MultipleTries "$FOLDER"
+
 
 #----------------------------------------------------------------------------------------------------
-SetScopeParameters_MultipleTries $FOLDER
-
-
-
-#----------------------------------------------------------------------------------------------------
-# Run an infinite acquisition
+# Run an infinite acquisition; the loop only breaks in case of failure
 while true; do
-
-
-    # Se o dia virou:
-    #   Feche o diretório atual
-    #   Atualize os valores
-    #   Tente SetScopeParameters
-    if [[ $"CURRENT_DAY" < $(date +"%Y%m%d") ]]; then
-
-        zip -r "../data/$NOW_AS_DATE.zip" $FOLDER
-
-        rm -rf $FOLDER
-
-
-        CURRENT_DAY=$(date +"%Y%m%d")
-
-        NOW_AS_DATE=$(date +"%Y%m%d_%H%M%S")
-
-        FOLDER=../data/$NOW_AS_DATE
-
-        mkdir $FOLDER
-
-
-        sleep 2
-
-
-        SetScopeParameters_MultipleTries $FOLDER
-    fi
-
-
 
     # Wait for a few seconds
     sleep 5
+   
 
-
-
-    # Execute o script da aquisição
-
-    exec/acquisition.o $FOLDER |& tee ../data/output/output.txt
-
-    if [ $? -ne 0 ]; then
+    # Execute o script da aquisição e verifique por erros na aquisição
+    if ! exec/acquisition.o "$FOLDER" |& tee ../data/output/output.txt; then
 
         ((numberOfTries++))
 
         if [[ $numberOfTries -gt 3 ]]; then
 
-            printf "\n\n\nACQUISITION FAILED!!! Number of retries: $numberOfTries times.\n\n\n"
-
-            zip -r "../data/$NOW_AS_DATE.zip" $FOLDER
-
-            rm -rf $FOLDER
+            printf "\n\n\nACQUISITION FAILED!!! Number of retries: %s times.\n\n\n" "$numberOfTries"
 
             break
         fi
@@ -143,17 +99,11 @@ while true; do
     else
 
         numberOfTries=0
-        
     fi
-
-
 
 done
 
-printf "\n\n\nFinishing acquisition.\n\n"
-
-
 
 # SEND EMAIL
-cd ../email/
+cd ../email/ || exit 1
 python3 SendEmail.py

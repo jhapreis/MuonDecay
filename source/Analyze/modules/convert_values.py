@@ -4,16 +4,23 @@ from array import array
 
 #====================================================================================================
 def Convert_WaveformToMiliVolts(waveform_in_units, encoder, Scope_ChannelPosition, Scope_ChannelScale, Scope_NumberOfDisplayDivisions=10):
-    
     """
     Converts Waveform in units to mV
     
         V(v) = Delta_V / Delta_v * (v - v_min) + V_min
 
-    ----------
+    Args:
+        waveform_in_units (_type_): _description_
+        encoder (_type_): _description_
+        Scope_ChannelPosition (_type_): _description_
+        Scope_ChannelScale (_type_): _description_
+        Scope_NumberOfDisplayDivisions (int, optional): _description_. Defaults to 10.
+
     Returns:
         array: waveform in mV
     """
+    
+    
     
     Position_min = (-1)*Scope_NumberOfDisplayDivisions / 2
     
