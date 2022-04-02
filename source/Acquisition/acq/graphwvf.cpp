@@ -78,7 +78,7 @@ int GraphWaveforms(char* folder_path, char* path_to_root_file, int numberSamples
 
     printf("%d events graphed\n", numberSamples);
 
-    file->SaveAs(folder_path);
+    // c1->SaveAs(folder_path);
     file->Close();
 
     return 0;
