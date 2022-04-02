@@ -11,6 +11,8 @@ from modules.convert_values import Convert_WaveformToMiliVolts
 
 from modules.read_output_file import Get_AcquisitionParameters
 
+from modules.delete_files import delete_root_files_in_folder
+
 
 
 
@@ -22,12 +24,14 @@ folder      = '../data/results/baseline/20220326_191818'
 
 output_file = 'output.txt'
 
-root_files  = [i for i in os.listdir(folder) if i.endswith(".root")]
-
 tree_name   = 'tree_waveforms'
 
+delete_root_files_in_folder(folder, tree_name)
 
-number_of_bins = 50
+root_files  = [i for i in os.listdir(folder) if i.endswith(".root")]
+
+
+number_of_bins = 100
 
 units_min      = 230
 
@@ -39,7 +43,6 @@ df_output = Get_AcquisitionParameters(folder+'/'+output_file)
 
 
 
-
 """
 Add ROOT files to TChain
 
@@ -48,12 +51,15 @@ Add ROOT files to TChain
 #----------------------------------------------------------------------------------------------------
 chain = root.TChain(tree_name)
 
-for i in range( len(root_files) ): #len(root_files)
+print('\nAdding files')
+
+for i in range( min(10,len(root_files))  ): #
     
     file = folder+'/'+root_files[i]
-        
-    chain.Add(file)
+    
+    chain.Add(file)  
 
+print('...   done')
 
 
 

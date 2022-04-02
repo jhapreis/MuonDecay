@@ -4,6 +4,7 @@ import numpy as np
 
 
 
+#====================================================================================================
 def FindPeaks_Waveform(waveform, height, max_pulse_width, expected_number_of_peaks):
     
     
@@ -15,9 +16,10 @@ def FindPeaks_Waveform(waveform, height, max_pulse_width, expected_number_of_pea
     
     x_coordinate_peaks = []
     
+    index = 0
     
-    for index in range( len(waveform) ):
-        
+    while index < len(waveform):
+                
         if( waveform[index] <= height ): # if triggered
             
             x_peak = index
@@ -36,21 +38,20 @@ def FindPeaks_Waveform(waveform, height, max_pulse_width, expected_number_of_pea
             index += max_pulse_width
             
             number_peaks += 1
+
+        index += 1
             
     
-    if number_peaks != expected_number_of_peaks: return None
+    if number_peaks != expected_number_of_peaks:
+        
+        return None
     
     
     return x_coordinate_peaks
                 
-                
-                    
-                    
-                
-                
 
 
-
+#====================================================================================================
 def Integral_Waveform(waveform):
     
     pass
