@@ -34,10 +34,8 @@ SetScopeParameters_MultipleTries () {
     while true; do
 
         sleep 2
-        
-        ((numberOfTries++))
 
-        if ! exec/setparameters.o "$1"; then
+        if exec/setparameters.o "$1"; then
 
             break
         fi
@@ -48,6 +46,8 @@ SetScopeParameters_MultipleTries () {
 
             exit 1
         fi
+        
+        ((numberOfTries++))
     done
 }
 
@@ -107,3 +107,5 @@ done
 # SEND EMAIL
 cd ../email/ || exit 1
 python3 SendEmail.py
+
+exit
