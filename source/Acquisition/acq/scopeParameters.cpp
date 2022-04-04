@@ -151,7 +151,6 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, cha
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
     str = std::string(buffer);
 
-    printf("DATA:SOURCE? %s \n", buffer);
     outputFile << cmd << "," << str << "\n";
     memset(buffer, 0, sizeof(buffer));
     memset(cmd   , 0, sizeof(cmd));
@@ -163,7 +162,6 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, cha
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
     str = std::string(buffer);
 
-    printf("DATA:ENCDG? %s\n", buffer);
     outputFile << cmd << "," << str << "\n";
     memset(buffer, 0, sizeof(buffer));
     memset(cmd   , 0, sizeof(cmd));
@@ -175,7 +173,6 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, cha
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
     str = std::string(buffer);
 
-    printf("DATA:WIDTH? %s\n", buffer);
     outputFile << cmd << "," << str << "\n";
     memset(buffer, 0, sizeof(buffer));
     
@@ -186,7 +183,6 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, cha
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
     str = std::string(buffer);
 
-    printf("TRIGGER:MAIN:LEVEL? %s\n", buffer);
     outputFile << cmd << "," << str << "\n";
     memset(buffer, 0, sizeof(buffer));
     memset(cmd   , 0, sizeof(cmd));
@@ -198,7 +194,6 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, cha
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
     str = std::string(buffer);
 
-    printf("TRIGGER:MAIN:EDGE:SLOPE? %s\n", buffer);
     outputFile << cmd << "," << str << "\n";
     memset(buffer, 0, sizeof(buffer));
     memset(cmd   , 0, sizeof(cmd));
@@ -210,7 +205,6 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, cha
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
     str = std::string(buffer);
 
-    printf("HORIZONTAL:MAIN:SCALE? %s\n", buffer);
     outputFile << cmd << "," << str << "\n";
     memset(buffer, 0, sizeof(buffer));
     memset(cmd   , 0, sizeof(cmd));
@@ -222,7 +216,6 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, cha
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
     str = std::string(buffer);
 
-    printf("HORIZONTAL:MAIN:POSITION? %s\n", buffer);
     outputFile << cmd << "," << str << "\n";
     memset(buffer, 0, sizeof(buffer));
     memset(cmd   , 0, sizeof(cmd));
@@ -234,7 +227,6 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, cha
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
     str = std::string(buffer);
 
-    printf("DISPLAY:PERSISTENCE? %s\n", buffer);
     outputFile << cmd << "," << str << "\n";
     memset(buffer, 0, sizeof(buffer));
     memset(cmd   , 0, sizeof(cmd));
@@ -246,7 +238,6 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, cha
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
     str = std::string(buffer);
 
-    printf("%s:SCALE? %s\n", Scope_ChannelName, buffer);
     outputFile << cmd << "," << str << "\n";
     memset(buffer, 0, sizeof(buffer));
     memset(cmd   , 0, sizeof(cmd));
@@ -258,7 +249,6 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, cha
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
     str = std::string(buffer);
 
-    printf("%s:POSITION? %s\n", Scope_ChannelName, buffer);
     outputFile << cmd << "," << str << "\n";
     memset(buffer, 0, sizeof(buffer));
     memset(cmd   , 0, sizeof(cmd));
@@ -270,7 +260,6 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, cha
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
     str = std::string(buffer);
 
-    printf("%s:PROBE? %s\n", Scope_ChannelName, buffer);
     outputFile << cmd << "," << str << "\n";
     memset(buffer, 0, sizeof(buffer));
     memset(cmd   , 0, sizeof(cmd));
@@ -282,7 +271,7 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, cha
     status = viRead( scope, (ViBuf) buffer, sizeof(buffer), &retCount);
     str = std::string(buffer);
 
-    printf("WFMPRE?\n   %s\n", buffer);
+    printf("\nWFMPRE? %s\n", buffer);
     outputFile << cmd << "," << str << "\n";
     memset(buffer, 0, sizeof(buffer));   
     memset(cmd   , 0, sizeof(cmd)); 
