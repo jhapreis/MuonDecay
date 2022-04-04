@@ -21,7 +21,7 @@
 #define Acquisition_RunTimeMaximum 6*3600     // Max time of the file, in seconds
 
 #define Acquisition_NecessarySamples 1000     // Minimal number of samples needed to retrieve
-#define Acquisition_MinPeaks 2                // 
+#define Acquisition_MinPeaks 1                // 
 
 
 
