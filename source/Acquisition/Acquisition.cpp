@@ -82,7 +82,7 @@ int main(int argc, char **argv){
     //----------------------------------------------------------------------------------------------------
     triggerUnits = Convert_VoltsToUnits(Scope_ChannelTrigger); 
     
-    printf("\n   Trigger in units = %f", triggerUnits);
+    printf("\n   Trigger in units = %f\n", triggerUnits);
 
 
 
@@ -137,9 +137,20 @@ int main(int argc, char **argv){
 
     nowTime   = (int) std::time(nullptr);
 
+
+    // Create ROOT file and set the TTree to store the required waveforms.
+    //----------------------------------------------------------------------------------------------------
+    sprintf(root_FileName, "%s/%d.root", argv[1], startTime);
+
+    root_file      = new TFile(root_FileName   , "CREATE");
+    tree_waveforms = new TTree("tree_waveforms", "waveforms");
+    tree_waveforms->Branch("names"    , &event_name  , "name/I");
+    tree_waveforms->Branch("waveforms", WaveformAsInt, "waveforms[2500]/I");
+
+
     while(1){
 
-        // If the time difference is greater than the maximum for a file, close the file and renew the cicle
+        // If the time difference is greater than the maximum for a file, close the file and reset the cicle
         //----------------------------------------------------------------------------------------------------
         if(nowTime - startTime >= Acquisition_RunTimeMaximum){
 
@@ -153,20 +164,21 @@ int main(int argc, char **argv){
                 root_file->Close();
             }
 
+
+            printf("\n      Creating new file...\n");
+            
             startTime = (int) std::time(nullptr);
+
+            sprintf(root_FileName, "%s/%d.root", argv[1], startTime);
+
+            root_file      = new TFile(root_FileName   , "CREATE");
+            tree_waveforms = new TTree("tree_waveforms", "waveforms");
+            tree_waveforms->Branch("names"    , &event_name  , "name/I");
+            tree_waveforms->Branch("waveforms", WaveformAsInt, "waveforms[2500]/I");
+
 
             continue;
         }
-
-
-        // Create ROOT file and set the TTree to store the required waveforms.
-        //----------------------------------------------------------------------------------------------------
-        sprintf(root_FileName, "%s/%ld.root", argv[1], std::time(nullptr));
-
-        root_file      = new TFile(root_FileName   , "CREATE");
-        tree_waveforms = new TTree("tree_waveforms", "waveforms");
-        tree_waveforms->Branch("names"    , &event_name  , "name/I");
-        tree_waveforms->Branch("waveforms", WaveformAsInt, "waveforms[2500]/I");
 
 
         // Resets buffer
