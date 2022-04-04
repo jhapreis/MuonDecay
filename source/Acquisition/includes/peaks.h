@@ -54,17 +54,4 @@ int SearchPeaksNumber(int* waveformAsInt, int waveformSize, double height, int e
 
 
 
-//====================================================================================================
-/**
- * @brief 
- * 
- * @param path_to_root_file 
- * @param numberSamples 
- * @param numberADChannels
- * @return int 
- */
-int GraphWaveforms(char* folder_path, char* path_to_root_file, int numberSamples, int numberADChannels);
-
-
-
 #endif
