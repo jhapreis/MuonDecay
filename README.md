@@ -10,18 +10,10 @@ Repository for Muon Decay experiments. It's going to use ROOT, mostly.
 </br>
 </br>
 
-
-### MuonDecay > documentos
-
-Esse diretório contém instruções de instalação do NIVisa e preparação do ambiente.
+Algumas referências teóricas, assim como os manuais dos equipamentos, podem ser encontrada no [link](https://drive.google.com/drive/folders/1ZD9ooMXcqZNCq5oubR8JHtlihosKgusI?usp=sharing) do Drive:
 
 
-### MuonDecay > source
 
-Aqui estão os códigos fontes e os dados até então adquiridos.
-<br/>
-<br/>
-<br/>
 <br/>
 <br/>
 <br/>
