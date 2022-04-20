@@ -127,7 +127,7 @@ Após isso, acesse o instrumento (clicando sobre ele) e vá até a opção de
 
 </br>
 
-![query idn](documentos/images/idn.jpeg "Resultados de uma query por IDN.")
+![query idn](https://drive.google.com/uc?export=view&id=1vx1b0DTE6wM8JvjuPMclagJdYmbV4ssw "Resultados de uma query por IDN.")
 
 </br>
 </br>
@@ -167,7 +167,7 @@ lsusb
 ``` 
 Ele exibirá as conexões USB do computador. O osciloscópio, caso esteja conectado, aparecerá com seu nome associado, como no exemplo abaixo (olhe em BUS 003 Device 002):
 
-![lsusb](documentos/images/lsusb.png "Listagem com o comando lsusb.")
+![lsusb](https://drive.google.com/uc?export=view&id=1NYG9MuXiSgwetoYpD6KYc6LLSTJVCAVM "Listagem com o comando lsusb.")
 
 </br>
 
