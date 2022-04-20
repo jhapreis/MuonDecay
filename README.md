@@ -118,7 +118,7 @@ para exibir o status de conexão do dispositivo. O osciloscópio aparecerá como
 
 </br>
 
-![connection](documentos/images/connection.jpeg "Foto da janela do visaic.")
+![connection](https://drive.google.com/uc?export=view&id=1SdwKCVkv5xPZRyHSLVZwMXNO4ZZGQg_b "Foto da janela do visaic.")
 
 </br>
 
