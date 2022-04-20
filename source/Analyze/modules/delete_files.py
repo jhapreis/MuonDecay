@@ -5,7 +5,7 @@ from ROOT import TFile
 
 
 #====================================================================================================
-def delete_root_files_in_folder(folder, tree_name):
+def delete_root_files_in_folder(folder, tree_name='tree_waveforms'):
     """
     Given path to folder, remove the empty root files.
 

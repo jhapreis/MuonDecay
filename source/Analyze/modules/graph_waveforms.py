@@ -2,12 +2,10 @@ import os
 
 import ROOT as root
 
-import pandas as pd
+import matplotlib.pyplot as plt
 
 from array import array
 
-
-from modules.delete_files import delete_root_files_in_folder
 
 from modules.read_output_file import Get_AcquisitionParameters
 
@@ -15,11 +13,7 @@ from modules.read_output_file import Get_AcquisitionParameters
 
 #====================================================================================================
 def GraphWaveforms_Folder(folder_path, numberADChannels=2500, tree_name="tree_waveforms", branch_name="waveforms", output_file="output.txt"):
-    
-    
-    #----------------------------------------------------------------------------------------------------
-    delete_root_files_in_folder(folder_path, tree_name)
-    
+        
 
     #----------------------------------------------------------------------------------------------------
     root_files = [i for i in os.listdir(folder_path) if i.endswith(".root")]
@@ -51,33 +45,20 @@ def GraphWaveforms_Folder(folder_path, numberADChannels=2500, tree_name="tree_wa
     # Draw waveforms
     #----------------------------------------------------------------------------------------------------
     
-    c1 = root.TCanvas()
-    graph = root.TGraph()
-    graph.SetTitle(f"{entries} Waveforms; time (units); value")
-    # graph.SetLineWidth(2)
-    # graph.SetLineColor("black")
+    fig, ax = plt.subplots()
     
+    ax.set_title(f'{entries} waveforms')
+    ax.set_xlabel(f'time (units)')
+    ax.set_ylabel(f'value')
     
-    index = 0
-    
-    event = 0
-    
-    while event < entries:
+    for i in range(entries):
         
-        chain.GetEntry(event)
-    
-        for i in range(numberADChannels):
-            
-            graph.SetPoint(index, i, waveform_in_units[i])
-            
-            index += 1
-            
-        graph.Draw("AL")
+        chain.GetEntry(i)
         
-        event += 1
+        ax.plot(waveform_in_units, color='black')
     
     
-    c1.SaveAs(folder_path+'/waveforms.png')
+    fig.savefig(folder_path+'/waveforms.png')
     
     
     return 0

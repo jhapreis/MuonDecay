@@ -19,19 +19,20 @@ def FindPeaks_Waveform(waveform, height, max_pulse_width, expected_number_of_pea
     index = 0
     
     while index < len(waveform):
-                
+
         if( waveform[index] <= height ): # if triggered
             
             x_peak = index
             y_peak = waveform[index]
-                        
-            for j in range(index, max_pulse_width): # find max/min on region
-                
-                if(waveform[index] < y_peak):
+                                    
+            for j in range(index, min(index+max_pulse_width, len(waveform))): # find min on region
+                                
+                if(waveform[j] < y_peak):
                     
                     x_peak = j
                     
                     y_peak = waveform[j]
+                    
             
             x_coordinate_peaks.append(x_peak)
             
@@ -44,7 +45,7 @@ def FindPeaks_Waveform(waveform, height, max_pulse_width, expected_number_of_pea
     
     if number_peaks != expected_number_of_peaks:
         
-        return None
+        return [-1, number_peaks]
     
     
     return x_coordinate_peaks
