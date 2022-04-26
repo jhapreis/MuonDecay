@@ -1,3 +1,4 @@
+from turtle import right
 import pandas as pd
 
 import numpy as np
@@ -43,16 +44,34 @@ def FindPeaks_Waveform(waveform, height, max_pulse_width, expected_number_of_pea
         index += 1
             
     
-    if number_peaks != expected_number_of_peaks:
-        
-        return [-1, number_peaks]
-    
     
     return x_coordinate_peaks
                 
 
 
 #====================================================================================================
-def Integral_Waveform(waveform):
+def Integral_Waveform(waveform, x_peaks, delta_x, pulsewidth=30):
     
-    pass
+    Integrals = []
+
+    baseline = np.mean(waveform)
+
+
+    for i in range(len(x_peaks)):
+        
+        left_lim  = max( 0   , int(x_peaks[i] - pulsewidth/2) ) 
+
+        right_lim = min( 2500, int(x_peaks[i] + pulsewidth/2) )
+
+        waveform_pulse = np.array(waveform[left_lim:right_lim]) - baseline
+        
+
+        integral = sum(waveform_pulse) * delta_x
+
+
+        Integrals.append(integral)
+
+
+    return np.array(Integrals)
+
+

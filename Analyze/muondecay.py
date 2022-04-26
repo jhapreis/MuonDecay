@@ -92,6 +92,10 @@ y_peaks_0        = []
 
 y_peaks_1        = []
 
+integrals_0      = []
+
+integrals_1      = []
+
 for i in range(entries):
     
     chain.GetEntry(i)
@@ -104,11 +108,13 @@ for i in range(entries):
         2
         )
     
-    if x_peaks[0] == -1:
+    if len(x_peaks) != 2:
         
-        errors.append([i, x_peaks[1]])
+        errors.append([i, len(x_peaks)])
         
         continue
+
+    
             
     time_diff = Convert_TimeToMicroSec(
         x_peaks[1] - x_peaks[0],
@@ -127,7 +133,11 @@ for i in range(entries):
         )
     
     
-    # integrals = Integral_Waveform(waveform_in_units)
+    integrals = Integral_Waveform(waveform_in_units, x_peaks=x_peaks, delta_x=1)
+
+    integrals_0.append( integrals[0] )
+
+    integrals_1.append( integrals[1] )
 
 print(f'   Error on FindPeaks: {len(errors)}\n')
 
@@ -142,9 +152,9 @@ hist_y_peaks_0       = root.TH1F("hist_y_peaks_0" , "y_peaks_0"      , number_of
 
 hist_y_peaks_1       = root.TH1F("hist_y_peaks_1" , "y_peaks_1"      , number_of_bins, min(y_peaks_1)       , max(y_peaks_1)  )
 
-# hist_integral_0      = root.TH1F("hist_integral_0", "integral_0"     , number_of_bins, min(time_differences), max(time_differences) )
+hist_integral_0      = root.TH1F("hist_integral_0", "integral_0"     , number_of_bins, min(time_differences), max(time_differences) )
 
-# hist_integral_1      = root.TH1F("hist_integral_1", "integral_1"     , number_of_bins, min(time_differences), max(time_differences) )
+hist_integral_1      = root.TH1F("hist_integral_1", "integral_1"     , number_of_bins, min(time_differences), max(time_differences) )
 
 
 for i in range(len(time_differences)):
@@ -155,9 +165,9 @@ for i in range(len(time_differences)):
     
     hist_y_peaks_1.Fill(y_peaks_1[i])
     
-    # hist_integral_0.Fill(integrals[0])
+    hist_integral_0.Fill(integrals_0[i])
     
-    # hist_integral_1.Fill(integrals[1])
+    hist_integral_1.Fill(integrals_1[i])
 
 
 
@@ -209,3 +219,19 @@ hist_y_peaks_1.GetXaxis().SetTitle("Value (mV)")
 hist_y_peaks_1.GetYaxis().SetTitle("counts")
 hist_y_peaks_1.Draw()
 c3.SaveAs(folder+'/peaks_1.png')
+
+
+c4 = root.TCanvas("c4")
+c4.cd()
+hist_integral_0.GetXaxis().SetTitle("Integral")
+hist_integral_0.GetYaxis().SetTitle("counts")
+hist_integral_0.Draw()
+c4.SaveAs(folder+'/integral_0.png')
+
+
+c5 = root.TCanvas("c5")
+c5.cd()
+hist_integral_1.GetXaxis().SetTitle("Integral")
+hist_integral_1.GetYaxis().SetTitle("counts")
+hist_integral_1.Draw()
+c5.SaveAs(folder+'/integral_1.png')
