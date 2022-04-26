@@ -10,18 +10,10 @@ Repository for Muon Decay experiments. It's going to use ROOT, mostly.
 </br>
 </br>
 
-
-### MuonDecay > documentos
-
-Esse diretório contém instruções de instalação do NIVisa e preparação do ambiente.
+Algumas referências teóricas, assim como os manuais dos equipamentos, podem ser encontrada no [link](https://drive.google.com/drive/folders/1ZD9ooMXcqZNCq5oubR8JHtlihosKgusI?usp=sharing) do Drive:
 
 
-### MuonDecay > source
 
-Aqui estão os códigos fontes e os dados até então adquiridos.
-<br/>
-<br/>
-<br/>
 <br/>
 <br/>
 <br/>
@@ -118,7 +110,8 @@ para exibir o status de conexão do dispositivo. O osciloscópio aparecerá como
 
 </br>
 
-![connection](documentos/images/connection.jpeg "Foto da janela do visaic.")
+![connection](https://user-images.githubusercontent.com/63481188/164304634-08b4dce2-81ee-4c6d-b6e8-db8ed2e59755.jpeg "Foto da janela do visaic.")
+
 
 </br>
 
@@ -127,7 +120,8 @@ Após isso, acesse o instrumento (clicando sobre ele) e vá até a opção de
 
 </br>
 
-![query idn](documentos/images/idn.jpeg "Resultados de uma query por IDN.")
+![idn](https://user-images.githubusercontent.com/63481188/164304705-c5883241-9968-413c-aa93-81182879f5f7.jpeg "Resultados de uma query por IDN.")
+
 
 </br>
 </br>
@@ -167,10 +161,9 @@ lsusb
 ``` 
 Ele exibirá as conexões USB do computador. O osciloscópio, caso esteja conectado, aparecerá com seu nome associado, como no exemplo abaixo (olhe em BUS 003 Device 002):
 
-![lsusb](documentos/images/lsusb.png "Listagem com o comando lsusb.")
+![lsusb](https://user-images.githubusercontent.com/63481188/164304752-91e04fca-8ff7-435a-96c8-f4ae64e84fd0.png "Listagem com o comando lsusb.")
 
 </br>
-
 
 
 --- 

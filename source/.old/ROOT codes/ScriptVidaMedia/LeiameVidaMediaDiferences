@@ -1,4 +1,0 @@
-Descrição: O scrip lê o arquivo 5500_diferences.csv, faz um histograma e o fit para determinar a vida média do múon
-1. abra o ROOT num terminal
-2. rode o script.C
-  

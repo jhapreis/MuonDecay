@@ -1,7 +1,0 @@
-_secure
-*.o
-acquisition/.vs
-acquisition/.vscode
-email/cfg_email.py
-.vscode
-gitkey.txt
