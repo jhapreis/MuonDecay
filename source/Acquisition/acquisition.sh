@@ -2,13 +2,18 @@
 
 #====================================================================================================
 # Recompile the .o files
-printf "\n\n===== Recompiling... =====\n\n"
+printf "__________________________________________________\n"
+printf "__________RECOMPILING FILES_______________________\n\n"
 
 make clear
+
+printf "\n\n"
 
 if ! make acquisition.o; then
     exit 1
 fi
+
+printf "\n\n"
 
 if ! make setparameters.o; then
     exit 1
@@ -60,7 +65,8 @@ SetScopeParameters_MultipleTries () {
 #   - Inicie a aquisição com o script em cpp
 #   - Caso dê algum erro, feche o folder e recomece
 #   - Caso o erro persista, encerre e avise com um email
-printf "\n\n===== Running acquisition... =====\n\n"
+printf "\n\n__________________________________________________\n"
+printf "__________RUNNING ACQUISITION_____________________\n\n"
 
 NOW_AS_DATE=$(date +"%Y%m%d_%H%M%S")
 
@@ -73,6 +79,10 @@ numberOfTries=0
 
 #----------------------------------------------------------------------------------------------------
 # Try to SetScopeParameters
+
+printf "__________________________________________________\n"
+printf "Setting scope parameters\n\n"
+
 SetScopeParameters_MultipleTries "$FOLDER"
 
 
@@ -82,10 +92,15 @@ while true; do
 
     # Wait for a few seconds
     sleep 5
+
+    printf "__________________________________________________\n"
+    printf "Starting acquisition...\n\n"
    
 
     # Execute o script da aquisição e verifique por erros na aquisição
     if ! exec/acquisition.o "$FOLDER" |& tee ../data/output/output.txt; then
+
+        printf "      ...error...\n\n"
 
         ((numberOfTries++))
 

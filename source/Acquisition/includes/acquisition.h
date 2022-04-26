@@ -9,6 +9,7 @@
 #include <string.h>
 
 #include <TTree.h>
+#include <TStopwatch.h>
 
 #include <visa.h>
 

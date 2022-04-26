@@ -288,10 +288,6 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, cha
 
 
 
-    sprintf(cmd, "NECESSARY_SAMPLES");
-    sprintf(buffer, "%d", Acquisition_NecessarySamples);
-    str = std::string(buffer);
-
     outputFile << cmd << "," << str << "\n";
     memset(buffer, 0, sizeof(buffer));   
     memset(cmd   , 0, sizeof(cmd));

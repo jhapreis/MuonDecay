@@ -9,7 +9,8 @@
 #include <stdlib.h>
 #include <memory.h>
 #include <string.h>
-#include <ctime>
+#include <unistd.h>
+#include <signal.h>
 
 #include <visa.h>
 
@@ -25,6 +26,7 @@
 #include <TStopwatch.h>
 
 #include <iostream>
+#include <cstdlib>
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -82,7 +84,7 @@ int main(int argc, char **argv){
     //----------------------------------------------------------------------------------------------------
     triggerUnits = Convert_VoltsToUnits(Scope_ChannelTrigger); 
     
-    printf("\n   Trigger in units = %f\n", triggerUnits);
+    printf("\n      Trigger in units = %f\n", triggerUnits);
 
 
 
@@ -146,17 +148,19 @@ int main(int argc, char **argv){
     tree_waveforms = new TTree("tree_waveforms", "waveforms");
     tree_waveforms->Branch("names"    , &event_name  , "name/I");
     tree_waveforms->Branch("waveforms", WaveformAsInt, "waveforms[2500]/I");
-
+    
 
     while(1){
 
         // If the time difference is greater than the maximum for a file, close the file and reset the cicle
         //----------------------------------------------------------------------------------------------------
-        if(nowTime - startTime >= Acquisition_RunTimeMaximum){
+        if(nowTime - startTime > Acquisition_RunTimeMaximum){
 
-            printf("\n      Closing file...\n");
+            printf("\n      Closing file... Total of %d events.\n", numberGoodSamples);
 
+            timeElapsed.Stop();
             timeElapsed.Print();
+            timeElapsed.Continue();
             printf("\n\n");
 
             if(root_file){
@@ -169,6 +173,7 @@ int main(int argc, char **argv){
             
             startTime = (int) std::time(nullptr);
 
+            memset( root_FileName, 0, sizeof(root_FileName));
             sprintf(root_FileName, "%s/%d.root", argv[1], startTime);
 
             root_file      = new TFile(root_FileName   , "CREATE");
@@ -194,7 +199,10 @@ int main(int argc, char **argv){
             printf("error on query: status < VI_SUCCESS: \n");
             continue;
         }
+
         event_name = (int) std::time(nullptr);
+
+        nowTime    = (int) std::time(nullptr);
 
 
         // Unpacking curve into int array
@@ -226,8 +234,6 @@ int main(int argc, char **argv){
         tree_waveforms->Fill();
         
         numberGoodSamples++;
-
-        nowTime = (int) std::time(nullptr);
     }
 
     return 1;

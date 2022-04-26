@@ -18,10 +18,9 @@
 #define Acquisition_MinSeparation 10          // Value in units on the x-axis
 #define Acquisition_PulseWidth 30             // Value supposed to be the pulse width
 #define Acquisition_WaveformInitializer -1    // 
-#define Acquisition_RunTimeMaximum 6*3600     // Max time of the file, in seconds
+#define Acquisition_RunTimeMaximum 3600*6     // Max time of the file, in seconds
 
-#define Acquisition_NecessarySamples 1000     // Minimal number of samples needed to retrieve
-#define Acquisition_MinPeaks 1                // 
+#define Acquisition_MinPeaks 2                // 
 
 
 
