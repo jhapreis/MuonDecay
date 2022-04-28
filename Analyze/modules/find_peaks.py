@@ -1,4 +1,3 @@
-from turtle import right
 import pandas as pd
 
 import numpy as np
@@ -41,7 +40,9 @@ def FindPeaks_Waveform(waveform, height, max_pulse_width, expected_number_of_pea
             
             number_peaks += 1
 
-        index += 1
+        else:
+            
+            index += 1
             
     
     

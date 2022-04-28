@@ -1,6 +1,11 @@
+from pyexpat import XML_PARAM_ENTITY_PARSING_UNLESS_STANDALONE
 import ROOT as root
 
 from array import array
+
+from scipy.signal import find_peaks
+
+import matplotlib.pyplot as plt
 
 import pandas as pd
 
@@ -108,13 +113,13 @@ for i in range(entries):
         2
         )
     
+
     if len(x_peaks) != 2:
         
         errors.append([i, len(x_peaks)])
         
         continue
-
-    
+  
             
     time_diff = Convert_TimeToMicroSec(
         x_peaks[1] - x_peaks[0],
@@ -125,11 +130,11 @@ for i in range(entries):
     
     
     y_peaks_0.append(
-        waveform_in_units[x_peaks[0]]
+        -1*waveform_in_units[x_peaks[0]]
     )
     
     y_peaks_1.append(
-        waveform_in_units[x_peaks[1]]
+        -1*waveform_in_units[x_peaks[1]]
         )
     
     
@@ -148,13 +153,13 @@ print('\n   Creating and filling histograms...')
 
 hist_time_difference = root.TH1F("hist_delta_t"   , "Time difference", number_of_bins, 0.5, 9 )
 
-hist_y_peaks_0       = root.TH1F("hist_y_peaks_0" , "y_peaks_0"      , number_of_bins, min(y_peaks_0)       , max(y_peaks_0) )
+hist_y_peaks_0       = root.TH1F("hist_y_peaks_0" , "y_peaks_0"      , number_of_bins, -255  , 0 )
 
-hist_y_peaks_1       = root.TH1F("hist_y_peaks_1" , "y_peaks_1"      , number_of_bins, min(y_peaks_1)       , max(y_peaks_1)  )
+hist_y_peaks_1       = root.TH1F("hist_y_peaks_1" , "y_peaks_1"      , number_of_bins, -255  , 0  )
 
-hist_integral_0      = root.TH1F("hist_integral_0", "integral_0"     , number_of_bins, min(time_differences), max(time_differences) )
+hist_integral_0      = root.TH1F("hist_integral_0", "integral_0"     , number_of_bins, min(integrals_0), max(integrals_0) )
 
-hist_integral_1      = root.TH1F("hist_integral_1", "integral_1"     , number_of_bins, min(time_differences), max(time_differences) )
+hist_integral_1      = root.TH1F("hist_integral_1", "integral_1"     , number_of_bins, min(integrals_1), max(integrals_1) )
 
 
 for i in range(len(time_differences)):
@@ -207,7 +212,7 @@ c1.SaveAs(folder+'/expfit.png')
 
 c2 = root.TCanvas("c2")
 c2.cd()
-hist_y_peaks_0.GetXaxis().SetTitle("Value (mV)")
+hist_y_peaks_0.GetXaxis().SetTitle("Value")
 hist_y_peaks_0.GetYaxis().SetTitle("counts")
 hist_y_peaks_0.Draw()
 c2.SaveAs(folder+'/peaks_0.png')
@@ -215,7 +220,7 @@ c2.SaveAs(folder+'/peaks_0.png')
 
 c3 = root.TCanvas("c3")
 c3.cd()
-hist_y_peaks_1.GetXaxis().SetTitle("Value (mV)")
+hist_y_peaks_1.GetXaxis().SetTitle("Value")
 hist_y_peaks_1.GetYaxis().SetTitle("counts")
 hist_y_peaks_1.Draw()
 c3.SaveAs(folder+'/peaks_1.png')
