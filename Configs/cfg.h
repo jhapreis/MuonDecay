@@ -12,8 +12,6 @@
  * Acquisition parameters.
  * Those are the software parameters. 
  */
-#define FisrtPeak_MaxIndex 110                // Expected max-index to find a first-peak
-#define TriggerInUnits 0                      // Trigger value, in "oscilloscope units"
 #define MaxTimeStampScope 10                  // Value in micro-seconds
 #define Acquisition_MinSeparation 10          // Value in units on the x-axis
 #define Acquisition_PulseWidth 30             // Value supposed to be the pulse width
@@ -43,7 +41,7 @@
 #define Scope_ChannelHorizontalPosition 4.2E-6
 #define Scope_NumberOfDisplayDivisions 10                   // Immutable; from scope, phisically
 
-#define Scope_ChannelTrigger -15E-3
+#define Scope_ChannelTrigger -60E-3
 #define Scope_ChannelScale 30E-3                    
 
 
