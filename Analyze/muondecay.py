@@ -1,3 +1,4 @@
+from tkinter.tix import Tree
 import ROOT as root
 
 from array import array
@@ -13,25 +14,32 @@ import sys
 import os
 
 
-from modules.convert_values import Convert_UnitsToMiliVolts_ScopeParameters, ConvertMiliVoltsToUnits_ScopeParameters, Convert_WaveformToMiliVolts_ScopeParameters, Convert_TimeToMicroSec
+from modules.out_file.convert_values import Convert_UnitsToMiliVolts_ScopeParameters, ConvertMiliVoltsToUnits_ScopeParameters, Convert_WaveformToMiliVolts_ScopeParameters, Convert_TimeToMicroSec
 
-from modules.read_output_file import Get_AcquisitionParameters
+from modules.out_file.read_output_file import Get_AcquisitionParameters
 
-from modules.find_peaks import FindPeaks_Waveform, Integral_Waveform
+from modules.fit.find_peaks import FindPeaks_Waveform, Integral_Waveform
 
-from modules.delete_files import delete_root_files_in_folder
-
-
-
-def MuonDecay_Analysis(folder):
-
-    #====================================================================================================
-    number_of_bins = 50              
-    pulsewidth     = 30              
-    tree_name      = 'tree_waveforms'
-    output_file    = 'output.txt'
+from modules.root_file.delete_files import delete_root_files_in_folder
 
 
+
+#====================================================================================================
+def MuonDecay_Analysis(
+    
+    chain,
+    
+    tree_name:      "str" = "tree_waveforms",
+    
+    number_of_bins: "int" = 50, 
+            
+    pulsewidth:     "int" = 30,
+        
+    output_file:    "str" ='output.txt'
+    
+    ) -> "int":
+
+    
 
     #----------------------------------------------------------------------------------------------------
     delete_root_files_in_folder(folder, tree_name)
@@ -44,16 +52,16 @@ def MuonDecay_Analysis(folder):
 
 
     #----------------------------------------------------------------------------------------------------
-    print(f'   Reading {output_file} ...')
+    # print(f'   Reading {output_file} ...')
 
     df_output        = Get_AcquisitionParameters(folder+'/'+output_file)
 
     trigger_in_mv    = 1000*df_output['trigger_main_level'][0]
 
     trigger_in_units = ConvertMiliVoltsToUnits_ScopeParameters(
-        y_mv=trigger_in_mv,
+        y_mv  =trigger_in_mv,
         y_zero=df_output['y_zero'][0],
-        y_off=df_output['y_off'][0],
+        y_off =df_output['y_off'][0],
         y_mult=df_output['y_mult'][0]
     )
 
@@ -156,7 +164,7 @@ def MuonDecay_Analysis(folder):
     #----------------------------------------------------------------------------------------------------
     print('\n   Creating and filling histograms...')
 
-    hist_time_difference = root.TH1F("hist_delta_t"   , "Time difference", number_of_bins, 0.5, 9 )
+    hist_time_difference = root.TH1F("hist_delta_t"   , "Time difference", number_of_bins, 0.8, 9.2 )
 
     hist_y_peaks_0       = root.TH1F("hist_y_peaks_0" , "y_peaks_0"      , number_of_bins, -255  , 0 )
 
@@ -184,7 +192,7 @@ def MuonDecay_Analysis(folder):
     #----------------------------------------------------------------------------------------------------
     print('\n   Fit exponential\n')
 
-    exp_fit = root.TF1("exp_fit", "[0] + [1]*exp(-x/[2])", 0.5, 9)
+    exp_fit = root.TF1("exp_fit", "[0] + [1]*exp(-x/[2])", 0.8, 9.2)
 
     exp_fit.SetParNames("constant", "A", "tau")
     exp_fit.SetParameters(10, 100, 2)
@@ -196,9 +204,11 @@ def MuonDecay_Analysis(folder):
         'constant': [exp_fit.GetParameter(0)],
         'A'       : [exp_fit.GetParameter(1)],
         'tau'     : [exp_fit.GetParameter(2)]
-    })
+        })
 
-    df.index = ['values']
+    df.reset_index(inplace=True)
+    
+    df.index = ['parameter', 'value']
 
     df.T.to_csv(folder+'/expfit.csv')
 
@@ -245,6 +255,10 @@ def MuonDecay_Analysis(folder):
     hist_integral_1.GetYaxis().SetTitle("counts")
     hist_integral_1.Draw()
     c5.SaveAs(folder+'/integral_1.png')
+    
+    
+    
+    return 0
 
 
 
