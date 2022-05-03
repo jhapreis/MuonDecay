@@ -7,12 +7,21 @@ import matplotlib.pyplot as plt
 from array import array
 
 
-from modules.read_output_file import Get_AcquisitionParameters
-
-
 
 #====================================================================================================
-def GraphWaveforms_Folder(folder_path, numberADChannels=2500, tree_name="tree_waveforms", branch_name="waveforms", output_file="output.txt"):
+def GraphWaveforms_Folder(
+
+    folder_path: "str", 
+
+    numberADChannels: "int" = 2500, 
+
+    tree_name: "str" = "tree_waveforms", 
+    
+    branch_name: "str" = "waveforms", 
+    
+    output_file: "str" = "output.txt"
+    
+    ) -> "int":
         
 
     #----------------------------------------------------------------------------------------------------
@@ -61,4 +70,63 @@ def GraphWaveforms_Folder(folder_path, numberADChannels=2500, tree_name="tree_wa
     fig.savefig(folder_path+'/waveforms.png')
     
     
+    return 0
+
+
+
+
+
+#====================================================================================================
+def GraphWaveforms_File(
+
+    file_name:        "str", 
+
+    folder_path:      "str"= "./",
+
+    numberADChannels: "int"=2500, 
+
+    tree_name:        "str"="tree_waveforms", 
+    
+    branch_name:      "str"="waveforms" 
+    
+    ) -> "int":
+
+
+
+    #----------------------------------------------------------------------------------------------------
+    file = root.TFile.Open(file_name)
+
+    tree = file.Get(tree_name)
+
+
+
+    #----------------------------------------------------------------------------------------------------
+    waveform_in_mv = array('f', [0]*numberADChannels)
+
+    tree.SetBranchAddress(branch_name, waveform_in_mv)
+
+    entries = tree.GetEntries()
+
+
+
+    # Draw waveforms
+    #----------------------------------------------------------------------------------------------------
+    
+    fig, ax = plt.subplots()
+    
+    ax.set_title(f'{entries} waveforms')
+    ax.set_xlabel(f'time (units)')
+    ax.set_ylabel(f'value')
+    
+    for i in range(entries):
+        
+        tree.GetEntry(i)
+        
+        ax.plot(waveform_in_mv, color='black')
+    
+    
+    fig.savefig(folder_path+'/waveforms.png')
+
+
+
     return 0
