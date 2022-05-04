@@ -28,10 +28,6 @@ def GraphWaveforms_Folder(
     root_files = [i for i in os.listdir(folder_path) if i.endswith(".root")]
     
     
-    #----------------------------------------------------------------------------------------------------
-    # df_output = Get_AcquisitionParameters(folder_path+'/'+output_file)
-    
-    
     # Fill TChain
     #----------------------------------------------------------------------------------------------------
     chain = root.TChain(tree_name)
@@ -115,8 +111,8 @@ def GraphWaveforms_File(
     fig, ax = plt.subplots()
     
     ax.set_title(f'{entries} waveforms')
-    ax.set_xlabel(f'time (units)')
-    ax.set_ylabel(f'value')
+    ax.set_xlabel(f'time (ADChannel)')
+    ax.set_ylabel(f'value (mV)')
     
     for i in range(entries):
         
