@@ -19,82 +19,50 @@ from modules.out_file.read_output_file import Get_AcquisitionParameters
 
 from modules.fit.find_peaks import FindPeaks_Waveform, Integral_Waveform
 
-from modules.root_file.delete_files import delete_root_files_in_folder
-
 
 
 #====================================================================================================
 def MuonDecay_Analysis(
     
-    chain,
+    root_file_path:   "str" = './muondecay.root',
     
-    tree_name:      "str" = "tree_waveforms",
+    results_path:     "str" = './results',
     
-    number_of_bins: "int" = 50, 
+    tree_name:        "str" = "tree_waveforms",
+    
+    number_of_bins:   "int" = 50, 
             
-    pulsewidth:     "int" = 30,
+    pulsewidth:       "int" = 30,
         
-    output_file:    "str" ='output.txt'
+    output_file_path: "str" ='./output.csv'
     
     ) -> "int":
 
+
+    os.makedirs(results_path, exist_ok=True)
+
+
+    #----------------------------------------------------------------------------------------------------
+    df = pd.read_csv(output_file_path, index_col=0).T
+
+    trigger_in_mv    = 1000*float( df['trigger_main_level'][0] )
+    
+    print(trigger_in_mv)
     
 
-    #----------------------------------------------------------------------------------------------------
-    delete_root_files_in_folder(folder, tree_name)
-
-
 
     #----------------------------------------------------------------------------------------------------
-    root_files  = [i for i in os.listdir(folder) if i.endswith(".root")]
+    file    = root.TFile.Open(root_file_path)
+    
+    tree    = file.Get(tree_name)
+    
+    waveform_in_mv = array('f', [0]*2500)
 
-
-
-    #----------------------------------------------------------------------------------------------------
-    # print(f'   Reading {output_file} ...')
-
-    df_output        = Get_AcquisitionParameters(folder+'/'+output_file)
-
-    trigger_in_mv    = 1000*df_output['trigger_main_level'][0]
-
-    trigger_in_units = ConvertMiliVoltsToUnits_ScopeParameters(
-        y_mv  =trigger_in_mv,
-        y_zero=df_output['y_zero'][0],
-        y_off =df_output['y_off'][0],
-        y_mult=df_output['y_mult'][0]
-    )
-
-
-
-    """
-    Add ROOT files to TChain
-
-        Read the entire folder and add data to the TChain
-    """
-    #----------------------------------------------------------------------------------------------------
-    chain = root.TChain(tree_name)
-
-    print('\n   Adding files to TChain...')
-
-    for i in range( len(root_files) ): #len(root_files)
-        
-        file = folder+'/'+root_files[i]
-        
-        chain.Add(file)  
-
-
-
-    """
-    Assign array to be filled with the .root file data
-    """
-    #----------------------------------------------------------------------------------------------------
-    waveform_in_units = array('i', [0]*2500)
-
-    chain.SetBranchAddress("waveforms", waveform_in_units)
-
-    entries = chain.GetEntries()
-
-    print(f'\n   Number of entries: {entries}')
+    tree.SetBranchAddress("waveforms", waveform_in_mv)
+    
+    entries = tree.GetEntries() 
+    
+    print(f'\n   Number of entries: {entries}')    
 
 
 
@@ -115,14 +83,14 @@ def MuonDecay_Analysis(
 
     for i in range(entries):
         
-        chain.GetEntry(i)
+        tree.GetEntry(i)
         
         
         x_peaks = FindPeaks_Waveform(
-            waveform_in_units, 
-            trigger_in_units,
-            pulsewidth,
-            2
+            waveform                 = waveform_in_mv, 
+            height                   = trigger_in_mv,
+            max_pulse_width          = pulsewidth,
+            expected_number_of_peaks = 2
             )
         
 
@@ -135,22 +103,22 @@ def MuonDecay_Analysis(
                 
         time_diff = Convert_TimeToMicroSec(
             x_peaks[1] - x_peaks[0],
-            df_output['horizontal_main_scale'][0]
+            df['horizontal_main_scale'][0]
             )
         
         time_differences.append(time_diff)
         
         
         y_peaks_0.append(
-            -1*waveform_in_units[x_peaks[0]]
+            -1*waveform_in_mv[x_peaks[0]]
         )
         
         y_peaks_1.append(
-            -1*waveform_in_units[x_peaks[1]]
+            -1*waveform_in_mv[x_peaks[1]]
             )
         
         
-        integrals = Integral_Waveform(waveform_in_units, x_peaks=x_peaks, delta_x=1)
+        integrals = Integral_Waveform(waveform_in_mv, x_peaks=x_peaks, delta_x=1)
 
         integrals_0.append( integrals[0] )
 
@@ -209,7 +177,7 @@ def MuonDecay_Analysis(
     
     df.index = ['parameter', 'value']
 
-    df.T.to_csv(folder+'/expfit.csv')
+    df.T.to_csv(results_path+'/expfit.csv')
 
 
 
@@ -221,7 +189,7 @@ def MuonDecay_Analysis(
     hist_time_difference.GetXaxis().SetTitle("Time difference #mus")
     hist_time_difference.GetYaxis().SetTitle("counts")
     hist_time_difference.Draw()
-    c1.SaveAs(folder+'/expfit.png')
+    c1.SaveAs(results_path+'/expfit.png')
 
 
     c2 = root.TCanvas("c2")
@@ -229,7 +197,7 @@ def MuonDecay_Analysis(
     hist_y_peaks_0.GetXaxis().SetTitle("Value")
     hist_y_peaks_0.GetYaxis().SetTitle("counts")
     hist_y_peaks_0.Draw()
-    c2.SaveAs(folder+'/peaks_0.png')
+    c2.SaveAs(results_path+'/peaks_0.png')
 
 
     c3 = root.TCanvas("c3")
@@ -237,7 +205,7 @@ def MuonDecay_Analysis(
     hist_y_peaks_1.GetXaxis().SetTitle("Value")
     hist_y_peaks_1.GetYaxis().SetTitle("counts")
     hist_y_peaks_1.Draw()
-    c3.SaveAs(folder+'/peaks_1.png')
+    c3.SaveAs(results_path+'/peaks_1.png')
 
 
     c4 = root.TCanvas("c4")
@@ -245,7 +213,7 @@ def MuonDecay_Analysis(
     hist_integral_0.GetXaxis().SetTitle("Integral")
     hist_integral_0.GetYaxis().SetTitle("counts")
     hist_integral_0.Draw()
-    c4.SaveAs(folder+'/integral_0.png')
+    c4.SaveAs(results_path+'/integral_0.png')
 
 
     c5 = root.TCanvas("c5")
@@ -253,7 +221,7 @@ def MuonDecay_Analysis(
     hist_integral_1.GetXaxis().SetTitle("Integral")
     hist_integral_1.GetYaxis().SetTitle("counts")
     hist_integral_1.Draw()
-    c5.SaveAs(folder+'/integral_1.png')
+    c5.SaveAs(results_path+'/integral_1.png')
     
     
     
@@ -280,4 +248,11 @@ if __name__ == "__main__":
         
         print(f"Folder: {folder}")
         
-        MuonDecay_Analysis(folder)
+        MuonDecay_Analysis(
+            root_file_path   = f'{folder}/muondecay/muondecay.root',
+            results_path     = f'{folder}/results',
+            tree_name        = 'tree_waveforms',
+            number_of_bins   = 50,
+            pulsewidth       = 30,
+            output_file_path = f'{folder}/muondecay/output.csv'
+        )

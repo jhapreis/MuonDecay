@@ -5,7 +5,7 @@ import numpy as np
 
 
 #====================================================================================================
-def FindPeaks_Waveform(waveform, height, max_pulse_width, expected_number_of_peaks):
+def FindPeaks_Waveform(waveform, height:"float", max_pulse_width:"int", expected_number_of_peaks:"int") -> "list":
     
     
     x_peak       = 0
