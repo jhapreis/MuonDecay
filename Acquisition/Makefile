@@ -11,15 +11,15 @@ all: acquisition.o
 readWfm.o: acq/readwvf.cpp
 	$(CPP) $(CPPFLAGS) -c $^ $(LIBS)
 
-acquisition.o: $(CFILES) Acquisition.cpp
+acquisition.o: $(CFILES) run/Acquisition.cpp
 	$(CPP) $(CPPFLAGS) -o $@ $^ $(LIBS) $(ROOTFLAGS)
 	mv $@ $(DESTINATION)
 
-setparameters.o: $(CFILES) SetScopeParameters.cpp
+setparameters.o: $(CFILES) run/SetScopeParameters.cpp
 	$(CPP) $(CPPFLAGS) -o $@ $^ $(LIBS) $(ROOTFLAGS)
 	mv $@ $(DESTINATION)
 
-interactive.o: $(CFILES) interactive.cpp
+interactive.o: $(CFILES) run/interactive.cpp
 	$(CPP) $(CPPFLAGS) -o $@ $^ $(LIBS) $(ROOTFLAGS)
 	mv $@ $(DESTINATION)
 

@@ -70,7 +70,7 @@ printf "__________RUNNING ACQUISITION_____________________\n\n"
 
 NOW_AS_DATE=$(date +"%Y%m%d_%H%M%S")
 
-FOLDER=../data/$NOW_AS_DATE
+FOLDER=../Data/$NOW_AS_DATE
 
 mkdir "$FOLDER"
 
@@ -120,7 +120,7 @@ done
 
 
 # SEND EMAIL
-cd ../email/ || exit 1
+cd email/ || exit 1
 python3 SendEmail.py
 
 exit

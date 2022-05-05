@@ -42,17 +42,7 @@
 #define Scope_NumberOfDisplayDivisions 10                   // Immutable; from scope, phisically
 
 #define Scope_ChannelTrigger -60E-3
-#define Scope_ChannelScale 30E-3                    
-
-
-
-/**
- * 
- * 
- */
-#define NumberBins_HistogramTimeDifference 100
-#define LeftLimit_HistogramTimeDifference 0
-#define RightLimit_HistogramTimeDifference 10
+#define Scope_ChannelScale 30E-3            
 
 
 
