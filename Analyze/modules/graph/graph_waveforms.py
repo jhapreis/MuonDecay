@@ -123,6 +123,8 @@ def GraphWaveforms_File(
     
     fig.savefig(folder_path+'/waveforms.png')
 
+    plt.clf()
+
 
 
     return 0

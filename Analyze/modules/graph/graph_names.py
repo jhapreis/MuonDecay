@@ -61,6 +61,8 @@ def GraphIncidence_File(
     
     plt.savefig(folder_path+'/incidence.png')
 
+    plt.clf()
+
 
     file.Close()
 
