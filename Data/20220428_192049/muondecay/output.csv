@@ -1,0 +1,11 @@
+,0
+encoder,RPBINARY
+trigger_main_level,-0.06
+horizontal_main_scale,1e-06
+horizontal_main_position,4e-06
+channel_scale,0.1
+channel_position,4.52
+channel_probe,1.0
+y_mult,0.004
+y_zero,0.0
+y_off,241.0
