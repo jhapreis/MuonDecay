@@ -1,5 +1,9 @@
 import sys
 
+from pathlib import Path
+
+sys.path.insert(0, str( Path().resolve() ))
+
 from modules.fit.muondecay_analysis import MuonDecay_Analysis
 
 from modules.fit.muondecay_fit import MuonDecay_Fit

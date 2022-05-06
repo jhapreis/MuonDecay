@@ -3,6 +3,6 @@
 
 #====================================================================================================
 
-python3 muondecay/unify.py $@
+python3 muondecay/unify.py "$@" || exit
 
-python3 muondecay/muondecay.py $@
+python3 muondecay/muondecay.py "$@" || exit

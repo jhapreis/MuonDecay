@@ -1,6 +1,11 @@
+import os
+
 import sys
 
-import os
+from pathlib import Path
+
+sys.path.insert(0, str( Path().resolve() ))
+
 
 from modules.root_file.delete_files import delete_root_files_in_folder
 
