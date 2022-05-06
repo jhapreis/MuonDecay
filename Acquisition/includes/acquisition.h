@@ -13,7 +13,7 @@
 
 #include <visa.h>
 
-#include "../../Configs/cfg.h"
+#include "../configs/cfg.h"
 
 
 

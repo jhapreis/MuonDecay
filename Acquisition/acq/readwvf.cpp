@@ -14,7 +14,7 @@
 #include <TGraph.h>
 
 #include "../includes/acquisition.h"
-#include "../../Configs/cfg.h"
+#include "../configs/cfg.h"
 
 
 

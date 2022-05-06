@@ -4,7 +4,7 @@
 #include <ctype.h>
 
 #include "../includes/peaks.h"
-#include "../../Configs/cfg.h"
+#include "../configs/cfg.h"
 
 
 

@@ -98,7 +98,7 @@ while true; do
    
 
     # Execute o script da aquisição e verifique por erros na aquisição
-    if ! exec/acquisition.o "$FOLDER" |& tee ../data/output/output.txt; then
+    if ! exec/acquisition.o "$FOLDER" |& tee ../Data/output/output.txt; then
 
         printf "      ...error...\n\n"
 

@@ -6,8 +6,8 @@
 
 #include <visa.h>
 
-#include "../Configs/cfg.h"
-#include "includes/acquisition.h"
+#include "../configs/cfg.h"
+#include "../includes/acquisition.h"
 
 
 

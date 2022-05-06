@@ -31,9 +31,9 @@
 #include <string>
 #include <sstream>
 
-#include "../Configs/cfg.h"
-#include "includes/acquisition.h"
-#include "includes/peaks.h"
+#include "../configs/cfg.h"
+#include "../includes/acquisition.h"
+#include "../includes/peaks.h"
 
 
 
