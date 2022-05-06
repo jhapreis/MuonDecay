@@ -34,7 +34,7 @@ elif len(sys.argv) == 2:
     
 else:
     
-    folder_path = '../data/muondecay'
+    folder_path = '../Data/muondecay'
     
     file_name   = folder_path+'/muondecay.root'
 
