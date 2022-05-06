@@ -41,7 +41,7 @@
 #define Scope_ChannelHorizontalPosition 4.2E-6
 #define Scope_NumberOfDisplayDivisions 10                   // Immutable; from scope, phisically
 
-#define Scope_ChannelTrigger -60E-3
+#define Scope_ChannelTrigger -8888880
 #define Scope_ChannelScale 100E-3                    
 
 
