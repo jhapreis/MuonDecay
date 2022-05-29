@@ -34,7 +34,7 @@ Se tudo correu bem e está devidamente instalado, os arquivos vão ser re-compil
 
 
 
-## O compilador não consegue encontrar os headers files (*.h*) do ROOT.
+## O compilador não consegue encontrar os headers files (`.h`) do ROOT.
 
 Nesse caso, cabe testar se a execução do ROOT está funcionando pelo usuário sudo. Para testar isso, abra um terminal, entre como sudo e tente rodar o ROOT:
 
