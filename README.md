@@ -12,8 +12,6 @@ Algumas referências teóricas, assim como os manuais dos equipamentos, podem se
 <br/>
 <br/>
 
-
-
 ---
 # 2. Preparação do ambiente de Muon Decay
 <br/>
