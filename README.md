@@ -46,6 +46,8 @@ sudo apt install python3-dev
 ~/root/
 ```
 
+* Se estiver utilizando o VSCode e quiser adicionar ao path do ambiente, basta incluir o path `${ROOTSYS}/include`.
+
 <br/>
 
 
