@@ -59,6 +59,8 @@ Nesse caso, provavelmente o arquivo não está sendo linkado ao compilador. Para
 
 Após as modificações, salve o arquivo e tente rodar o programa novamente.
 
+</br>
+
 
 
 ## O programa é compilado, mas o osciloscópio não é encontrado
@@ -68,6 +70,7 @@ Nesse caso, é possível que o acesso não esteja sendo feito como usuário sudo
 Além disso, é possível que o *usbtmc* esteja dando conflitos. Nesse caso, siga [esse passo-a-passo](../main/README_PREP.md#22-resolução-de-possíveis-problemas) para saber como excluir o driver.
 
 Outra possibilidade é algum problema na instalação do NI-VISA. Nesse caso, deletá-lo e reinstalá-lo pode resolver o problema.
+
 
 
 </br>
