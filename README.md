@@ -66,7 +66,7 @@ nano ~/.bashrc
 source /home/{SEU_NOME_DE_USUARIO}/root/bin/thisroot.sh
 ``` 
 
-** Salvar o arquivo e fechar (ctrl+x, Y, Enter).
+** Salve o arquivo e fechar (ctrl+x, Y, Enter).
 
 
 
