@@ -1,4 +1,3 @@
----
 # 2. Preparação do ambiente de Muon Decay
 <br/>
 
@@ -73,7 +72,8 @@ Para instalar o GitHub Desktop no Ubuntu, veja o passo-a-passo [aqui](https://gi
 <br/>
 <br/>
 
----
+
+
 ## 2.2. Utilizando o NI-VISA
 
 <br/>
@@ -214,7 +214,7 @@ e veja se agora o dispositivo USB aparece disponível.
 <br/>
 <br/>
 
----
+
 ## 2.3. Clonando o repositório
 
 Para obter o código fonte e poder rodar a aquisição, clone o repositório do `MuonDecay` (esse aqui!). No caso do ambiente atual, o repositório foi clonado na pasta `~/Documents`, ficando `~/Documents/MuonDecay`.
