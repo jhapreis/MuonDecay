@@ -67,6 +67,7 @@ sudo apt install python3-dev
     ``` 
 
    * Salve o arquivo e fechar (ctrl+x, Y, Enter).
+   * Feche o terminal e abra outro. Tente rodar o comando `root`. Se tudo ocorreu bem, ele vai abrir um terminal do ROOT.
 
 
 
