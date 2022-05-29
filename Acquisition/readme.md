@@ -32,6 +32,8 @@ Se tudo correu bem e está devidamente instalado, os arquivos vão ser re-compil
 
 # Possíveis problemas
 
+</br>
+
 
 
 ## O compilador não consegue encontrar os headers files (`.h`) do ROOT.
