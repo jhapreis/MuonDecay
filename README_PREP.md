@@ -150,9 +150,7 @@ Após isso, acesse o instrumento (clicando sobre ele) e vá até a opção de
 
 ### 2.2. Resolução de possíveis problemas
 
-</br>
 
----
 Sobre as permissões
 
 É importante ter em mente que alguns usuários do mesmo computador podem não ter acesso permitido (ou prioritário) à algumas funcionalidades do sistema operacional. No caso do Linux, rodar os comandos como usuário root (com __sudo__) pode resolver problemas de permissão. 
