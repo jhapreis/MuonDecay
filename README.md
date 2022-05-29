@@ -61,7 +61,7 @@ sudo su
 ```
 nano ~/.bashrc
 
-*Adicionar o path do arquivo ROOT no final do arquivo aberto, substituindo {SEU_NOME_DE_USUARIO} pelo nome correspondente*
+*Adicionar o path do ROOT no final do arquivo aberto, substituindo {SEU_NOME_DE_USUARIO} pelo nome correspondente*
 
 source /home/{SEU_NOME_DE_USUARIO}/root/bin/thisroot.sh
 ``` 
