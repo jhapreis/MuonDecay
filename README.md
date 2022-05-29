@@ -50,13 +50,13 @@ sudo apt install python3-dev
 
 * Importante: executar o ROOT como usuário é simples, basta chamar por `root` no terminal, de qualquer pasta, caso tenha sido adicionado o path ao arquivo `.bashrc`. Porém, quando for realizar a execução pelo usuário `sudo` (root), o chamado do ROOT pode não funcionar. Nesse caso, é necessário adicionar o path do ROOT ao `.bashrc` do usuário sudo também. Para isso, 
 
-** Abra um terminal e entre como sudo, 
+    * Abra um terminal e entre como sudo, 
 
 ```
 sudo su
 ```
 
-** Acesse o arquivo `.bashrc` e depois adicione o path que está no usuário padrão. Exemplo:
+    * Acesse o arquivo `.bashrc` e depois adicione o path que está no usuário padrão. Exemplo:
 
 ```
 nano ~/.bashrc
@@ -66,7 +66,7 @@ nano ~/.bashrc
 source /home/{SEU_NOME_DE_USUARIO}/root/bin/thisroot.sh
 ``` 
 
-** Salve o arquivo e fechar (ctrl+x, Y, Enter).
+    * Salve o arquivo e fechar (ctrl+x, Y, Enter).
 
 
 
