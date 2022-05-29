@@ -46,7 +46,7 @@ sudo su
 root
 ```
 
-Se não for possível encontrar o path do ROOT, siga [esse passo-a-passo](../main/README_PREP.md#1-instalação-dos-pré-requisitos) para poder acessar o ROOT como sudo.
+Se não for possível encontrar o path do ROOT, siga [esse passo-a-passo](../README_PREP.md#1-instalação-dos-pré-requisitos) para poder acessar o ROOT como sudo.
 
 </br>
 
@@ -69,7 +69,7 @@ Após as modificações, salve o arquivo e tente rodar o programa novamente.
 
 Nesse caso, é possível que o acesso não esteja sendo feito como usuário sudo. Lembre-se de rodar o programa da aquisição como super usuário.
 
-Além disso, é possível que o *usbtmc* esteja dando conflitos. Nesse caso, siga [esse passo-a-passo](../main/README_PREP.md#22-resolução-de-possíveis-problemas) para saber como excluir o driver.
+Além disso, é possível que o *usbtmc* esteja dando conflitos. Nesse caso, siga [esse passo-a-passo](../README_PREP.md#22-resolução-de-possíveis-problemas) para saber como excluir o driver.
 
 Outra possibilidade é algum problema na instalação do NI-VISA. Nesse caso, deletá-lo e reinstalá-lo pode resolver o problema.
 
