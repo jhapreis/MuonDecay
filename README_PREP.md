@@ -59,6 +59,7 @@ sudo apt install python3-dev
 <br/>
 
 
+
 ### 1.3 Git e GitHub Desktop
 
 Instalação do Git (talvez já esteja até instalado)
@@ -151,7 +152,7 @@ Após isso, acesse o instrumento (clicando sobre ele) e vá até a opção de
 
 ### 2.2. Resolução de possíveis problemas
 
-
+---
     (a) Sobre as permissões
 
 É importante ter em mente que alguns usuários do mesmo computador podem não ter acesso permitido (ou prioritário) à algumas funcionalidades do sistema operacional. No caso do Linux, rodar os comandos como usuário root (com __sudo__) pode resolver problemas de permissão. 
@@ -173,7 +174,7 @@ e se atentando aos nomes que aparecem associados aos arquivos.
 
 
 ---
-Sobre a conexão com a USB: para saber se o instrumento é reconhecido pelo sistema operacional via USB, siga as seguintes orientações.
+    (b) Sobre a conexão com a USB: para saber se o instrumento é reconhecido pelo sistema operacional via USB, siga as seguintes orientações.
 
 No caso dos sistemas com Linux, é possível listar as conexões USB simplesmente abrindo um terminal e rodando o comando 
 ```
