@@ -18,7 +18,6 @@ sudo apt install python3-dev
 
 <br/>
 <br/>
-<br/>
 
 
 
@@ -58,8 +57,6 @@ sudo apt install python3-dev
 
 <br/>
 <br/>
-<br/>
-
 
 
 ### 1.3 Git e GitHub Desktop
@@ -106,6 +103,8 @@ sudo apt install ni-visa
 O comando acima é para instalar todos os componentes do NI-VISA, que é, a princípio, só o que será necessário.
 
 <br/>
+
+
 
 
 
@@ -174,7 +173,7 @@ e se atentando aos nomes que aparecem associados aos arquivos.
 
 
 ---
-    (b) Sobre a conexão com a USB: para saber se o instrumento é reconhecido pelo sistema operacional via USB, siga as seguintes orientações.
+Sobre a conexão com a USB: para saber se o instrumento é reconhecido pelo sistema operacional via USB, siga as seguintes orientações.
 
 No caso dos sistemas com Linux, é possível listar as conexões USB simplesmente abrindo um terminal e rodando o comando 
 ```
