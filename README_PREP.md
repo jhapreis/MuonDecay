@@ -1,20 +1,30 @@
-# 2. Preparação do ambiente de Muon Decay
+# Preparação do ambiente de Muon Decay
 <br/>
 
-## 2.1. Instalação dos pré-requisitos
 
-### (a) Instalação do python3: 
+
+
+
+## 1. Instalação dos pré-requisitos
+
+
+
+
+### 1.1. Instalação do python3: 
+
 ```
 sudo apt install python3-dev
 ```
 
 <br/>
+<br/>
+<br/>
 
 
-### (b) Instalação do ROOT
+
+### 1.2. Instalação do ROOT
  
 * Build from source: instruções neste [vídeo](https://www.youtube.com/watch?v=QItrmchEQWE&t=184s) do Youtube.
-
 
 * Se achar melhor, pode baixar [aqui](https://root.cern/install/) a versão de binário do Ubuntu (ou outra distro); assim é mais rápido e mais fácil e, a princípio, traz o mesmo resultado (está feito assim na máquina atual).
 
@@ -46,12 +56,13 @@ sudo apt install python3-dev
    * Salve e feche o arquivo (ctrl+x, Y, Enter).
    * Feche o terminal e abra outro. Tente rodar o comando `root`. Se tudo ocorreu bem, ele vai abrir um terminal do ROOT.
 
-
-
+<br/>
+<br/>
 <br/>
 
 
-### (c) Git e GitHub Desktop
+
+### 1.3 Git e GitHub Desktop
 
 Instalação do Git (talvez já esteja até instalado)
 ```
@@ -74,7 +85,11 @@ Para instalar o GitHub Desktop no Ubuntu, veja o passo-a-passo [aqui](https://gi
 
 
 
-## 2.2. Utilizando o NI-VISA
+
+
+
+
+## 2. Utilizando o NI-VISA
 
 <br/>
 
@@ -92,7 +107,9 @@ O comando acima é para instalar todos os componentes do NI-VISA, que é, a prin
 
 <br/>
 
-### (a) Execução do LabView
+
+
+### 2.1. Execução do LabView
 
 Para executar os softwares do NI-VISA, é possível executar o comando
 
@@ -130,7 +147,8 @@ Após isso, acesse o instrumento (clicando sobre ele) e vá até a opção de
 </br>
 
 
-### (b) Resolução de possíveis problemas
+
+### 2.2. Resolução de possíveis problemas
 
 </br>
 
@@ -215,6 +233,9 @@ e veja se agora o dispositivo USB aparece disponível.
 <br/>
 
 
-## 2.3. Clonando o repositório
+
+
+
+## 3. Clonando o repositório
 
 Para obter o código fonte e poder rodar a aquisição, clone o repositório do `MuonDecay` (esse aqui!). No caso do ambiente atual, o repositório foi clonado na pasta `~/Documents`, ficando `~/Documents/MuonDecay`.
