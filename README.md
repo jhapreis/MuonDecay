@@ -1,9 +1,3 @@
-Última atualização: 2021/11/17
-<br/>
-<br/>
-
-
-
 ---
 # 1. MuonDecay
 Repository for Muon Decay experiments. It's going to use ROOT, mostly.
@@ -224,3 +218,19 @@ sudo visaconf
 ```
 
 e veja se agora o dispositivo USB aparece disponível.
+
+
+
+
+
+
+
+
+<br/>
+<br/>
+<br/>
+
+---
+## 2.3. Clonando o repositório
+
+Para obter o código fonte e poder rodar a aquisição, clone o repositório do `MuonDecay` (esse aqui!). No caso do ambiente atual, o repositório foi clonado na pasta `~/Documents`, ficando `~/Documents/MuonDecay`.
