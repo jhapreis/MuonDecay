@@ -1,0 +1,12 @@
+{
+    "python3":[
+        {   
+            "numpy": "1.22.4",
+            "scipy": "1.8.1",
+            "pandas": "1.4.2",
+            "pyvisa": "1.12.0",
+            "matplotlib": "3.5.2",
+            "seaborn": "0.11.2"
+        }
+    ]
+}
