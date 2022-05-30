@@ -1,6 +1,7 @@
-CPP  	    = g++ 
+CPP  	    = g++
 CPPFLAGS    = -g3 -Wall
-LIBS 	    = -L. -lvisa
+LIBS 	    = -I /usr/include/ni-visa -L. -lvisa
+INCLUDE     = /usr/include/ni-visa
 CFILES      = acq/scopeParameters.cpp acq/readwvf.cpp acq/convertValues.cpp acq/searchPeaks.cpp
 CLEARFLAGS  = *.o
 ROOTFLAGS   = `root-config --cflags --libs`

@@ -78,7 +78,7 @@ int Set_ScopeParameters(ViStatus status, ViSession scope, ViUInt32 retCount, cha
 
     
     // Set Trigger Level
-    sprintf(cmd, "TRIGGER:MAIN:LEVEL %f", Scope_ChannelTrigger);
+    sprintf(cmd, "TRIGGER:MAIN:LEVEL %d", Scope_ChannelTrigger);
     status = viWrite(scope, (ViBuf) cmd, strlen(cmd), &retCount);
     if(status < VI_SUCCESS) goto error;
 
