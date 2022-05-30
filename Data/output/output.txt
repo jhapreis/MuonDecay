@@ -1,0 +1,14 @@
+
+      Trigger in units = -2266664157.750000
+      Collecting data... Min peaks = 2
+
+
+      Closing file... Total of 0 events.
+Real time 6:00:00, CP time 598.540
+
+
+
+      Creating new file...
+
+      Closing file... Total of 0 events.
+Real time 12:00:03, CP time 1198.920
