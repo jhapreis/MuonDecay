@@ -71,6 +71,11 @@ def unify_data_files(
         
         root_files_in_folder = [(folder+_) for _ in os.listdir(folder) if _.endswith(".root")] 
         
+        if len(root_files_in_folder) == 0:
+
+            print('      Não foram achados arquivos .root.')
+
+            continue
         
         #----------------------------------------------------------------------------------------------------        
         chain = root.TChain(tree_name)
