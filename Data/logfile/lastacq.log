@@ -3,47 +3,160 @@
       Collecting data... Min peaks = 2
 
 
-      Closing file... Total of 395 events.
-Real time 6:00:01, CP time 599.230
+      Closing file... Total of 468 events.
+Real time 6:00:00, CP time 594.590
 
 
 
       Creating new file...
 
-      Closing file... Total of 778 events.
-Real time 12:00:02, CP time 1198.650
+      Closing file... Total of 868 events.
+Real time 12:00:01, CP time 1189.390
 
 
 
       Creating new file...
 
-      Closing file... Total of 1233 events.
-Real time 18:00:02, CP time 1798.570
+      Closing file... Total of 1246 events.
+Real time 18:00:02, CP time 1784.360
 
 
 
       Creating new file...
 
-      Closing file... Total of 1670 events.
-Real time 24:00:04, CP time 2395.650
+      Closing file... Total of 1690 events.
+Real time 24:00:03, CP time 2379.380
 
 
 
       Creating new file...
 
-      Closing file... Total of 2097 events.
-Real time 30:00:05, CP time 2991.910
+      Closing file... Total of 2092 events.
+Real time 30:00:04, CP time 2974.200
 
 
 
       Creating new file...
 
-      Closing file... Total of 2511 events.
-Real time 36:00:05, CP time 3589.540
+      Closing file... Total of 2473 events.
+Real time 36:00:05, CP time 3569.220
 
 
 
       Creating new file...
 
-      Closing file... Total of 2931 events.
-Real time 42:00:06, CP time 4185.910
+      Closing file... Total of 2901 events.
+Real time 42:00:06, CP time 4164.470
+
+
+
+      Creating new file...
+
+      Closing file... Total of 3309 events.
+Real time 48:00:07, CP time 4760.020
+
+
+
+      Creating new file...
+
+      Closing file... Total of 3675 events.
+Real time 54:00:08, CP time 5355.670
+
+
+
+      Creating new file...
+
+      Closing file... Total of 4083 events.
+Real time 60:00:09, CP time 5950.950
+
+
+
+      Creating new file...
+
+      Closing file... Total of 4488 events.
+Real time 66:00:10, CP time 6545.780
+
+
+
+      Creating new file...
+
+      Closing file... Total of 4904 events.
+Real time 72:00:11, CP time 7140.840
+
+
+
+      Creating new file...
+
+      Closing file... Total of 5277 events.
+Real time 78:00:12, CP time 7735.970
+
+
+
+      Creating new file...
+error on query: status < VI_SUCCESS: 
+
+      Closing file... Total of 5663 events.
+Real time 84:00:13, CP time 8328.670
+
+
+
+      Creating new file...
+
+      Closing file... Total of 6042 events.
+Real time 90:00:14, CP time 8923.820
+
+
+
+      Creating new file...
+
+      Closing file... Total of 6498 events.
+Real time 96:00:15, CP time 9518.340
+
+
+
+      Creating new file...
+
+      Closing file... Total of 6896 events.
+Real time 102:00:16, CP time 10112.920
+
+
+
+      Creating new file...
+
+      Closing file... Total of 7350 events.
+Real time 108:00:17, CP time 10707.490
+
+
+
+      Creating new file...
+
+      Closing file... Total of 7743 events.
+Real time 114:00:18, CP time 11302.250
+
+
+
+      Creating new file...
+
+      Closing file... Total of 8153 events.
+Real time 120:00:19, CP time 11896.530
+
+
+
+      Creating new file...
+
+      Closing file... Total of 8570 events.
+Real time 126:00:20, CP time 12491.110
+
+
+
+      Creating new file...
+
+      Closing file... Total of 9001 events.
+Real time 132:00:21, CP time 13085.710
+
+
+
+      Creating new file...
+
+      Closing file... Total of 9436 events.
+Real time 138:00:22, CP time 13680.210
