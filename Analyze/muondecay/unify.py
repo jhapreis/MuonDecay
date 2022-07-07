@@ -17,72 +17,111 @@ from modules.graph.graph_names import GraphIncidence_File
 
 
 
-#----------------------------------------------------------------------------------------------------
-if len(sys.argv) == 1:
+"""
+python3 origin_folder destination_folder results_file_name_with_extension
+"""
+
+
+
+#====================================================================================================
+def run(
+    origin_folder: str,
+    destination_folder: str,
+    results_file_name_with_extension: str
+    ):
     
-    print('You must pass the data folder as an argument.\n\n')
     
-    exit(1)
-
-elif len(sys.argv) == 2:
+    #----------------------------------------------------------------------------------------------------
+    file_name = destination_folder+'/'+results_file_name_with_extension
     
-    folder_path = f'{sys.argv[1]}/muondecay'
+    path_to_folders = [ f"{origin_folder}/{_}/" for _ in os.listdir(origin_folder) ]
     
-    file_name   = folder_path+'/muondecay.root'
     
-    os.makedirs(folder_path, exist_ok=True)
+    #----------------------------------------------------------------------------------------------------
+    print('Deleting files...')
+
+    list(
+        map(
+            lambda x: delete_root_files_in_folder(x, 'tree_waveforms'), 
+            
+            path_to_folders
+        )
+    )        
     
-else:
     
-    folder_path = '../Data/muondecay'
+    #----------------------------------------------------------------------------------------------------
+    print('Unifying data files...')
+
+    unify_data_files(
+        path_to_folders     = path_to_folders,
+        tree_name           = 'tree_waveforms',
+        out_file            = 'output.txt',
+        outroot_folder_path = destination_folder,
+        outroot_file_path   = file_name,
+        number_ADChannels   = 2500    
+    )
+
+
+    #----------------------------------------------------------------------------------------------------
+    print('Graphing waveforms...')
+
+    GraphWaveforms_File(
+        file_name        = file_name,
+        folder_path      = destination_folder,
+        numberADChannels = 2500,
+        tree_name        = 'tree_waveforms',
+        branch_name      = 'waveforms'
+    )
+
+
+    #----------------------------------------------------------------------------------------------------
+    print('Graphing incidence...')
+
+    GraphIncidence_File(
+        file_name      = file_name,
+        folder_path    = destination_folder,
+        number_of_bins = 50,
+        tree_name      = 'tree_waveforms',
+        branch_name    = 'names'
+    )
+#====================================================================================================
+
+
+
+#====================================================================================================
+def main():
     
-    file_name   = folder_path+'/muondecay.root'
-
-
-
-#----------------------------------------------------------------------------------------------------
-print('Deleting files...')
-
-for folder in sys.argv[1:]:
+    expected_arguments = 4
     
-    delete_root_files_in_folder(folder, 'tree_waveforms')
+    
+    if len(sys.argv) != expected_arguments:
+        
+        print(f"CRITICAL ERROR: eram esperados {expected_arguments} argumentos,\
+            mas foram passados {len(sys.argv)}.\nCancelando a execucao...\n\n")
+        
+        return 1
+    
+    
+    origin_folder                    = sys.argv[1]
+    destination_folder               = sys.argv[2]
+    results_file_name_with_extension = sys.argv[3]  
+    
+    
+    run(
+        origin_folder                    = origin_folder,
+        destination_folder               = destination_folder,
+        results_file_name_with_extension = results_file_name_with_extension
+    )
+    
+    return 0
+#====================================================================================================
 
 
 
-#----------------------------------------------------------------------------------------------------
-print('Unifying data files...')
-
-unify_data_files(
-    path_to_folders    = sys.argv[1:],
-    tree_name          = 'tree_waveforms',
-    out_file           = 'output.txt',
-    outroot_folder_path= folder_path,
-    outroot_file_path  = file_name,
-    number_ADChannels  = 2500    
-)
-
-
-
-#----------------------------------------------------------------------------------------------------
-print('Graphing waveforms...')
-
-GraphWaveforms_File(
-    file_name        = file_name,
-    folder_path      = folder_path,
-    numberADChannels = 2500,
-    tree_name        = 'tree_waveforms',
-    branch_name      = 'waveforms'
-)
-
-
-
-#----------------------------------------------------------------------------------------------------
-print('Graphing incidence...')
-
-GraphIncidence_File(
-    file_name     = file_name,
-    folder_path   = folder_path,
-    tree_name     = 'tree_waveforms',
-    branch_name   = 'names',
-    number_of_bins= 50
-)
+#====================================================================================================
+if __name__ == "__main__":
+    
+    status = main()
+    
+    exit(status)
+#====================================================================================================

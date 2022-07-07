@@ -13,8 +13,7 @@ def delete_root_files_in_folder(folder:"str", tree_name:"str"='tree_waveforms'):
         folder (string)   : path to folder
         tree_name (string): name of the TTree
     """
-      
-    
+        
     root_files  = [i for i in os.listdir(folder) if i.endswith(".root")]
     
 
