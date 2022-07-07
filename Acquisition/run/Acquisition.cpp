@@ -59,6 +59,8 @@ int main(int argc, char **argv){
 
     int event_name            = 0;  // Name of the event, as time epoch
 
+    int bash_status           = 0;  // Status from the system functions
+
     double triggerUnits       = 0;  // Trigger, converted from Volts to Units
 
     TFile* root_file        = NULL; // ROOT file
@@ -167,6 +169,14 @@ int main(int argc, char **argv){
                 root_file->Write();
                 root_file->Close();
             }
+
+
+            // bash_status = system("bash git_upload.sh");
+            // if (bash_status > 0){
+            //     printf("Error while running the git upload script.\n\n");
+            // }
+
+            // sleep(5);
 
 
             printf("\n      Creating new file...\n");

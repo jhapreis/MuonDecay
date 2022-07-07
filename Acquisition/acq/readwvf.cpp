@@ -40,7 +40,12 @@ int Get_CurveData(ViChar* buffer, int* Array_WaveformAsInt){
 
     int numberDigitsLenght = 0, numberPointsCurve = 0, index = 0;
 
-    if( buffer[index] != '#' ) return 1; // error on format
+    if( buffer[index] != '#' ){
+
+        printf("First index of the waveform is not correct: expected '#' but '%d' was found.\n\n", buffer[index]);
+
+        return 1; // error on format
+    }
 
 
     index++; // index = 1
