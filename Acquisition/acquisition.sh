@@ -70,7 +70,7 @@ printf "__________RUNNING ACQUISITION_____________________\n\n"
 
 NOW_AS_DATE=$(date +"%Y%m%d_%H%M%S")
 
-FOLDER=../Data/$NOW_AS_DATE
+FOLDER=$1/$NOW_AS_DATE
 
 mkdir "$FOLDER"
 
