@@ -1,0 +1,28 @@
+Acquisition_Parameters:
+
+  MaxTimeStampScope : 10   # Value in micro-seconds
+  MinSeparation : 10       # Value in units on the x-axis
+  PulseWidth : 30          # Value supposed to be the pulse width
+  WaveformInitializer : -1 # 
+  RunTimeMaximum : 3600  # Max time of the file, in seconds
+  MinPeaks : 2             # 
+
+
+Scope_Parameters:
+
+  USB_Instrument : "USB0::0x0699::0x0363::04WRL8::INSTR"   # USB oscilloscope ID
+  TimeOutValue : 3000                                # 
+  NumberADChannels : 2500                            # Number of channels on the oscilloscope
+  DataEncodeFormat : "RPBinary"
+  DataEncodeWidth : 1
+  NumberOfBins : 100
+  Persistence : "OFF"
+  ChannelTriggerSlope : "FALL"
+  ChannelName : "CH1"
+  ChannelPosition : 4.5
+  ChannelProbe : 1
+  ChannelHorizontalScale : 1E-6
+  ChannelHorizontalPosition : 4.2E-6
+  NumberOfDisplayDivisions : 10                      # Immutable; from scope, phisically
+  ChannelTrigger : -60E-3
+  ChannelScale : 100E-3

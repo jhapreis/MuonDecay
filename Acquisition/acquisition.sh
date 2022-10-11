@@ -47,7 +47,7 @@ SetScopeParameters_MultipleTries () {
 
         if [[ $numberOfTries -gt 3 ]]; then
 
-            printf "\n\n\nProblema no Set dos Parâmetros do Osciloscópio. Foram feitas %s tentativas\n\n\n" "$numberOfTries" 
+            printf "\n\n\nCould not set the Scope Parameters (after %s tries).\n\n" "$numberOfTries" 
 
             exit 1
         fi
