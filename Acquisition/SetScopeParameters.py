@@ -49,9 +49,10 @@ def run(InstrumentParameters: dict, path_to_save_file: str = "./scope.csv"):
 
     except KeyError as ke:
 
-        logger.exception(f"Could not locate the key \"{ke}\" in the given InstrumentParameters. \
-            Please, check the config file.")
+        logger.warning(f"Could not locate the key \"{ke}\" in the given InstrumentParameters. Please, check the config file.")
     
+        return 1
+
     except Exception as e:
 
         logger.exception("Error while trying to set the oscilloscope parameters.")
@@ -112,7 +113,7 @@ if __name__ == "__main__":
 
     logger = logging.getLogger(__name__)
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
 
     streamHandler = logging.StreamHandler(sys.stdout)
     streamHandler.setFormatter(formatter)
