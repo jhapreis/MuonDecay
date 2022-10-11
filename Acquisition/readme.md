@@ -23,10 +23,26 @@ bash acquisition.sh
 Se tudo correu bem e está devidamente instalado, os arquivos vão ser re-compilados e a aquisição deve iniciar.
 
 </br>
-</br>
-</br>
 
 
+
+
+[2022-10-11] Observação: numa atualização mais recente, foi incorporada uma versão do código em Python que utiliza uma biblioteca do PyVisa para a comunicação com o osciloscópio. Ela ainda precisa da instalação do NI-Visa (assim como a versão C++), possui um tempo de resposta semelhante, mas a diferença está na facilidade de manutenção/modificações, além de possuir recursos mais facilmente incorporados (pelo pyvisa).
+
+Para rodar essa versão, basta se logar como `sudo` e rodar o comando
+```
+bash AcqPython.sh {DATAFILES_FOLDER} {CONFIG_FILE_PATH} {SCOPE_PARAMETERS_KEY} {ACQUISITION_PARAMETERS_KEY}
+```
+
+substituindo os valores conforme o necessário, como por exemplo:
+
+```
+bash AcqPython.sh ../Data/raw/ configs/cfg.yaml Scope_Parameters Acquisition_Parameters
+```
+
+</br>
+</br>
+</br>
 
 
 
