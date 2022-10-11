@@ -87,34 +87,6 @@ def Set_Scope_Parameters(instrument: pyvisa.Resource, scopeParam: dict) -> int:
             logger.exception(f"Problem setting \"{param}\".")
 
             continue
-        
-    # if channel: 
-        
-    #     if channel_scale: instrument.write()
-                
-    #     if channel_position: instrument.write()
-                    
-    #     if channel_probe: instrument.write()
-    
-    # if horizontal_delay_scale: instrument.write()
-    
-    # if horizontal_delay_position: instrument.write(f'HORizontal:DELay:POSition:{horizontal_delay_position} ON')
-                
-    # if encode_format: instrument.write(f'DATa:ENCdg {encode_format}') 
-
-    # if width: instrument.write(f'DATa:WIDth {width}') 
-                
-    # if trigger: instrument.write(f'TRIGger:MAIn:LEVel {trigger}')
-                
-    # if horizontal_scale: instrument.write(f'HORizontal:MAIn:SCAle {horizontal_scale}')
-                
-    # if horizontal_position_1: instrument.write(f'HORizontal:MAIn:POSition {horizontal_position_1};') 
-                
-    # if horizontal_position_2: instrument.write(f'HORizontal:MAIn:POSition {horizontal_position_2};') 
-                
-    # if persistence: instrument.write(f'DISplay:PERSistence {persistence}') 
-                
-    # if slope: instrument.write(f'TRIGGER:MAIN:EDGE:SLOPE {slope}') 
             
     logger.info( f'\nSCOPE INFOs:\n{instrument.query("WFMPre?")}\n' ) #Command to transfer waveform preamble information.
     
