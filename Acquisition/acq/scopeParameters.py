@@ -3,7 +3,7 @@ import logging
 import pandas as pd
 import sys
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('__main__')
 
 
 # ====================================================================================================
@@ -25,7 +25,7 @@ def query_idn(instrument: pyvisa.Resource) -> bool:
         
     except Exception as e:
         
-        logger.warning("Could not execute a query for the IDN.")
+        logger.exception("Could not execute a query for the IDN.")
         
         return False
 
@@ -40,46 +40,66 @@ def query_idn(instrument: pyvisa.Resource) -> bool:
 # ====================================================================================================
 def Set_Scope_Parameters(instrument: pyvisa.Resource, scopeParam: dict) -> int:
     
-    if not instrument:
-        
-        return -1
+    ch: str
+
+    if not instrument: return -1
     
     writes = {
         'ChannelName':\
-            f'SELECT: {scopeParam["ChannelName"]} ON',
+            'SELECT: [CH] ON',
         'DataSource':\
-            f'DATa:SOUrce {scopeParam["ChannelName"]}',
+            'DATa:SOUrce [CH]',
         'ChannelScale':\
-            f'{scopeParam["ChannelName"]}:SCAle {scopeParam["ChannelScale"]}',
+            '[CH]:SCAle [VALUE]',
         'ChannelPosition':\
-            f'{scopeParam["ChannelName"]}:POSition {scopeParam["ChannelPosition"]}',
+            '[CH]:POSition [VALUE]',
         'ChannelProbe':\
-            f'{scopeParam["ChannelName"]}:PRObe {scopeParam["ChannelProbe"]}',
+            '[CH]:PRObe [VALUE]',
         'HorizontalDelayScale':\
-            f'HORizontal:DELay:SCAle: {scopeParam["HorizontalDelayScale"]}',
-        'Encoder':\
-            f'DATa:ENCdg {scopeParam["DataEncodeFormat"]}',
-        'Width':\
-            f'DATa:ENCdg {scopeParam["DataEncodeWidth"]}',
-        'TriggerLevel':\
-            f'TRIGger:MAIn:LEVel {scopeParam["ChannelTrigger"]}',
-        'TriggerSlope':\
-            f'TRIGGER:MAIN:EDGE:SLOPE {scopeParam["ChannelTriggerSlope"]}',
-        'HorizontalScale':\
-            f'HORizontal:MAIn:SCAle {scopeParam["ChannelHorizontalScale"]}',
-        'HorizontalPosition':\
-            f'HORizontal:MAIn:POSition {scopeParam["ChannelHorizontalPosition"]}',
+            'HORizontal:DELay:SCAle [VALUE]',
+        'DataEncodeFormat':\
+            'DATa:ENCdg [VALUE]',
+        'DataEncodeWidth':\
+            'DATa:ENCdg [VALUE]',
+        'ChannelTrigger':\
+            'TRIGger:MAIn:LEVel [VALUE]',
+        'ChannelTriggerSlope':\
+            'TRIGGER:MAIN:EDGE:SLOPE [VALUE]',
+        'ChannelHorizontalScale':\
+            'HORizontal:MAIn:SCAle [VALUE]',
+        'ChannelHorizontalPosition':\
+            'HORizontal:MAIn:POSition [VALUE]',
         'Persistence':\
-            f'DISplay:PERSistence {scopeParam["Persistence"]}'
+            'DISplay:PERSistence [VALUE]'
     }
+
+    # try:
+    #     ch = scopeParam['ChannelName']
+
+    # except KeyError as ke:
+    #     logger.exception("Could not get the channel name from the config file... A few writes will be skipped.")
+
+    # except Exception as e:
+    #     logger.exception("Error while trying to write configs on the channel.")
+
 
     for param in writes.keys():
 
         try:
-            instrument.write(writes.get(param))
+            ch = scopeParam['ChannelName']
+
+            wrt = writes.get(param)
+
+            if '[CH]' in wrt: 
+                wrt = wrt.replace( '[CH]', ch )
+            
+            if '[VALUE]' in wrt:
+                wrt = wrt.replace( '[VALUE]', str(scopeParam[param]) )
+
+            instrument.write(wrt)
 
         except KeyError as ke:
-            logger.warning(f"Problem setting \"{param}\": Missing \"{ke}\" key.")
+            logger.warning(f"Problem setting \"{param}\": Missing {ke} key.")
 
             continue
 
@@ -134,7 +154,7 @@ def Check_Scope_Parameters(instrument: pyvisa.Resource) -> pd.DataFrame:
             qResult = instrument.query( queries.get(q) ).replace('\n', '')
 
         except:
-            logger.warning(f"Could not run the query for \"{q}\"")
+            logger.exception(f"Could not run the query for \"{q}\"")
 
             qResult = None
         
