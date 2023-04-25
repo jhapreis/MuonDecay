@@ -1,0 +1,8 @@
+Acquisition_Parameters:
+
+  MaxTimeStampScope : 10   # Value in micro-seconds
+  MinSeparation : 10       # Value in units on the x-axis
+  PulseWidth : 30          # Value supposed to be the pulse width
+  WaveformInitializer : -1 # 
+  RunTimeMaximum : 3600    # Max time of the file, in seconds
+  MinPeaks : 2             #
