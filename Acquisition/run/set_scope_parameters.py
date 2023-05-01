@@ -1,23 +1,25 @@
 import sys
 
 from libs.logmanager import LogManager
-from libs.instrument_connector import InstrumentConnector
 from operators.scope_parameters import ScopeParametersOperator
 
 
 if __name__ == "__main__":
-    LOG_LEVEL = sys.argv[3]
-    LOG_FILENAME = sys.argv[4]
     
-    instrument_connector = InstrumentConnector()
+    PATH_DESTINATION = sys.argv[1]
+    PATH_CFG_SCOPE   = sys.argv[2]
+    LOG_LEVEL        = sys.argv[3]
+    LOG_FILENAME     = sys.argv[4]
+    
+    log_parameters = {
+        "log_level"    : LOG_LEVEL,
+        "log_filename" : LOG_FILENAME
+    }
     
     scope_parameters = ScopeParametersOperator(
-        instrument_connector = ,
-        path_configs_scope   = ,
-        log_level            = LOG_LEVEL,
-        log_filename         = LOG_FILENAME
+        path_destination   = PATH_DESTINATION, 
+        path_configs_scope = PATH_CFG_SCOPE, 
+        **log_parameters
     )
     
     scope_parameters.execute()
-    
-    
